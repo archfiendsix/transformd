@@ -1,0 +1,19 @@
+{
+    "ApplicantFirstName": "Test",
+    "ApplicantMiddleName": "Testing",
+    "ApplicantLastName": "Automator",
+    "ApplicantDateOfBirth": "12121997",
+    "ApplicantGender": "Male",
+    "ApplicantMobileNumber": "0431295336",
+    "ApplicantDriversLicenceNumber":"2507MI",
+    "ApplicantCurrentAddress": {
+      "Manual": true,
+      "Address": "2 AIDAN ST",
+      "Suburb": "DEERAGUN QLD",
+      "Post_Code": "4818",
+      "Country": "Australia",
+      "State": "NSW"
+    },
+    "loanAmount": "30000",
+    "ApplicantEmployer": "Some Employer"
+  }
