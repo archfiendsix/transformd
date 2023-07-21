@@ -34,7 +34,7 @@ describe('New Assessment Page Test Suite', () => {
         NewAssessmentPage.nextDidNotProceed()
     });
 
-    it('Should Unsuccessfully submit assessment if without consent', () => {
+    it ('Should Unsuccessfully submit assessment if without consent', () => {
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleData.json').then((formData) => {
             NewAssessmentPage.fillApplication(formData)
@@ -56,7 +56,7 @@ describe('New Assessment Page Test Suite', () => {
 
     });
 
-    it('Should only be able to have a Maximum of 4 applicants ', () => {
+    it('Should only be able to have a Maximum of 4 applicants', () => {
         NewAssessmentPage.openNewAssessment();
         NewAssessmentPage.addNewOtherApplicant()
         NewAssessmentPage.addNewOtherApplicant()

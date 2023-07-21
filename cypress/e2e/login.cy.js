@@ -6,7 +6,7 @@ describe('Login Page Test Suite', () => {
         LoginPage.goToLoginPage();
     });
 
-    it('Successful login_Valid Credentials', () => {
+    it('Should successfully login using valid Credentials', () => {
         LoginPage.enterCreds(Cypress.env('email'), Cypress.env('password'))
         cy.intercept('POST', '/site/login').as('postLogin');
         LoginPage.clickLoginButton()
@@ -14,7 +14,7 @@ describe('Login Page Test Suite', () => {
         LoginPage.elements.logo().should("be.visible");
     });
 
-    it('Unsuccessful login_Invalid Credentials for both fields', () => {
+    it('Should unsuccessfully login with Invalid Credentials for both fields', () => {
         const invalid_email = "testuser.gmail.com"
         const invalid_password = "wrongpassword"
         
@@ -23,7 +23,7 @@ describe('Login Page Test Suite', () => {
         LoginPage.checkError_password('Incorrect email/username or password')
     });
 
-    it("Unsuccessful login_Invalid email", () => {
+    it("Should unsuccessfully login with invalid email, valid password", () => {
         const invalid_email = "testuser.gmail.com"
 
         LoginPage.enterCreds(invalid_email, Cypress.env("password"))
@@ -31,7 +31,7 @@ describe('Login Page Test Suite', () => {
         LoginPage.checkError_password('Incorrect email/username or password')
     });
 
-    it("Unsuccessful login_Invalid password", () => {
+    it("Should unsuccessfully login with wrong password", () => {
         const invalid_password = "wrongpassword"
 
         LoginPage.enterCreds(Cypress.env("email"), invalid_password)
@@ -39,19 +39,19 @@ describe('Login Page Test Suite', () => {
         LoginPage.checkError_password("Incorrect email/username or password")
     });
 
-    it('Unsuccessful login with valid email and no input password', () => {
+    it('Should unsuccessfully login with valid email, no password input', () => {
         LoginPage.enterCreds(Cypress.env("email"), '');
         LoginPage.clickLoginButton();
         LoginPage.checkError_password("Password cannot be blank")
     });
 
-    it('Unsuccessful login with valid password and no input email', () => {
+    it('Should unsuccessfully login with valid password, no email input', () => {
         LoginPage.enterCreds('', Cypress.env("password"));
         LoginPage.clickLoginButton()
         LoginPage.checkError_email('Email or Username cannot be blank')
     });
 
-    it('Unsuccessful login with no email and password input', () => {
+    it('Should unsuccessfully login with no email and password input', () => {
         LoginPage.enterCreds('', '')
         LoginPage.clickLoginButton()
         LoginPage.checkError_password("Password cannot be blank")

@@ -46,7 +46,6 @@ class NewAssessmentPage {
 
     openNewAssessment = () => {
         this.clickBtnNewAssessment();
-        // this.elements.h2_applicantDetails().should("be.visible").contains("Applicant Details");
     }
 
     clickNext = () => {
