@@ -27,8 +27,7 @@
 Cypress.Commands.add('login', (email, password) => {
     cy.session([email, password], () => {
         cy.visit("/login");
-        cy.get("#login-form-email").type(email);
-        cy.get("#login-form-password").type(password);
+        cy.loginEnterCreds(email, password)
         cy.intercept('POST', '/site/login').as('postLogin');
         cy.get('button[name="login-button"]').click();
         cy.wait('@postLogin');
@@ -38,6 +37,12 @@ Cypress.Commands.add('login', (email, password) => {
         },
     );
 });
+
+Cypress.Commands.add('loginEnterCreds', (email, password) => {
+        cy.get("#login-form-email").type(email);
+        cy.get("#login-form-password").type(password);
+});
+
 
 Cypress.Commands.add('forgotpasswordwith_creds', (email) => {
     cy.get("#passwordresetrequestform-email").type(email);
