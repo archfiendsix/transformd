@@ -58,7 +58,10 @@ Cypress.Commands.add('dropdownSelect', (placeholder, dropdown_item) => {
         );
 });
 
+
+
 Cypress.Commands.add('checkLoading', () => {
     cy.get('.ant-spin-dot.ant-spin-dot-spin').should('not.exist');
 });
+
 
