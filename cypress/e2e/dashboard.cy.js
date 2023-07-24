@@ -28,13 +28,13 @@ describe('Login Page Test Suite', () => {
     it("Should properly search by Application ID",()=> {
         DashboardPage.applicationSearch('APPLICATION ID','TRF-QMNJ817IO')
     })
-    it("Should properly search by Application Name",()=> {
+    it.only("Should properly search by Application Name",()=> {
         DashboardPage.applicationSearch('APPLICANT NAME','ronald laifoo')
     })
     it("Should properly search by Application Status",()=> {
         DashboardPage.applicationSearch('APPLICANT NAME','ronald laifoo')
     })
-    it.only("Should show card list",()=> {
+    it("Should show card list",()=> {
         
         DashboardPage.elements.cardlist.card_count('DRAFTS').should('be.visible').invoke('text').then(text=> {
             cy.log(text)

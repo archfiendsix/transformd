@@ -13,7 +13,7 @@ class DashboardPage {
             ready_for_review: ()=> cy.get('.sidebar li.sidebar-item').contains('READY FOR REVIEW'),
             reviewed: ()=> cy.get('.sidebar li.sidebar-item').contains('REVIEWED'),
         },
-        applicationTable: {
+        applicationsTable: {
             input: ()=> cy.get('.gridview .gridview__row-filter'),
             search_applicationId: ()=> cy.get('.gridview .gridview__row-filter input[placeholder="APPLICATION ID"]')
         },
@@ -32,9 +32,11 @@ class DashboardPage {
         cy.wait('@postSubmissionData')
     }
     applicationSearch=(input, query)=> {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData2');
-        this.elements.applicationTable.input().find(`input[placeholder="${input}"]`).type(query)
-        cy.wait('@postSubmissionData2')
+        // cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData2');
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
+        this.elements.applicationsTable.input().find(`input[placeholder="${input}"]`).type(query)
+        cy.wait('@postSubmissionData').then((interception) => {
+            expect(interception.request.body.query.values.ApplicantNames).to.eq(query)})
     }
 };
 module.exports = new DashboardPage();
