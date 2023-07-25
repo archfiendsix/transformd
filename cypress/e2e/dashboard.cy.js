@@ -103,10 +103,11 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.checkTableColumns(7, 'Draft')
         DashboardPage.applicationSearch('INFORMATION STATUS', 'With Customer')
         DashboardPage.checkTableColumns(7, 'With Customer')
-        DashboardPage.applicationSearch('INFORMATION STATUS', 'Ready for review')
-        DashboardPage.checkTableColumns(7, 'Ready for review')
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Reviewed')
         DashboardPage.checkTableColumns(7, 'Reviewed')
+        DashboardPage.applicationSearch('INFORMATION STATUS', 'Ready for review')
+        DashboardPage.checkTableColumns(7, 'Ready for review')
+        
     })
     it("Should change current page correctly using footer page input", () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeCurrentPage')

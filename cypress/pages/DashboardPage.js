@@ -53,7 +53,13 @@ class DashboardPage {
     }
     applicationSearch = (input, query) => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
-        this.elements.applicationsTable.input().find(`input[placeholder="${input}"]`).type(query)
+        
+        if(input==='INFORMATION STATUS') {
+            this.elements.applicationsTable.input().find('select').select(query)
+        }
+        else {
+            this.elements.applicationsTable.input().find(`input[placeholder="${input}"]`).type(query)
+        }
         cy.wait('@postSubmissionDataapplicationSearch')
     }
     changeDate = (dates) => {
