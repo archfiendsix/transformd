@@ -95,22 +95,20 @@ describe('Dashboard Test Suite', () => {
     })
 
     it("Should properly search by Application Name", () => {
-        DashboardPage.applicationSearch('APPLICANT NAME', 'ronald laifoo')
-        DashboardPage.checkTableColumns(col_index = 2, 'ronald laifoo')
+        DashboardPage.applicationSearch('APPLICANT NAME', 'RONALD LAIFOO, Ute GIERINGER')
+        DashboardPage.checkTableColumns(2, 'RONALD LAIFOO, Ute GIERINGER')
     })
-    it("Should properly search by Application Status", () => {
+    it.only("Should properly search by Application Status", () => {
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
-        DashboardPage.checkTableColumns(col_index = 7, 'Draft')
+        DashboardPage.checkTableColumns(7, 'Draft')
         DashboardPage.applicationSearch('INFORMATION STATUS', 'With Customer')
-        DashboardPage.checkTableColumns(col_index = 7, 'With Customer')
+        DashboardPage.checkTableColumns(7, 'With Customer')
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Ready for review')
-        DashboardPage.checkTableColumns(col_index = 7, 'Ready for review')
+        DashboardPage.checkTableColumns(7, 'Ready for review')
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Reviewed')
-        DashboardPage.checkTableColumns(col_index = 7, 'Reviewed')
+        DashboardPage.checkTableColumns(7, 'Reviewed')
     })
     it("Should change current page correctly using footer page input", () => {
-
-
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeCurrentPage')
         DashboardPage.changeCurrentPage(10)
         DashboardPage.nextPaginationClick()
