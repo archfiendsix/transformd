@@ -9,11 +9,24 @@ describe('Login Page Test Suite', () => {
         cy.checkLoading()
     });
 
+    it('Should load number cards correctly and with correct counts', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
+        DashboardPage.applyFilter('ALL')
+        cy.wait('@postSubmissionData').then(postSubmissionData=> {
+            DashboardPage.elements.cardlist.card_count('DRAFTS').should('be.visible')
+            DashboardPage.elements.cardlist.card_count('WITH CUSTOMER').should('be.visible')
+            DashboardPage.elements.cardlist.card_count('READY FOR REVIEW').should('be.visible')
+            DashboardPage.elements.cardlist.card_count('REVIEWED').should('be.visible')
+            DashboardPage.checkTotalCardCardCount(postSubmissionData)
+        })
+    })
+
     it('Should apply "All" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('ALL')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+            DashboardPage.checkTotalCardCardCount(postSubmissionDataapplyFilter)
         });
     })
     it('Should apply "DRAFTS" filter correctly', () => {
@@ -94,14 +107,18 @@ describe('Login Page Test Suite', () => {
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Reviewed')
         DashboardPage.checkTableColumns(col_index=7, 'Reviewed')
     })
-    it("Should show card list", () => {
+    it("Should change current page correctly using footer page input", () => {
 
-        DashboardPage.elements.cardlist.card_count('DRAFTS').should('be.visible').invoke('text').then(text => {
-            cy.log(text)
-        })
+        
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeCurrentPage')
+        // DashboardPage.changeCurrentPage(10)
+        DashboardPage.nextPaginationClick()
+        cy.wait('@postSubmissionDatachangeCurrentPage').then((postSubmissionDatachangeCurrentPage) => {
+            DashboardPage.reviewCurrentPage(postSubmissionDatachangeCurrentPage);
+        });
 
     })
-    it.only('Should sort table column according to Application Id', () => {
+    it('Should sort table column according to Application Id', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
             DashboardPage.sortColumn('APPLICATION', 'desc')
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -160,27 +177,27 @@ describe('Login Page Test Suite', () => {
         });
     })
 
-    it('Should change pagination right arrow click', () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatarightPaginationClick');
-        DashboardPage.rightPaginationClick()
-        cy.wait('@postSubmissionDatarightPaginationClick').then((postSubmissionDatarightPaginationClick) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatarightPaginationClick);
+    it('Should change pagination on next arrow click', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatanextPaginationClick');
+        DashboardPage.nextPaginationClick()
+        cy.wait('@postSubmissionDatanextPaginationClick').then((postSubmissionDatanextPaginationClick) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatanextPaginationClick);
         });
 
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatarightPaginationClick');
-        DashboardPage.rightPaginationClick()
-        cy.wait('@postSubmissionDatarightPaginationClick').then((postSubmissionDatarightPaginationClick) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatarightPaginationClick);
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatanextPaginationClick');
+        DashboardPage.nextPaginationClick()
+        cy.wait('@postSubmissionDatanextPaginationClick').then((postSubmissionDatanextPaginationClick) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatanextPaginationClick);
         });
         
     })
 
-    it('Should change pagination left arrow click', () => {
-        DashboardPage.rightPaginationClick()
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataleftPaginationClick');
-        DashboardPage.rightPaginationClick()
-        cy.wait('@postSubmissionDataleftPaginationClick').then(postSubmissionDataleftPaginationClick => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDataleftPaginationClick);
+    it('Should change pagination on previous arrow click', () => {
+        DashboardPage.nextPaginationClick()
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatapreviousPaginationClick');
+        DashboardPage.nextPaginationClick()
+        cy.wait('@postSubmissionDatapreviousPaginationClick').then(postSubmissionDatapreviousPaginationClick => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatapreviousPaginationClick);
         });
         
     })

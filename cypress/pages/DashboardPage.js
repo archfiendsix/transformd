@@ -80,10 +80,10 @@ class DashboardPage {
 
         }
     }
-    leftPaginationClick = () => {
+    previousPaginationClick = () => {
         this.elements.applicationsTable.footer.page_left().click()
     }
-    rightPaginationClick = () => {
+    nextPaginationClick = () => {
         this.elements.applicationsTable.footer.page_right().click()
     }
 
@@ -102,7 +102,7 @@ class DashboardPage {
                         //     cy.log(`${ind} - ${val}`)
                         // })
                         cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantName => {
-                            if(textApplicantName) {
+                            if (textApplicantName) {
                                 expect(keyValues.includes(textApplicantName), `Checking ${textApplicantName}...`).to.equal(true)
                             }
                             else {
@@ -130,12 +130,16 @@ class DashboardPage {
         this.elements.applicationsTable.footer.perpage_dropdown().select(number)
         cy.wait('@postSubmissionDatachangePerPage')
     }
+
+    changeCurrentPage = (number) => {
+        this.elements.applicationsTable.footer.input().clear().type(number)
+    }
     checkTableColumns = (col_index, col_text) => {
 
         this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
             let row_wrap = cy.wrap(row)
             row_wrap.invoke('text').then(text => {
-                expect(text,`Checking if this row has ${col_text} in column-${col_index} of row-${index}`).to.contain(col_text)
+                expect(text, `Checking if this row has ${col_text} in column-${col_index} of row-${index}`).to.contain(col_text)
             })
         })
 
@@ -162,6 +166,64 @@ class DashboardPage {
                 }
             })
         })
+    }
+
+    reviewCurrentPage = (intercept) => {
+        const requestBody = intercept.request.body;
+        const responseBody = intercept.response.body;
+        const reqPage = requestBody.query.pagination.page;
+        const reqPerPage = requestBody.query.pagination.perPage;
+        const resCurrentPage = responseBody.pagination.currentPage;
+        const resTotal = responseBody.pagination.total;
+        const resTotalPages = responseBody.pagination.totalPages;
+
+        this.elements.applicationsTable.footer.input().invoke('val').then(val => {
+            expect(val).to.equal(resCurrentPage.toString())
+            expect(val).to.equal(reqPage.toString())
+        })
+
+        this.elements.applicationsTable.footer.input().next('span').invoke('text').then(text => {
+            expect(text).to.equal(`of ${resTotalPages}`)
+        })
+
+
+        this.elements.applicationsTable.footer.perpage_dropdown().invoke('val').then(text => {
+            expect(text).to.equal(reqPerPage.toString())
+        })
+
+    }
+
+    checkTotalCardCardCount = (res) => {
+        const resDataCount = res.response.body.data.count;
+        var draftsCount = 0;
+        var withCustomerCount = 0;
+        var readyForReviewCount = 0;
+        var reviewedCount = 0;
+        let totalCount = 0;
+
+        this.elements.cardlist.card_count('DRAFTS').invoke('text').then(draftsCardCount => {
+            draftsCount = parseInt(draftsCardCount, 10);
+            cy.log(draftsCount);
+        }).then(() => {
+            this.elements.cardlist.card_count('WITH CUSTOMER').invoke('text').then(withCustomerCardCount => {
+                withCustomerCount = parseInt(withCustomerCardCount, 10);
+                cy.log(withCustomerCount);
+            }).then(() => {
+                this.elements.cardlist.card_count('READY FOR REVIEW').invoke('text').then(readyForReviewCardCount => {
+                    readyForReviewCount = parseInt(readyForReviewCardCount, 10);
+                    cy.log(readyForReviewCount);
+                }).then(() => {
+                    this.elements.cardlist.card_count('REVIEWED').invoke('text').then(reviewedCardCount => {
+                        reviewedCount = parseInt(reviewedCardCount, 10);
+                        cy.log(reviewedCount);
+                    }).then(() => {
+                        totalCount = draftsCount + withCustomerCount + readyForReviewCount + reviewedCount;
+                        expect(totalCount).to.equal(resDataCount);
+                    });
+                });
+            });
+        });
+
     }
 
     checkTableRowCount(expected_count) {
