@@ -96,11 +96,6 @@ class DashboardPage {
                     const keyValues = Object.values(values);
                     const sortColumn = responseBody.data.rows[index].sortColumn
                     if (textApplicantId === 'Not Set') {
-                        // expect(sortColumn).to.equal('')
-                        // cy.log(text)
-                        // keyValues.forEach((val, ind) => {
-                        //     cy.log(`${ind} - ${val}`)
-                        // })
                         cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantName => {
                             if (textApplicantName) {
                                 expect(keyValues.includes(textApplicantName), `Checking ${textApplicantName}...`).to.equal(true)
@@ -115,10 +110,6 @@ class DashboardPage {
 
                     }
                     else {
-                        // cy.log(text)
-                        // keyValues.forEach((val, ind) => {
-                        //     cy.log(`${ind} - ${val}`)
-                        // })
                         expect(keyValues.includes(textApplicantId), `Checking ${textApplicantId} is in row-${index}...`).to.equal(true)
                     }
                 })
@@ -202,19 +193,19 @@ class DashboardPage {
         let totalCount = 0;
 
         this.elements.cardlist.card_count('DRAFTS').invoke('text').then(draftsCardCount => {
-            draftsCount = parseInt(draftsCardCount, 10);
+            draftsCount = parseInt(draftsCardCount);
             cy.log(draftsCount);
         }).then(() => {
             this.elements.cardlist.card_count('WITH CUSTOMER').invoke('text').then(withCustomerCardCount => {
-                withCustomerCount = parseInt(withCustomerCardCount, 10);
+                withCustomerCount = parseInt(withCustomerCardCount);
                 cy.log(withCustomerCount);
             }).then(() => {
                 this.elements.cardlist.card_count('READY FOR REVIEW').invoke('text').then(readyForReviewCardCount => {
-                    readyForReviewCount = parseInt(readyForReviewCardCount, 10);
+                    readyForReviewCount = parseInt(readyForReviewCardCount);
                     cy.log(readyForReviewCount);
                 }).then(() => {
                     this.elements.cardlist.card_count('REVIEWED').invoke('text').then(reviewedCardCount => {
-                        reviewedCount = parseInt(reviewedCardCount, 10);
+                        reviewedCount = parseInt(reviewedCardCount);
                         cy.log(reviewedCount);
                     }).then(() => {
                         totalCount = draftsCount + withCustomerCount + readyForReviewCount + reviewedCount;
