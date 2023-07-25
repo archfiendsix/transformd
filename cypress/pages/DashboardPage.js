@@ -15,12 +15,12 @@ class DashboardPage {
         },
         applicationsTable: {
             input: () => cy.get('.gridview .gridview__row-filter'),
-            header_columns: (label)=> cy.get('.gridview .gridview__row-header .gridview__column-header').contains(label),
-            filter_columns: ()=> cy.get('.gridview .gridview__row-filter .gridview__column-filter'),
+            header_columns: (label) => cy.get('.gridview .gridview__row-header .gridview__column-header').contains(label),
+            filter_columns: () => cy.get('.gridview .gridview__row-filter .gridview__column-filter'),
             column_label: (header_label) => cy.get('.gridview__row-header .gridview__column .gridview__column-container').contains(header_label),
             search_applicationId: () => cy.get('.gridview .gridview__row-filter input[placeholder="APPLICATION ID"]'),
             calendarButton: (label) => cy.get('.gridview__row-header button').contains(label),
-            rows: () => cy.get('.gridview .gridview__rows'),
+            rows: () => cy.get('.gridview .gridview__rows .gridview__row'),
             columns: () => cy.get('.gridview .gridview__rows .gridview__row .gridview__column'),
             footer: {
                 input: () => cy.get('.gridview__footer .gridview__footer--left input'),
@@ -47,18 +47,18 @@ class DashboardPage {
         this.elements.textWithoutSet().should("not.have.text", "Not Set");
     }
     applyFilter = (name) => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataApplyFilter');
         this.elements.filters.link().contains(name).click()
-        cy.wait('@postSubmissionData')
+        cy.wait('@postSubmissionDataApplyFilter')
     }
     applicationSearch = (input, query) => {
         // cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData2');
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         this.elements.applicationsTable.input().find(`input[placeholder="${input}"]`).type(query)
         // cy.wait('@postSubmissionData').then((interception) => {
         //     expect(interception.request.body.query.values.ApplicantNames).to.eq(query)
         // })
-        cy.wait('@postSubmissionData')
+        cy.wait('@postSubmissionDataapplicationSearch')
     }
     changeDate = (dates) => {
         this.elements.applicationsTable.calendarButton('Open').click()
@@ -74,10 +74,10 @@ class DashboardPage {
         this.elements.applicationsTable.calendarButton('Close').click()
     }
     sortColumn = (header_label, order) => {
-        if(order==='asc') {
+        if (order === 'asc') {
             this.elements.applicationsTable.header_columns(header_label).parent().find('i.up').clickUntilHasClass('active');
         }
-        else if(order==='des') {
+        else if (order === 'desc') {
             this.elements.applicationsTable.header_columns(header_label).parent().find('i.down').clickUntilHasClass('active');
         }
         else {
@@ -85,29 +85,57 @@ class DashboardPage {
         }
     }
     leftPaginationClick = () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
         this.elements.applicationsTable.footer.page_left().click()
-        cy.wait('@postSubmissionData')
     }
     rightPaginationClick = () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
         this.elements.applicationsTable.footer.page_right().click()
-        cy.wait('@postSubmissionData')
+    }
+
+    checkTableFetchResponseBody = (res) => {
+        const responseBody = res.response.body;
+        cy.get('.gridview .gridview__rows .gridview__row').each(($row, index) => {
+            cy.wrap($row).find('.gridview__column').eq(0).then($col => {
+                cy.wrap($col).invoke('text').then(text => {
+                    const values = responseBody.data.rows[index].document.values
+                    const keyValues = Object.values(values);
+                    const sortColumn = responseBody.data.rows[index].sortColumn
+                    if (text === 'Not Set') {
+                        // expect(sortColumn).to.equal('')
+                        // cy.log(text)
+                        // keyValues.forEach((val, ind) => {
+                        //     cy.log(`${ind} - ${val}`)
+                        // })
+                        cy.wrap($col).eq(1).invoke('text').then(text2 => {
+                            expect(keyValues.includes(text2), `Checking ${text2}...`).to.equal(true)
+                        })
+
+
+                    }
+                    else {
+                        // cy.log(text)
+                        // keyValues.forEach((val, ind) => {
+                        //     cy.log(`${ind} - ${val}`)
+                        // })
+                        expect(keyValues.includes(text), `Checking ${text} is in row-${index}...`).to.equal(true)
+                    }
+                })
+            })
+        })
     }
     changePerPage = (number) => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
         this.elements.applicationsTable.footer.perpage_dropdown().select(number)
-        cy.wait('@postSubmissionData')
+        cy.wait('@postSubmissionDatachangePerPage')
     }
     checkTableColumns = (col_index, col_text) => {
-       
+
         this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
             let row_wrap = cy.wrap(row)
             row_wrap.invoke('text').then(text => {
-                expect(text).to.contain(col_text)
+                expect(text,`Checking if this row has ${col_text} in column-${col_index} of row-${index}`).to.contain(col_text)
             })
         })
-        
+
     }
     deleteDrafts = () => {
 
@@ -131,6 +159,10 @@ class DashboardPage {
                 }
             })
         })
+    }
+
+    checkTableRowCount(expected_count) {
+        this.elements.applicationsTable.rows().should('have.length', expected_count);
     }
 
 };

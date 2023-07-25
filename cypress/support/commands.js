@@ -28,9 +28,9 @@ Cypress.Commands.add('login', (email, password) => {
     cy.session([email, password], () => {
         cy.visit("/login");
         cy.loginEnterCreds(email, password)
-        cy.intercept('POST', '/site/login').as('postLogin');
+        cy.intercept('POST', '/site/login').as('postLoginlogin');
         cy.get('button[name="login-button"]').click();
-        cy.wait('@postLogin');
+        cy.wait('@postLoginlogin');
     },
         {
             cacheAcrossSpecs: true
@@ -74,6 +74,7 @@ Cypress.Commands.add('clickUntilHasClass', { prevSubject: 'element' }, (element,
         throw new Error(`Element did not get the class '${targetClass}' after ${maxAttempts} attempts.`);
       }
   
+      
       cy.wrap(element).click().then(($el) => {
         const hasTargetClass = $el.hasClass(targetClass);
   

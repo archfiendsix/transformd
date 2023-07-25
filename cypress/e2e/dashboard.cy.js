@@ -3,51 +3,81 @@ import DashboardPage from "../pages/DashboardPage";
 describe('Login Page Test Suite', () => {
     beforeEach(() => {
         cy.login(Cypress.env('email'), Cypress.env('password'));
-        cy.intercept('POST', '/widget/api/submission-count*').as('postSubmissionCount');
+        cy.intercept('POST', '/widget/api/submission-count*').as('postSubmissionCountbeforeEach');
         cy.visit("/")
-        cy.wait('@postSubmissionCount')
+        cy.wait('@postSubmissionCountbeforeEach')
         cy.checkLoading()
     });
 
     it('Should apply "All" filter correctly', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('ALL')
+        cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+        });
     })
     it('Should apply "DRAFTS" filter correctly', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('DRAFTS')
-        DashboardPage.checkTableColumns(col_index=7, 'Draft')
+        cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+        });
+        DashboardPage.checkTableColumns(7, 'Draft')
     })
-    it('Should apply "WITH CUSTOMER" filter correctly', () => {
+    it.only('Should apply "WITH CUSTOMER" filter correctly', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('WITH CUSTOMER')
-        DashboardPage.checkTableColumns(col_index=7, 'With Customer')
+        cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+        });
+        DashboardPage.checkTableColumns(7, 'With Customer')
     })
     it('Should apply "READY FOR REVIEW" filter correctly', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('READY FOR REVIEW')
-        DashboardPage.checkTableColumns(col_index=7, 'Ready for Review')
+        cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+        });
+        DashboardPage.checkTableColumns(7, 'Ready for Review')
     })
     it('Should apply "REVIEWED" filter correctly', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('REVIEWED')
-        DashboardPage.checkTableColumns(col_index=7, 'Reviewed')
+        cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+        });
+        DashboardPage.checkTableColumns(7, 'Reviewed')
     })
 
     it("Should properly search by Application ID", () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applicationSearch('APPLICATION ID', 'TRF-QMNJ817IO')
-        DashboardPage.checkTableColumns(col_index=1, 'TRF-QMNJ817IO')
+        cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+        });
+        DashboardPage.checkTableColumns(1, 'TRF-QMNJ817IO')
     })
 
-    it.only("Should properly search by Last Update", () => {
+    it("Should properly search by Last Update", () => {
         const dates = {
             start_date: {
                 day: '1',
-                month: "January",
+                month: "July",
                 year: "2023"
             },
             end_date: {
-                day: '28',
-                month: "February",
+                day: '24',
+                month: "July",
                 year: "2023"
             }
         }
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeDate');
         DashboardPage.changeDate(dates)
+        cy.wait('@postSubmissionDatachangeDate').then((postSubmissionDatachangeDate) => {
+            
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangeDate);
+        });
+
     })
     it("Should properly search by Update Date", () => {
         DashboardPage.applicationSearch('LAST UPDATED', '')
@@ -74,8 +104,16 @@ describe('Login Page Test Suite', () => {
 
     })
     it('Should sort table column according to Application Id', () => {
-        DashboardPage.sortColumn('APPLICATION', order='asc')
-        DashboardPage.sortColumn('APPLICATION', order='des')
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn').then(req=> {
+
+        });
+            DashboardPage.sortColumn('APPLICATION', 'desc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        });
+        // DashboardPage.sortColumn('APPLICATION', 'asc')
+        
     })
 
     it('Should sort table column according to Application Name', () => {
@@ -93,15 +131,33 @@ describe('Login Page Test Suite', () => {
         DashboardPage.sortColumn('Status', order='des')
     })
 
-    it('Should change pagination on left and right arrow click', () => {
+    it('Should change pagination right arrow click', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatarightPaginationClick');
         DashboardPage.rightPaginationClick()
-        DashboardPage.leftPaginationClick()
+        cy.wait('@postSubmissionDatarightPaginationClick').then((postSubmissionDatarightPaginationClick) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatarightPaginationClick);
+        });
+        
+    })
 
+    it('Should change pagination left arrow click', () => {
+        DashboardPage.rightPaginationClick()
+        
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataleftPaginationClick');
+        DashboardPage.leftPaginationClick()
+        cy.wait('@postSubmissionDataleftPaginationClick').then((postSubmissionDataleftPaginationClick) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataleftPaginationClick);
+        });
+        
     })
     it('Should change displayed table rows upon selecting per page value', () => {
         DashboardPage.changePerPage('100')
+        DashboardPage.checkTableRowCount(100)
         DashboardPage.changePerPage('25')
+        DashboardPage.checkTableRowCount(25)
         DashboardPage.changePerPage('50')
+        DashboardPage.checkTableRowCount(50)
     })
    
 });
