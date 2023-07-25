@@ -52,12 +52,8 @@ class DashboardPage {
         cy.wait('@postSubmissionDataApplyFilter')
     }
     applicationSearch = (input, query) => {
-        // cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData2');
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         this.elements.applicationsTable.input().find(`input[placeholder="${input}"]`).type(query)
-        // cy.wait('@postSubmissionData').then((interception) => {
-        //     expect(interception.request.body.query.values.ApplicantNames).to.eq(query)
-        // })
         cy.wait('@postSubmissionDataapplicationSearch')
     }
     changeDate = (dates) => {
@@ -95,18 +91,25 @@ class DashboardPage {
         const responseBody = res.response.body;
         cy.get('.gridview .gridview__rows .gridview__row').each(($row, index) => {
             cy.wrap($row).find('.gridview__column').eq(0).then($col => {
-                cy.wrap($col).invoke('text').then(text => {
+                cy.wrap($col).invoke('text').then(textApplicantId => {
                     const values = responseBody.data.rows[index].document.values
                     const keyValues = Object.values(values);
                     const sortColumn = responseBody.data.rows[index].sortColumn
-                    if (text === 'Not Set') {
+                    if (textApplicantId === 'Not Set') {
                         // expect(sortColumn).to.equal('')
                         // cy.log(text)
                         // keyValues.forEach((val, ind) => {
                         //     cy.log(`${ind} - ${val}`)
                         // })
-                        cy.wrap($col).eq(1).invoke('text').then(text2 => {
-                            expect(keyValues.includes(text2), `Checking ${text2}...`).to.equal(true)
+                        cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantName => {
+                            if(textApplicantName) {
+                                expect(keyValues.includes(textApplicantName), `Checking ${textApplicantName}...`).to.equal(true)
+                            }
+                            else {
+                                cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then(textStatus => {
+                                    expect(keyValues.includes(textStatus), `Checking ${textStatus}...`).to.equal(true)
+                                })
+                            }
                         })
 
 
@@ -116,7 +119,7 @@ class DashboardPage {
                         // keyValues.forEach((val, ind) => {
                         //     cy.log(`${ind} - ${val}`)
                         // })
-                        expect(keyValues.includes(text), `Checking ${text} is in row-${index}...`).to.equal(true)
+                        expect(keyValues.includes(textApplicantId), `Checking ${textApplicantId} is in row-${index}...`).to.equal(true)
                     }
                 })
             })

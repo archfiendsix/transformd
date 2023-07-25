@@ -24,7 +24,7 @@ describe('Login Page Test Suite', () => {
         });
         DashboardPage.checkTableColumns(7, 'Draft')
     })
-    it.only('Should apply "WITH CUSTOMER" filter correctly', () => {
+    it('Should apply "WITH CUSTOMER" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('WITH CUSTOMER')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
@@ -58,7 +58,7 @@ describe('Login Page Test Suite', () => {
         DashboardPage.checkTableColumns(1, 'TRF-QMNJ817IO')
     })
 
-    it("Should properly search by Last Update", () => {
+    it('Should properly search by "Last Update"', () => {
         const dates = {
             start_date: {
                 day: '1',
@@ -79,9 +79,7 @@ describe('Login Page Test Suite', () => {
         });
 
     })
-    it("Should properly search by Update Date", () => {
-        DashboardPage.applicationSearch('LAST UPDATED', '')
-    })
+   
     it("Should properly search by Application Name", () => {
         DashboardPage.applicationSearch('APPLICANT NAME', 'ronald laifoo')
         DashboardPage.checkTableColumns(col_index=2, 'ronald laifoo')
@@ -103,35 +101,72 @@ describe('Login Page Test Suite', () => {
         })
 
     })
-    it('Should sort table column according to Application Id', () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn').then(req=> {
-
-        });
+    it.only('Should sort table column according to Application Id', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
             DashboardPage.sortColumn('APPLICATION', 'desc')
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
-        // DashboardPage.sortColumn('APPLICATION', 'asc')
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
+            DashboardPage.sortColumn('APPLICATION', 'asc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        });
         
     })
 
     it('Should sort table column according to Application Name', () => {
-        DashboardPage.sortColumn('APPLICANT NAME(S)', order='asc')
-        DashboardPage.sortColumn('APPLICANT NAME(S)', order='des')
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
+        DashboardPage.sortColumn('APPLICANT NAME(S)', 'asc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        })
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
+        DashboardPage.sortColumn('APPLICANT NAME(S)', 'desc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        })
     })
 
     it('Should sort table column according to "Last Updated"', () => {
-        DashboardPage.sortColumn('LAST UPDATED', order='asc')
-        DashboardPage.sortColumn('LAST UPDATED', order='des')
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn');
+        DashboardPage.sortColumn('LAST UPDATED', 'asc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        });
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn');
+        DashboardPage.sortColumn('LAST UPDATED', 'desc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        });
+        
     })
 
     it('Should sort table column according to Status', () => {
-        DashboardPage.sortColumn('Status', order='asc')
-        DashboardPage.sortColumn('Status', order='des')
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn');
+        DashboardPage.sortColumn('Status', 'asc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        });
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn');
+        DashboardPage.sortColumn('Status', 'desc')
+        cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
+        });
     })
 
     it('Should change pagination right arrow click', () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatarightPaginationClick');
+        DashboardPage.rightPaginationClick()
+        cy.wait('@postSubmissionDatarightPaginationClick').then((postSubmissionDatarightPaginationClick) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatarightPaginationClick);
+        });
+
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatarightPaginationClick');
         DashboardPage.rightPaginationClick()
         cy.wait('@postSubmissionDatarightPaginationClick').then((postSubmissionDatarightPaginationClick) => {
@@ -142,22 +177,34 @@ describe('Login Page Test Suite', () => {
 
     it('Should change pagination left arrow click', () => {
         DashboardPage.rightPaginationClick()
-        
-
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataleftPaginationClick');
-        DashboardPage.leftPaginationClick()
-        cy.wait('@postSubmissionDataleftPaginationClick').then((postSubmissionDataleftPaginationClick) => {
+        DashboardPage.rightPaginationClick()
+        cy.wait('@postSubmissionDataleftPaginationClick').then(postSubmissionDataleftPaginationClick => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataleftPaginationClick);
         });
         
     })
     it('Should change displayed table rows upon selecting per page value', () => {
-        DashboardPage.changePerPage('100')
-        DashboardPage.checkTableRowCount(100)
-        DashboardPage.changePerPage('25')
-        DashboardPage.checkTableRowCount(25)
-        DashboardPage.changePerPage('50')
-        DashboardPage.checkTableRowCount(50)
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
+            DashboardPage.changePerPage('100')
+        cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangePerPage);
+            DashboardPage.checkTableRowCount(100)
+        });
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
+            DashboardPage.changePerPage('25')
+        cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangePerPage);
+            DashboardPage.checkTableRowCount(25)
+        });
+        
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
+            DashboardPage.changePerPage('50')
+        cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangePerPage);
+            DashboardPage.checkTableRowCount(50)
+        });
     })
    
 });
