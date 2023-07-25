@@ -39,8 +39,8 @@ Cypress.Commands.add('login', (email, password) => {
 });
 
 Cypress.Commands.add('loginEnterCreds', (email, password) => {
-        cy.get("#login-form-email").type(email);
-        cy.get("#login-form-password").type(password);
+    cy.get("#login-form-email").type(email);
+    cy.get("#login-form-password").type(password);
 });
 
 
@@ -63,5 +63,29 @@ Cypress.Commands.add('dropdownSelect', (placeholder, dropdown_item) => {
 Cypress.Commands.add('checkLoading', () => {
     cy.get('.ant-spin-dot.ant-spin-dot-spin').should('not.exist');
 });
+
+Cypress.Commands.add('clickUntilHasClass', { prevSubject: 'element' }, (element, targetClass, maxAttempts = 10) => {
+    let attempts = 0;
+  
+    const clickAndCheckClass = () => {
+      attempts++;
+  
+      if (attempts > maxAttempts) {
+        throw new Error(`Element did not get the class '${targetClass}' after ${maxAttempts} attempts.`);
+      }
+  
+      cy.wrap(element).click().then(($el) => {
+        const hasTargetClass = $el.hasClass(targetClass);
+  
+        if (!hasTargetClass) {
+          // If the element doesn't have the target class, recursively call the function.
+          clickAndCheckClass();
+        }
+      });
+    };
+  
+    // Start the recursion.
+    clickAndCheckClass();
+  });
 
 

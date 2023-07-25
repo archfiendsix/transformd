@@ -15,11 +15,13 @@ class DashboardPage {
         },
         applicationsTable: {
             input: () => cy.get('.gridview .gridview__row-filter'),
+            header_columns: (label)=> cy.get('.gridview .gridview__row-header .gridview__column-header').contains(label),
+            filter_columns: ()=> cy.get('.gridview .gridview__row-filter .gridview__column-filter'),
             column_label: (header_label) => cy.get('.gridview__row-header .gridview__column .gridview__column-container').contains(header_label),
             search_applicationId: () => cy.get('.gridview .gridview__row-filter input[placeholder="APPLICATION ID"]'),
-            calendarButton: ()=> cy.get('.gridview__row-header button'),
-            rows: ()=> cy.get('.gridview .gridview__rows'),
-            columns: ()=> cy.get('.gridview .gridview__rows .gridview__row .gridview__column'),
+            calendarButton: () => cy.get('.gridview__row-header button'),
+            rows: () => cy.get('.gridview .gridview__rows'),
+            columns: () => cy.get('.gridview .gridview__rows .gridview__row .gridview__column'),
             footer: {
                 input: () => cy.get('.gridview__footer .gridview__footer--left input'),
                 page_left: () => cy.get('.gridview__footer .gridview__footer--left .gridview__footer-pagination-buttons button').eq(0),
@@ -27,12 +29,12 @@ class DashboardPage {
                 perpage_dropdown: () => cy.get('.gridview__footer .gridview__footer--right select')
             },
             date_picker: {
-                start: ()=> cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Early"]'),
-                end:  ()=> cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Continuous"]'),
-                month: ()=> cy.get('.rdrDateRangePickerWrapper .rdrYearPicker .rdrMonthPicker '),
-                year: ()=> cy.get('.rdrDateRangePickerWrapper .rdrMonthAndYearWrapper .rdrMonthPicker select'),
-                days_start: ()=> cy.get('.rdrCalendarWrapper rdrDateRangeWrapper .rdrMonths .rdrMonth:nth-child(1) .rdrDays button'), 
-                days_end: ()=> cy.get('.rdrCalendarWrapper rdrDateRangeWrapper .rdrMonths .rdrMonth:nth-child(2) .rdrDays button')           
+                start_button: () => cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Early"]'),
+                end_button: () => cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Continuous"]'),
+                month: () => cy.get('.rdrDateRangePickerWrapper .rdrYearPicker .rdrMonthPicker '),
+                year: () => cy.get('.rdrDateRangePickerWrapper .rdrMonthAndYearWrapper .rdrMonthPicker select'),
+                days_start: () => cy.get('.rdrCalendarWrapper rdrDateRangeWrapper .rdrMonths .rdrMonth:nth-child(1) .rdrDays button'),
+                days_end: () => cy.get('.rdrCalendarWrapper rdrDateRangeWrapper .rdrMonths .rdrMonth:nth-child(2) .rdrDays button')
             }
         },
         cardlist: {
@@ -58,14 +60,23 @@ class DashboardPage {
         // })
         cy.wait('@postSubmissionData')
     }
-    changeDate = () => {
-        // cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
+    changeDate = (start_date, end_date) => {
         this.elements.applicationsTable.calendarButton().click()
-
-        // cy.wait('@postSubmissionData')
+        this.elements.applicationsTable.date_picker.start_button().click()
+        this.elements.applicationsTable.date_picker.month().select(start_date.month)
+        this.elements.applicationsTable.date_picker.year().select(start_date.year)
+        this.elements.applicationsTable.date_picker.day_start().contains(start_date.year)
     }
     sortColumn = (header_label, order) => {
-        this.elements.applicationsTable.column_label(header_label).click()
+        if(order==='asc') {
+            this.elements.applicationsTable.header_columns(header_label).parent().find('i.up').clickUntilHasClass('active');
+        }
+        else if(order==='des') {
+            this.elements.applicationsTable.header_columns(header_label).parent().find('i.down').clickUntilHasClass('active');
+        }
+        else {
+
+        }
     }
     leftPaginationClick = () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
@@ -82,13 +93,39 @@ class DashboardPage {
         this.elements.applicationsTable.footer.perpage_dropdown().select(number)
         cy.wait('@postSubmissionData')
     }
-    checkTableColumns=(col_index, col_text)=> {
-        this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each(row=> {
+    checkTableColumns = (col_index, col_text) => {
+       
+        this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
             let row_wrap = cy.wrap(row)
-            row_wrap.invoke('text').then(text=> {
+            row_wrap.invoke('text').then(text => {
                 expect(text).to.contain(col_text)
             })
         })
+        
     }
+    deleteDrafts = () => {
+
+        cy.get('.gridview .gridview__rows').each(($el) => {
+            const row_wrap = cy.wrap($el)
+            row_wrap.find('.gridview__column:nth-child(1)').each((app_id, index) => {
+                let appid = app_id.text()
+                if (appid === 'Not Set') {
+                    cy.log(appid)
+                    cy.get('.gridview .gridview__rows').find('.gridview__column:nth-child(7)').eq(index).then($el => {
+                        const status = $el.text()
+                        if (status === 'Draft') {
+                            cy.get('.gridview .gridview__rows').find('.gridview__column:nth-child(8)').eq(index).click()
+
+                            cy.get('.react-confirm-alert .react-confirm-alert-button-group button:nth-child(1)').click()
+
+                            cy.intercept('POST', '/widget/api/submission-count*').as('postSubmissionCount');
+                            cy.wait('@postSubmissionCount')
+                        }
+                    })
+                }
+            })
+        })
+    }
+
 };
 module.exports = new DashboardPage();

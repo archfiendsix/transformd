@@ -20,4 +20,8 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   // screenshotOnRunFailure: false,
   defaultCommandTimeout: 30000,
+  // retries: {
+  //   runMode: 10,          // Number of retries for the entire test run
+  //   openMode: 10          // Number of retries for individual test cases in the Test Runner
+  // }
 });
