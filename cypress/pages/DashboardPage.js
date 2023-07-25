@@ -19,7 +19,7 @@ class DashboardPage {
             filter_columns: ()=> cy.get('.gridview .gridview__row-filter .gridview__column-filter'),
             column_label: (header_label) => cy.get('.gridview__row-header .gridview__column .gridview__column-container').contains(header_label),
             search_applicationId: () => cy.get('.gridview .gridview__row-filter input[placeholder="APPLICATION ID"]'),
-            calendarButton: () => cy.get('.gridview__row-header button'),
+            calendarButton: (label) => cy.get('.gridview__row-header button').contains(label),
             rows: () => cy.get('.gridview .gridview__rows'),
             columns: () => cy.get('.gridview .gridview__rows .gridview__row .gridview__column'),
             footer: {
@@ -29,12 +29,12 @@ class DashboardPage {
                 perpage_dropdown: () => cy.get('.gridview__footer .gridview__footer--right select')
             },
             date_picker: {
-                start_button: () => cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Early"]'),
-                end_button: () => cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Continuous"]'),
-                month: () => cy.get('.rdrDateRangePickerWrapper .rdrYearPicker .rdrMonthPicker '),
-                year: () => cy.get('.rdrDateRangePickerWrapper .rdrMonthAndYearWrapper .rdrMonthPicker select'),
-                days_start: () => cy.get('.rdrCalendarWrapper rdrDateRangeWrapper .rdrMonths .rdrMonth:nth-child(1) .rdrDays button'),
-                days_end: () => cy.get('.rdrCalendarWrapper rdrDateRangeWrapper .rdrMonths .rdrMonth:nth-child(2) .rdrDays button')
+                start_date_button: () => cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Early"]'),
+                end_date_button: () => cy.get('.rdrDateDisplayWrapper .rdrDateInput input[placeholder="Continuous"]'),
+                month: () => cy.get('.rdrDateRangePickerWrapper .rdrMonthAndYearPickers .rdrMonthPicker select'),
+                year: () => cy.get('.rdrDateRangePickerWrapper .rdrMonthAndYearPickers .rdrYearPicker select'),
+                days_start: () => cy.get('.rdrDateRangePickerWrapper .rdrMonths .rdrMonth:nth-child(1) .rdrDays button'),
+                days_end: () => cy.get('.rdrDateRangePickerWrapper .rdrMonths .rdrMonth:nth-child(1) .rdrDays button')
             }
         },
         cardlist: {
@@ -60,12 +60,18 @@ class DashboardPage {
         // })
         cy.wait('@postSubmissionData')
     }
-    changeDate = (start_date, end_date) => {
-        this.elements.applicationsTable.calendarButton().click()
-        this.elements.applicationsTable.date_picker.start_button().click()
-        this.elements.applicationsTable.date_picker.month().select(start_date.month)
-        this.elements.applicationsTable.date_picker.year().select(start_date.year)
-        this.elements.applicationsTable.date_picker.day_start().contains(start_date.year)
+    changeDate = (dates) => {
+        this.elements.applicationsTable.calendarButton('Open').click()
+        this.elements.applicationsTable.date_picker.start_date_button().click()
+        this.elements.applicationsTable.date_picker.month().select(dates.start_date.month)
+        this.elements.applicationsTable.date_picker.year().select(dates.start_date.year)
+        this.elements.applicationsTable.date_picker.days_start().not('.rdrDayPassive').contains(dates.start_date.day).click()
+
+        this.elements.applicationsTable.date_picker.end_date_button().click()
+        this.elements.applicationsTable.date_picker.month().select(dates.end_date.month)
+        this.elements.applicationsTable.date_picker.year().select(dates.end_date.year)
+        this.elements.applicationsTable.date_picker.days_start().not('.rdrDayPassive').contains(dates.end_date.day).click()
+        this.elements.applicationsTable.calendarButton('Close').click()
     }
     sortColumn = (header_label, order) => {
         if(order==='asc') {

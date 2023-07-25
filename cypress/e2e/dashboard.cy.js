@@ -34,8 +34,20 @@ describe('Login Page Test Suite', () => {
         DashboardPage.checkTableColumns(col_index=1, 'TRF-QMNJ817IO')
     })
 
-    it("Should properly search by Last Update", () => {
-        DashboardPage.changeDate()
+    it.only("Should properly search by Last Update", () => {
+        const dates = {
+            start_date: {
+                day: '1',
+                month: "January",
+                year: "2023"
+            },
+            end_date: {
+                day: '28',
+                month: "February",
+                year: "2023"
+            }
+        }
+        DashboardPage.changeDate(dates)
     })
     it("Should properly search by Update Date", () => {
         DashboardPage.applicationSearch('LAST UPDATED', '')
@@ -61,24 +73,24 @@ describe('Login Page Test Suite', () => {
         })
 
     })
-    it.only('Should sort table column according to Application Id', () => {
-        DashboardPage.sortColumn('APPLICATION', 'asc')
-        DashboardPage.sortColumn('APPLICATION', 'des')
+    it('Should sort table column according to Application Id', () => {
+        DashboardPage.sortColumn('APPLICATION', order='asc')
+        DashboardPage.sortColumn('APPLICATION', order='des')
     })
 
-    it.only('Should sort table column according to Application Name', () => {
-        DashboardPage.sortColumn('APPLICANT NAME(S)', 'asc')
-        DashboardPage.sortColumn('APPLICANT NAME(S)', 'des')
+    it('Should sort table column according to Application Name', () => {
+        DashboardPage.sortColumn('APPLICANT NAME(S)', order='asc')
+        DashboardPage.sortColumn('APPLICANT NAME(S)', order='des')
     })
 
-    it.only('Should sort table column according to "Last Updated"', () => {
-        DashboardPage.sortColumn('LAST UPDATED', 'asc')
-        DashboardPage.sortColumn('LAST UPDATED', 'des')
+    it('Should sort table column according to "Last Updated"', () => {
+        DashboardPage.sortColumn('LAST UPDATED', order='asc')
+        DashboardPage.sortColumn('LAST UPDATED', order='des')
     })
 
-    it.only('Should sort table column according to Status', () => {
-        DashboardPage.sortColumn('Status', 'asc')
-        DashboardPage.sortColumn('Status', 'des')
+    it('Should sort table column according to Status', () => {
+        DashboardPage.sortColumn('Status', order='asc')
+        DashboardPage.sortColumn('Status', order='des')
     })
 
     it('Should change pagination on left and right arrow click', () => {
