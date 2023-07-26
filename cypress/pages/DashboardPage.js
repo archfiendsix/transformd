@@ -22,6 +22,7 @@ class DashboardPage {
             calendarButton: (label) => cy.get('.gridview__row-header button').contains(label),
             rows: () => cy.get('.gridview .gridview__rows .gridview__row'),
             columns: () => cy.get('.gridview .gridview__rows .gridview__row .gridview__column'),
+            emptyTable: () => cy.get('.gridview__rows .gridview__row-empty'),
             footer: {
                 input: () => cy.get('.gridview__footer .gridview__footer--left input'),
                 page_left: () => cy.get('.gridview__footer .gridview__footer--left .gridview__footer-pagination-buttons button').eq(0),
@@ -53,8 +54,8 @@ class DashboardPage {
     }
     applicationSearch = (input, query) => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
-        
-        if(input==='INFORMATION STATUS') {
+
+        if (input === 'INFORMATION STATUS') {
             this.elements.applicationsTable.input().find('select').select(query)
         }
         else {
@@ -95,37 +96,45 @@ class DashboardPage {
 
     checkTableFetchResponseBody = (res) => {
         const responseBody = res.response.body;
-        cy.get('.gridview .gridview__rows .gridview__row').each(($row, index) => {
-            cy.wrap($row).find('.gridview__column').eq(0).then($col => {
-                cy.wrap($col).invoke('text').then(textApplicantId => {
-                    const values = responseBody.data.rows[index].document.values
-                    const keyValues = Object.values(values);
-                    const sortColumn = responseBody.data.rows[index].sortColumn
-                    if (textApplicantId === 'Not Set') {
-                        cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantName => {
-                            if (textApplicantName) {
-                                expect(keyValues, `Checking ${textApplicantName}...`).to.include(textApplicantName)
-                            }
-                            else {
-                                cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then(textStatus => {
-                                    expect(keyValues, `Checking ${textStatus}...`).to.include(textStatus)
-                                })
-                            }
-                        })
+        if (responseBody.data.count === 0) {
+            this.elements.applicationsTable.emptyTable().should('be.visible').then($el => {
+                cy.wrap($el).should('have.text', 'Records not found')
+            })
+        }
+
+        else {
+            cy.get('.gridview .gridview__rows .gridview__row').each(($row, index) => {
+                cy.wrap($row).find('.gridview__column').eq(0).then($col => {
+                    cy.wrap($col).invoke('text').then(textApplicantId => {
+                        const values = responseBody.data.rows[index].document.values
+                        const keyValues = Object.values(values);
+                        const sortColumn = responseBody.data.rows[index].sortColumn
+                        if (textApplicantId === 'Not Set') {
+                            cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantName => {
+                                if (textApplicantName) {
+                                    expect(keyValues, `Checking ${textApplicantName}...`).to.include(textApplicantName)
+                                }
+                                else {
+                                    cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then(textStatus => {
+                                        expect(keyValues, `Checking ${textStatus}...`).to.include(textStatus)
+                                    })
+                                }
+                            })
 
 
-                    }
-                    else {
-                        // cy.log(keyValues)
-                        // keyValues.forEach(x=>{
-                        //     cy.log(x)
-                        // })
-                        // cy.log(textApplicantId)
-                        expect(keyValues, `Checking ${textApplicantId} is in row-${index}...`).to.include(textApplicantId)
-                    }
+                        }
+                        else {
+                            // cy.log(keyValues)
+                            // keyValues.forEach(x=>{
+                            //     cy.log(x)
+                            // })
+                            // cy.log(textApplicantId)
+                            expect(keyValues, `Checking ${textApplicantId} is in row-${index}...`).to.include(textApplicantId)
+                        }
+                    })
                 })
             })
-        })
+        }
     }
     changePerPage = (number) => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
@@ -138,13 +147,21 @@ class DashboardPage {
     }
     checkTableColumns = (col_index, col_text) => {
 
-        this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
-            let row_wrap = cy.wrap(row)
-            row_wrap.invoke('text').then(text => {
-                expect(text, `Checking if this row has ${col_text} in column-${col_index} of row-${index}`).to.contain(col_text)
-            })
-        })
+        const empty_indicator = document.body.querySelectorAll('.gridview__rows .gridview__row-empty')
 
+        if(!empty_indicator) {
+            this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
+                let row_wrap = cy.wrap(row)
+                row_wrap.invoke('text').then(text => {
+                    expect(text, `Checking if this row has ${col_text} in column-${col_index} of row-${index}`).to.contain(col_text)
+                })
+            })
+        }
+        else {
+            this.elements.applicationsTable.emptyTable().should('be.visible').contains('Records not found')
+        }
+
+        
     }
     deleteDrafts = () => {
 
@@ -195,7 +212,7 @@ class DashboardPage {
 
     }
 
-    checkTotalCardCardCount = (res) => {
+    checkTotalCardCount = (res) => {
         const resDataCount = res.response.body.data.count;
         var draftsCount = 0;
         var withCustomerCount = 0;

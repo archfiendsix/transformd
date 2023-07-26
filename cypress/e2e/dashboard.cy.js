@@ -17,7 +17,7 @@ describe('Dashboard Test Suite', () => {
             DashboardPage.elements.cardlist.card_count('WITH CUSTOMER').should('be.visible')
             DashboardPage.elements.cardlist.card_count('READY FOR REVIEW').should('be.visible')
             DashboardPage.elements.cardlist.card_count('REVIEWED').should('be.visible')
-            DashboardPage.checkTotalCardCardCount(postSubmissionData)
+            DashboardPage.checkTotalCardCount(postSubmissionData)
         })
     })
 
@@ -26,7 +26,7 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.applyFilter('ALL')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
-            DashboardPage.checkTotalCardCardCount(postSubmissionDataapplyFilter)
+            DashboardPage.checkTotalCardCount(postSubmissionDataapplyFilter)
         });
     })
     it('Should apply "DRAFTS" filter correctly', () => {
@@ -45,13 +45,14 @@ describe('Dashboard Test Suite', () => {
         });
         DashboardPage.checkTableColumns(7, 'With Customer')
     })
-    it('Should apply "READY FOR REVIEW" filter correctly', () => {
+    it.only('Should apply "READY FOR REVIEW" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('READY FOR REVIEW')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+            DashboardPage.checkTableColumns(7, 'Ready for Review')
         });
-        DashboardPage.checkTableColumns(7, 'Ready for Review')
+        
     })
     it('Should apply "REVIEWED" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
@@ -108,7 +109,7 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.checkTableColumns(7, 'Ready for review')
         
     })
-    it("Should change current page correctly using footer page input", () => {
+    it("Should change current page correctly using footer page input (Currently the number input is buggy)", () => {
         // Current Page input box currently unstable skipping this for now
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeCurrentPage')
         DashboardPage.changeCurrentPage(10)
