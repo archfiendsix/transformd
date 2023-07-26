@@ -64,6 +64,18 @@ Cypress.Commands.add('checkLoading', () => {
     cy.get('.ant-spin-dot.ant-spin-dot-spin').should('not.exist');
 });
 
+Cypress.Commands.add('convertTime', (timestamp) => {
+    const date = new Date(timestamp * 1000); // JavaScript Date objects use milliseconds, so multiply by 1000 to convert seconds to milliseconds
+
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed, so add 1 to get the correct month
+    const year = date.getFullYear().toString();
+
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate // Output: 23/12/2023
+});
+
+
 Cypress.Commands.add('clickUntilHasClass', { prevSubject: 'element' }, (element, targetClass, maxAttempts = 10) => {
     let attempts = 0;
   

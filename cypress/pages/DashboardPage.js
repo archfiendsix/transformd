@@ -124,9 +124,16 @@ class DashboardPage {
                             applicantnames_val ? expect(textApplicantNames, `Checking ${textApplicantNames}...`).to.equal(applicantnames_val) : cy.log('not found')
                         })
 
+                        // cy.wrap($row).find('.gridview__column').eq(2).invoke('text').then(textUpdatedDate => {
+                        //     const updated_timestamp = responseBody.data.rows[index].document.updated
+                        //     const updated_val = cy.convertTime(updated_timestamp)
+                        //     updated_val ? expect(textUpdatedDate, `Checking ${textUpdatedDate}...`).to.equal(updated_val) : cy.log('not found')
+                        // })
+
                         cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then(textStatus => {
                             const status_key = keys["Status"]
                             const status_val = responseBody.data.rows[index].document.values[status_key]
+                            cy.log(status_val)
                             status_val ? expect(textStatus, `Checking ${textStatus}...`).to.equal(status_val) : cy.log('not found')
                         })
 
