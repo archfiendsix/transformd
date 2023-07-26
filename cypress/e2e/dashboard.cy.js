@@ -251,7 +251,7 @@ describe('Dashboard Test Suite', () => {
         });
 
     })
-    it.only('Should change displayed table rows upon selecting 100 items per page value', () => {
+    it('Should change displayed table rows upon selecting 100 items per page value', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
         DashboardPage.changePerPage('100')
         cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
@@ -262,7 +262,7 @@ describe('Dashboard Test Suite', () => {
         
     })
 
-    it.only('Should change displayed table rows upon selecting 50 items per page value', () => {
+    it('Should change displayed table rows upon selecting 50 items per page value', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
         DashboardPage.changePerPage('50')
         cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
