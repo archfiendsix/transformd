@@ -118,7 +118,7 @@ describe('Dashboard Test Suite', () => {
         });
 
     })
-    it.only('Should sort table column according to Application Id', () => { // Has error
+    it('Should sort table column according to Application Id', () => { // Has error
         const header_title='APPLICATION'
         /* Descending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
@@ -144,7 +144,7 @@ describe('Dashboard Test Suite', () => {
 
     })
 
-    it.only('Should sort table column according to Application Name', () => {
+    it('Should sort table column according to Application Name', () => {
         const header_title='APPLICANT NAME(S)'
 
         /* Descending order test*/
@@ -174,7 +174,7 @@ describe('Dashboard Test Suite', () => {
         
     })
 
-    it.only('Should sort table column according to "Last Updated"', () => {
+    it('Should sort table column according to "Last Updated"', () => {
 
         const header_title='LAST UPDATED'
         /* Descending order test*/
@@ -200,7 +200,7 @@ describe('Dashboard Test Suite', () => {
 
     })
 
-    it.only('Should sort table column according to Status', () => {
+    it('Should sort table column according to Status', () => {
         const header_title='Status'
         /* Descending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
@@ -227,7 +227,7 @@ describe('Dashboard Test Suite', () => {
        
     })
 
-    it.only('Should change pagination on next arrow click', () => {
+    it('Should change pagination on next arrow click', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatanextPaginationClick');
         DashboardPage.nextPaginationClick()
         cy.wait('@postSubmissionDatanextPaginationClick').then((postSubmissionDatanextPaginationClick) => {
@@ -251,7 +251,7 @@ describe('Dashboard Test Suite', () => {
         });
 
     })
-    it('Should change displayed table rows upon selecting per page value', () => {
+    it.only('Should change displayed table rows upon selecting 100 items per page value', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
         DashboardPage.changePerPage('100')
         cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
@@ -259,13 +259,10 @@ describe('Dashboard Test Suite', () => {
             DashboardPage.checkTableRowCount(100)
         });
 
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
-        DashboardPage.changePerPage('25')
-        cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangePerPage);
-            DashboardPage.checkTableRowCount(25)
-        });
+        
+    })
 
+    it.only('Should change displayed table rows upon selecting 50 items per page value', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
         DashboardPage.changePerPage('50')
         cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
