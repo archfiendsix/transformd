@@ -104,11 +104,11 @@ class DashboardPage {
                     if (textApplicantId === 'Not Set') {
                         cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantName => {
                             if (textApplicantName) {
-                                expect(keyValues.includes(textApplicantName), `Checking ${textApplicantName}...`).to.equal(true)
+                                expect(keyValues, `Checking ${textApplicantName}...`).to.include(textApplicantName)
                             }
                             else {
                                 cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then(textStatus => {
-                                    expect(keyValues.includes(textStatus), `Checking ${textStatus}...`).to.equal(true)
+                                    expect(keyValues, `Checking ${textStatus}...`).to.include(textStatus)
                                 })
                             }
                         })
@@ -116,7 +116,12 @@ class DashboardPage {
 
                     }
                     else {
-                        expect(keyValues.includes(textApplicantId), `Checking ${textApplicantId} is in row-${index}...`).to.equal(true)
+                        // cy.log(keyValues)
+                        // keyValues.forEach(x=>{
+                        //     cy.log(x)
+                        // })
+                        // cy.log(textApplicantId)
+                        expect(keyValues, `Checking ${textApplicantId} is in row-${index}...`).to.include(textApplicantId)
                     }
                 })
             })
