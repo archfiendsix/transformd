@@ -98,7 +98,7 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.applicationSearch('APPLICANT NAME', 'RONALD LAIFOO, Ute GIERINGER')
         DashboardPage.checkTableColumns(2, 'RONALD LAIFOO, Ute GIERINGER')
     })
-    it.only("Should properly search by Application Status", () => {
+    it("Should properly search by Application Status", () => {
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
         DashboardPage.checkTableColumns(7, 'Draft')
         DashboardPage.applicationSearch('INFORMATION STATUS', 'With Customer')
