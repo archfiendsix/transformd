@@ -96,6 +96,8 @@ class DashboardPage {
 
     checkTableFetchResponseBody = (res) => {
         const responseBody = res.response.body;
+        const keys = responseBody.keys;
+
         if (responseBody.data.count === 0) {
             this.elements.applicationsTable.emptyTable().should('be.visible').then($el => {
                 cy.wrap($el).should('have.text', 'Records not found')
@@ -109,28 +111,25 @@ class DashboardPage {
                         const values = responseBody.data.rows[index].document.values
                         const keyValues = Object.values(values);
                         const sortColumn = responseBody.data.rows[index].sortColumn
-                        if (textApplicantId === 'Not Set') {
-                            cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantName => {
-                                if (textApplicantName) {
-                                    expect(keyValues, `Checking ${textApplicantName}...`).to.include(textApplicantName)
-                                }
-                                else {
-                                    cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then(textStatus => {
-                                        expect(keyValues, `Checking ${textStatus}...`).to.include(textStatus)
-                                    })
-                                }
-                            })
 
+                        cy.wrap($row).find('.gridview__column').eq(0).invoke('text').then(textAppId => {
+                            const appid_key = keys["ApplicationId"]
+                            const app_id_val = responseBody.data.rows[index].document.values[appid_key]
+                            app_id_val ? expect(textAppId, `Checking ${textAppId}...`).to.equal(app_id_val) : cy.log('not found')
+                        })
 
-                        }
-                        else {
-                            // cy.log(keyValues)
-                            // keyValues.forEach(x=>{
-                            //     cy.log(x)
-                            // })
-                            // cy.log(textApplicantId)
-                            expect(keyValues, `Checking ${textApplicantId} is in row-${index}...`).to.include(textApplicantId)
-                        }
+                        cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then(textApplicantNames => {
+                            const applicantnames_key = keys["ApplicantNames"]
+                            const applicantnames_val = responseBody.data.rows[index].document.values[applicantnames_key]
+                            applicantnames_val ? expect(textApplicantNames, `Checking ${textApplicantNames}...`).to.equal(applicantnames_val) : cy.log('not found')
+                        })
+
+                        cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then(textStatus => {
+                            const status_key = keys["Status"]
+                            const status_val = responseBody.data.rows[index].document.values[status_key]
+                            status_val ? expect(textStatus, `Checking ${textStatus}...`).to.equal(status_val) : cy.log('not found')
+                        })
+
                     })
                 })
             })
@@ -149,7 +148,7 @@ class DashboardPage {
 
         const empty_indicator = document.body.querySelectorAll('.gridview__rows .gridview__row-empty')
 
-        if(!empty_indicator) {
+        if (!empty_indicator) {
             this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
                 let row_wrap = cy.wrap(row)
                 row_wrap.invoke('text').then(text => {
@@ -161,7 +160,7 @@ class DashboardPage {
             this.elements.applicationsTable.emptyTable().should('be.visible').contains('Records not found')
         }
 
-        
+
     }
     deleteDrafts = () => {
 

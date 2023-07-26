@@ -45,7 +45,7 @@ describe('Dashboard Test Suite', () => {
         });
         DashboardPage.checkTableColumns(7, 'With Customer')
     })
-    it.only('Should apply "READY FOR REVIEW" filter correctly', () => {
+    it('Should apply "READY FOR REVIEW" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('READY FOR REVIEW')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
