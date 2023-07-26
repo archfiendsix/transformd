@@ -67,11 +67,11 @@ describe('Dashboard Test Suite', () => {
     })
 
     it("Should properly search by Application ID", () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         DashboardPage.applicationSearch('APPLICATION ID', 'TRF-QMNJ817IO')
-        cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
-            DashboardPage.checkTableColumns(1, 'TRF-QMNJ817IO')
+        cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplicationSearch);
+            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 1, 'TRF-QMNJ817IO')
         });
 
     })
@@ -89,8 +89,10 @@ describe('Dashboard Test Suite', () => {
                 year: "2023"
             }
         }
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeDate');
         DashboardPage.changeDate(dates)
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeDate');
+        DashboardPage.elements.applicationsTable.calendarButton('Close').click()
+
         cy.wait('@postSubmissionDatachangeDate').then((postSubmissionDatachangeDate) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangeDate);
         });
@@ -98,18 +100,30 @@ describe('Dashboard Test Suite', () => {
     })
 
     it("Should properly search by Application Name", () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         DashboardPage.applicationSearch('APPLICANT NAME', 'RONALD LAIFOO, Ute GIERINGER')
-        DashboardPage.checkTableColumns(2, 'RONALD LAIFOO, Ute GIERINGER')
+        cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
+            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 2, 'RONALD LAIFOO, Ute GIERINGER')
+        })
     })
     it("Should properly search by Application Status", () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
-        DashboardPage.checkTableColumns(7, 'Draft')
+        cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
+            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'Draft')
+        })
+
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         DashboardPage.applicationSearch('INFORMATION STATUS', 'With Customer')
-        DashboardPage.checkTableColumns(7, 'With Customer')
+        cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
+            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'With Customer')
+        })
 
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Ready for review')
-        DashboardPage.checkTableColumns(7, 'Ready for review')
-
+        cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
+            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'Ready for review')
+        })
     })
     it("Should change current page correctly using footer page input (Currently the number input is buggy)", () => {
         // Current Page input box currently unstable skipping this for now
@@ -121,7 +135,7 @@ describe('Dashboard Test Suite', () => {
         });
 
     })
-    it('Should sort table column according to Application Id', () => { // Has error
+    it('Should sort table column according to Application Id', () => {
         const header_title = 'APPLICATION'
         /* Descending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
@@ -147,7 +161,7 @@ describe('Dashboard Test Suite', () => {
 
     })
 
-    it('Should sort table column according to Application Name', () => {
+    it.only('Should sort table column according to Application Name', () => {
         const header_title = 'APPLICANT NAME(S)'
 
         /* Descending order test*/

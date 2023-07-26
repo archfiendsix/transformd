@@ -53,7 +53,7 @@ class DashboardPage {
         cy.wait('@postSubmissionDataApplyFilter')
     }
     applicationSearch = (input, query) => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
+        // cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
 
         if (input === 'INFORMATION STATUS') {
             this.elements.applicationsTable.input().find('select').select(query)
@@ -61,7 +61,7 @@ class DashboardPage {
         else {
             this.elements.applicationsTable.input().find(`input[placeholder="${input}"]`).type(query)
         }
-        cy.wait('@postSubmissionDataapplicationSearch')
+        // cy.wait('@postSubmissionDataapplicationSearch')
     }
     changeDate = (dates) => {
         this.elements.applicationsTable.calendarButton('Open').click()
@@ -74,7 +74,6 @@ class DashboardPage {
         this.elements.applicationsTable.date_picker.month().select(dates.end_date.month)
         this.elements.applicationsTable.date_picker.year().select(dates.end_date.year)
         this.elements.applicationsTable.date_picker.days_start().not('.rdrDayPassive').contains(dates.end_date.day).click()
-        this.elements.applicationsTable.calendarButton('Close').click()
     }
     sortColumn = (header_label, order) => {
         if (order === 'asc') {
@@ -167,7 +166,7 @@ class DashboardPage {
                     expect(text, `Checking if this row has ${col_text} in column-${col_index} of row-${index}`).to.contain(col_text)
                 })
             })
-            
+
         }
 
 
