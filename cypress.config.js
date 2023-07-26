@@ -6,10 +6,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    env: {
-      login_email: "",
-      login_password: "",
-    },
+    
   },
   viewportWidth: 1366,
   viewportHeight: 768,

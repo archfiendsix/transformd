@@ -34,23 +34,25 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.applyFilter('DRAFTS')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+            DashboardPage.checkTableColumns(postSubmissionDataapplyFilter, 7, 'Draft')
         });
-        DashboardPage.checkTableColumns(7, 'Draft')
+
     })
     it('Should apply "WITH CUSTOMER" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('WITH CUSTOMER')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
+            DashboardPage.checkTableColumns(postSubmissionDataapplyFilter, 7, 'With Customer')
         });
-        DashboardPage.checkTableColumns(7, 'With Customer')
+
     })
     it('Should apply "READY FOR REVIEW" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('READY FOR REVIEW')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
-            DashboardPage.checkTableColumns(7, 'Ready for Review')
+            DashboardPage.checkTableColumns(postSubmissionDataapplyFilter, 7, 'Ready for Review')
         });
 
     })
@@ -59,7 +61,7 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.applyFilter('REVIEWED')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
-            DashboardPage.checkTableColumns(7, 'Reviewed')
+            DashboardPage.checkTableColumns(postSubmissionDataapplyFilter, 7, 'Reviewed')
         });
 
     })

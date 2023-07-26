@@ -151,20 +151,23 @@ class DashboardPage {
     changeCurrentPage = (number) => {
         this.elements.applicationsTable.footer.input().clear().type(number)
     }
-    checkTableColumns = (col_index, col_text) => {
+    checkTableColumns = (res, col_index, col_text) => {
 
-        const empty_indicator = document.body.querySelectorAll('.gridview__rows .gridview__row-empty')
+        const responseBody = res.response.body;
 
-        if (!empty_indicator) {
+        if (responseBody.data.count === 0) {
+            this.elements.applicationsTable.emptyTable().should('be.visible').then($el => {
+                cy.wrap($el).should('have.text', 'Records not found')
+            })
+        }
+        else {
             this.elements.applicationsTable.rows().find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
                 let row_wrap = cy.wrap(row)
                 row_wrap.invoke('text').then(text => {
                     expect(text, `Checking if this row has ${col_text} in column-${col_index} of row-${index}`).to.contain(col_text)
                 })
             })
-        }
-        else {
-            this.elements.applicationsTable.emptyTable().should('be.visible').contains('Records not found')
+            
         }
 
 
