@@ -161,7 +161,7 @@ describe('Dashboard Test Suite', () => {
 
     })
 
-    it.only('Should sort table column according to Application Name', () => {
+    it('Should sort table column according to Application Name', () => {
         const header_title = 'APPLICANT NAME(S)'
 
         /* Descending order test*/
