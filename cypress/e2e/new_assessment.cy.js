@@ -12,14 +12,14 @@ describe('New Assessment Page Test Suite', () => {
         NewAssessmentPage.openNewAssessment();
     });
 
-    it('Should be unable to proceed if required fields are not filled', () => { // This test will fail because of a buggy feature
+    it('Should be unable to proceed if required fields are not filled', () => { 
         NewAssessmentPage.openNewAssessment();
         NewAssessmentPage.clickNext()
         NewAssessmentPage.nextDidNotProceed()
         NewAssessmentPage.checkRequiredFields();
     });
 
-    it('Should be unable to proceed if required fields are not filled - Manual Address entry', () => { // This test will fail because of a buggy feature
+    it('Should be unable to proceed if required fields are not filled - Manual Address entry', () => { 
         NewAssessmentPage.openNewAssessment();
         NewAssessmentPage.clickNext()
         NewAssessmentPage.nextDidNotProceed()

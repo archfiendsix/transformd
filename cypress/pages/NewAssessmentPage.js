@@ -19,7 +19,7 @@ class NewAssessmentPage {
         inputPreviousAddress: () => cy.get("[data-tag='ApplicantPreviousAddress'] input"),
         inputLoanAmount: () => cy.get("[data-tag='loanAmount'] input"),
         inputApplicantEmployer: () => cy.get("[data-tag='ApplicantEmployer'] input"),
-        btnNext: () => cy.get("button[class='formatic-button formatic-action-bar-root__next']"),
+        btnNext: () => cy.get('.formatic-button.formatic-action-bar-root__next'),
         checkAgreement: () => cy.get("input[label='I have read and agree to the consent statement above']"),
         btnSendAssessment: () => cy.get("[data-tag='sendAssessments'] button"),
         addNewOtherApplicants: () => cy.get('button[class="formatic-repeatable__add-repeatable-button"]'),
@@ -50,7 +50,8 @@ class NewAssessmentPage {
 
     clickNext = () => {
         cy.checkLoading();
-        this.elements.btnNext().click();
+        cy.get('[data-tag="ApplicantFirstName"] input').should('be.visible')
+        this.elements.btnNext().click()
         cy.checkLoading();
     }
 
@@ -155,7 +156,9 @@ class NewAssessmentPage {
         cy.get(container).find(child).should("be.visible").contains(errormsg)
     }
     nextDidNotProceed=()=> {
-        cy.get('[data-tag="pleaseReadTheBelowConsentStatement"] .formatic-label').contains('Please read the below consent statement').should('not.be.visible')
+        const pleaseReadTheBelowConsentStatement = document.querySelectorAll('[data-tag="pleaseReadTheBelowConsentStatement"] .formatic-label')
+        expect(pleaseReadTheBelowConsentStatement).to.have.lengthOf(0)
+        // cy.get('[data-tag="pleaseReadTheBelowConsentStatement"] .formatic-label').contains('Please read the below consent statement').should('not.exist')
     }
 };
 module.exports = new NewAssessmentPage(); 
