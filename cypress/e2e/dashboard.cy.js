@@ -118,12 +118,6 @@ describe('Dashboard Test Suite', () => {
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
             DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'With Customer')
         })
-
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
-        DashboardPage.applicationSearch('INFORMATION STATUS', 'Ready for review')
-        cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
-            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'Ready for review')
-        })
     })
 
     it("Should properly search by Application Status - Ready for review", () => {
