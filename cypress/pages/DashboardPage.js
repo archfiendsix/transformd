@@ -153,7 +153,7 @@ class DashboardPage {
     checkTableColumns = (res, col_index, col_text) => {
 
         const responseBody = res.response.body;
-
+        cy.log(`DATA COUNT: ${responseBody.data.count}`)
         if (responseBody.data.count === 0) {
             this.elements.applicationsTable.emptyTable().should('be.visible').then($el => {
                 cy.wrap($el).should('have.text', 'Records not found')

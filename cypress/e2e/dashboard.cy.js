@@ -106,7 +106,7 @@ describe('Dashboard Test Suite', () => {
             DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 2, 'RONALD LAIFOO, Ute GIERINGER')
         })
     })
-    it("Should properly search by Application Status", () => {
+    it("Should properly search by Application Status - Draft, With Customer", () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
@@ -125,6 +125,16 @@ describe('Dashboard Test Suite', () => {
             DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'Ready for review')
         })
     })
+
+    it("Should properly search by Application Status - Ready for review", () => {
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
+        DashboardPage.applicationSearch('INFORMATION STATUS', 'Ready for review')
+        cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
+            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'Ready for review')
+        })
+    })
+
+
     it("Should change current page correctly using footer page input (Currently the number input is buggy)", () => {
         // Current Page input box currently unstable skipping this for now
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeCurrentPage')
