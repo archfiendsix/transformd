@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cypress open",
-    "test:headless": "npx cypress run --headless"
+    "test:headless": "npx cypress run --browser chrome --headless"
   },
   "author": "",
   "license": "ISC",
