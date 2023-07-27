@@ -61,6 +61,7 @@ The project follows a well-organized structure to keep the test code manageable 
     - `fixtures/`: Holds the test data or sample JSON files used in the tests.
     - `pages/`: The Page Object Model classes representing different pages of the application.
     - `support/`: Contains utility functions and custom commands to support test execution.
+    - `videos/`: Contains captured video recording of the test execution(s)
 - `cypress.config.json`: The configuration file for Cypress.
 - `cypress.env.json`: olds environment-specific configuration variables or settings used in Cypress tests
 - `package.json`: The npm package file containing project dependencies and scripts.
