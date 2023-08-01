@@ -24,6 +24,32 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+Cypress.Commands.add('clickEl', (locator,contains=null) => {
+    contains ? cy.get(locator).contains(contains).click()  : cy.get(locator).click();
+});
+
+Cypress.Commands.add('selectOption', (locator,option) => {
+    cy.get(locator).select(option);
+});
+
+Cypress.Commands.add('shouldNotExist', (locator)=> {
+    cy.get(locator).should('not.exist');
+})
+
+Cypress.Commands.add('shouldBeVisible', { prevSubject: ['optional','element'] }, (element,container) => {
+    // cy.get(locator).should('be.visible');
+    if(container) {
+        cy.get(container).should('be.visible')
+    }
+    else {
+        element.should('be.visible')
+    }   
+})
+
+Cypress.Commands.add('findChildElement', (parentLocator, childLocator)=> {
+    cy.get(parentLocator).find(childLocator)
+})
+
 Cypress.Commands.add('login', (email, password) => {
     cy.session([email, password], () => {
         cy.visit("/login");

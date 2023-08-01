@@ -1,0 +1,99 @@
+[
+    
+    
+    {
+        "ApplicantLastName": "KING",
+        "ApplicantFirstName": "WALLACE",
+        "ApplicantMiddleName": "MACARTHUR",
+        "ApplicantGender": "Male",
+        "ApplicantDateOfBirth": "10/08/1944",
+        "ApplicantMobileNumber": "0431295336",
+        "ApplicantCurrentAddress": {
+            "Manual": true,
+            "Address": "41 THE POINT AVE",
+            "Suburb": "WOOLWICH",
+            "Country": "Australia",
+            "State": "NSW",
+            "Post_Code": "2110 "
+        },
+        "ApplicantDriversLicenceNumber": "1008WK",
+        "loanAmount": "30000",
+        "ApplicantEmployer": "COCACOLA AMATIL LTD"
+    },
+    {
+        "ApplicantLastName": "DAVIS",
+        "ApplicantFirstName": "TERRY",
+        "ApplicantMiddleName": "JAMES",
+        "ApplicantGender": "Male",
+        "ApplicantDateOfBirth": "13/11/1957",
+        "ApplicantMobileNumber": "0431295336",
+        "ApplicantCurrentAddress": {
+            "Manual": true,
+            "Address": "4 THE ESPLANADE ",
+            "Suburb": "BALMORAL",
+            "Country": "Australia",
+            "State": "NSW",
+            "Post_Code": "2088 "
+        },
+        "ApplicantDriversLicenceNumber": "1311TD",
+        "loanAmount": "30000",
+        "ApplicantEmployer": "COCACOLA AMATIL LTD"
+    },
+    {
+        "ApplicantLastName": "BROADBENT",
+        "ApplicantFirstName": "JILLIAN",
+        "ApplicantMiddleName": "ROSEMARY",
+        "ApplicantGender": "Female",
+        "ApplicantDateOfBirth": "23/04/1948",
+        "ApplicantMobileNumber": "0431295336",
+        "ApplicantCurrentAddress": {
+            "Manual": true,
+            "Address": "4 BULKARA RD",
+            "Suburb": "BELLEVUE HILL",
+            "Country": "Australia",
+            "State": "NSW",
+            "Post_Code": "2023 "
+        },
+        "ApplicantDriversLicenceNumber": "2304JB",
+        "loanAmount": "30000",
+        "ApplicantEmployer": "COCACOLA AMATIL LTD"
+    },
+    {
+        "ApplicantLastName": "WARD",
+        "ApplicantFirstName": "MELVYN",
+        "ApplicantMiddleName": "KEITH",
+        "ApplicantGender": "Male",
+        "ApplicantDateOfBirth": "12/12/1941",
+        "ApplicantMobileNumber": "0431295336",
+        "ApplicantCurrentAddress": {
+            "Manual": true,
+            "Address": "9 PARK SQUARE",
+            "Suburb": "PORT MELBOURNE",
+            "Country": "Australia",
+            "State": "VIC",
+            "Post_Code": "3207 "
+        },
+        "ApplicantDriversLicenceNumber": "14910001",
+        "loanAmount": "30000",
+        "ApplicantEmployer": "COCACOLA AMATIL LTD"
+    },
+    {
+        "ApplicantLastName": "IHLEIN",
+        "ApplicantFirstName": "MICHAEL",
+        "ApplicantMiddleName": "FRANCIS",
+        "ApplicantGender": "Male",
+        "ApplicantDateOfBirth": "25/07/1955",
+        "ApplicantMobileNumber": "0431295336",
+        "ApplicantCurrentAddress": {
+            "Manual": true,
+            "Address": "69 DARLING POINT RD",
+            "Suburb": "DARLING POINT",
+            "Country": "Australia",
+            "State": "NSW",
+            "Post_Code": "2027 "
+        },
+        "ApplicantDriversLicenceNumber": "2507MI",
+        "loanAmount": "30000",
+        "ApplicantEmployer": "COCACOLA AMATIL LTD"
+    }
+]

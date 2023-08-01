@@ -76,5 +76,7 @@ describe('New Assessment Page Test Suite', () => {
         DashboardPage.checkTableAddedApplication();
     });
 
+   
+
 });
 

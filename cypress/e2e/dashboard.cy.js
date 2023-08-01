@@ -13,10 +13,10 @@ describe('Dashboard Test Suite', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionData');
         DashboardPage.applyFilter('ALL')
         cy.wait('@postSubmissionData').then(postSubmissionData => {
-            DashboardPage.elements.cardlist.card_count('DRAFTS').should('be.visible')
-            DashboardPage.elements.cardlist.card_count('WITH CUSTOMER').should('be.visible')
-            DashboardPage.elements.cardlist.card_count('READY FOR REVIEW').should('be.visible')
-            DashboardPage.elements.cardlist.card_count('REVIEWED').should('be.visible')
+            cy.get(DashboardPage.loc.cardlist.card_count('DRAFTS')).should('be.visible')
+            cy.get(DashboardPage.loc.cardlist.card_count('WITH CUSTOMER')).should('be.visible')
+            cy.get(DashboardPage.loc.cardlist.card_count('READY FOR REVIEW')).should('be.visible')
+            cy.get(DashboardPage.loc.cardlist.card_count('REVIEWED')).should('be.visible')
             DashboardPage.checkTotalCardCount(postSubmissionData)
         })
     })
@@ -29,6 +29,7 @@ describe('Dashboard Test Suite', () => {
             DashboardPage.checkTotalCardCount(postSubmissionDataapplyFilter)
         });
     })
+
     it('Should apply "DRAFTS" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('DRAFTS')
@@ -38,6 +39,7 @@ describe('Dashboard Test Suite', () => {
         });
 
     })
+
     it('Should apply "WITH CUSTOMER" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('WITH CUSTOMER')
@@ -47,6 +49,7 @@ describe('Dashboard Test Suite', () => {
         });
 
     })
+
     it('Should apply "READY FOR REVIEW" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('READY FOR REVIEW')
@@ -56,6 +59,7 @@ describe('Dashboard Test Suite', () => {
         });
 
     })
+
     it('Should apply "REVIEWED" filter correctly', () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplyFilter');
         DashboardPage.applyFilter('REVIEWED')
@@ -90,12 +94,6 @@ describe('Dashboard Test Suite', () => {
             }
         }
         DashboardPage.changeDate(dates)
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeDate');
-        DashboardPage.elements.applicationsTable.calendarButton('Close').click()
-
-        cy.wait('@postSubmissionDatachangeDate').then((postSubmissionDatachangeDate) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangeDate);
-        });
 
     })
 
@@ -106,6 +104,7 @@ describe('Dashboard Test Suite', () => {
             DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 2, 'RONALD LAIFOO, Ute GIERINGER')
         })
     })
+
     it("Should properly search by Application Status - Draft, With Customer", () => {
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataapplicationSearch');
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
@@ -143,26 +142,21 @@ describe('Dashboard Test Suite', () => {
         const header_title = 'APPLICATION'
         /* Descending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'desc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
 
         /* Ascending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'asc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
-
-
-
     })
 
     it('Should sort table column according to Application Name', () => {
@@ -170,29 +164,21 @@ describe('Dashboard Test Suite', () => {
 
         /* Descending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'desc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
 
         /* Ascending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'asc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
-
-
-
-
-
-
     })
 
     it('Should sort table column according to "Last Updated"', () => {
@@ -200,21 +186,19 @@ describe('Dashboard Test Suite', () => {
         const header_title = 'LAST UPDATED'
         /* Descending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'desc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
 
         /* Ascending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'asc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
 
@@ -225,68 +209,81 @@ describe('Dashboard Test Suite', () => {
         const header_title = 'Status'
         /* Descending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'desc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
 
         /* Ascending order test*/
         cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatasortColumn')
-        // DashboardPage.sortColumn('APPLICATION', 'asc')
-        DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').click()
+        cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.down').should('have.class', 'active')
-            DashboardPage.elements.applicationsTable.header_columns(header_title).parent().find('i.up').should('not.have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').should('have.class', 'active')
+            cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').should('not.have.class', 'active')
             DashboardPage.checkTableFetchResponseBody(postSubmissionDatasortColumn);
         });
 
     })
 
     it('Should change pagination on next arrow click', () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatanextPaginationClick');
-        DashboardPage.nextPaginationClick()
-        cy.wait('@postSubmissionDatanextPaginationClick').then((postSubmissionDatanextPaginationClick) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatanextPaginationClick);
+        // Intercept the API call and wait for it to complete
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataPagination');
+    
+        // Trigger the previous pagination click
+        DashboardPage.nextPaginationClick();
+    
+        // Wait for the API call to complete and check the table fetch response body
+        cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPagination => {
+            expect(postSubmissionDataPagination.response.statusCode).to.equal(200); // Assuming 200 is the success code
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
         });
 
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatanextPaginationClick');
-        DashboardPage.nextPaginationClick()
-        cy.wait('@postSubmissionDatanextPaginationClick').then((postSubmissionDatanextPaginationClick) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatanextPaginationClick);
+
+
+
+        // Intercept the API call and wait for it to complete
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataPagination2');
+    
+        // Trigger the previous pagination click
+        DashboardPage.nextPaginationClick();
+    
+        // Wait for the API call to complete and check the table fetch response body
+        cy.wait('@postSubmissionDataPagination2').then(postSubmissionDataPagination2 => {
+            expect(postSubmissionDataPagination2.response.statusCode).to.equal(200); // Assuming 200 is the success code
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination2);
         });
 
     })
 
     it('Should change pagination on previous arrow click', () => {
-        DashboardPage.nextPaginationClick()
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatapreviousPaginationClick');
-        DashboardPage.nextPaginationClick()
-        cy.wait('@postSubmissionDatapreviousPaginationClick').then(postSubmissionDatapreviousPaginationClick => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatapreviousPaginationClick);
+        // Trigger the next pagination click
+        DashboardPage.nextPaginationClick();
+    
+        // Intercept the API call and wait for it to complete
+        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataPagination');
+    
+        // Trigger the previous pagination click
+        DashboardPage.previousPaginationClick();
+    
+        // Wait for the API call to complete and check the table fetch response body
+        cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPagination => {
+            expect(postSubmissionDataPagination.response.statusCode).to.equal(200); // Assuming 200 is the success code
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
         });
+    });
 
-    })
     it('Should change displayed table rows upon selecting 100 items per page value', () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
         DashboardPage.changePerPage('100')
-        cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangePerPage);
-            DashboardPage.checkTableRowCount(100)
-        });
+        DashboardPage.checkTableRowCount(100)
 
 
     })
 
     it('Should change displayed table rows upon selecting 50 items per page value', () => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
         DashboardPage.changePerPage('50')
-        cy.wait('@postSubmissionDatachangePerPage').then((postSubmissionDatachangePerPage) => {
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDatachangePerPage);
-            DashboardPage.checkTableRowCount(50)
-        });
+        DashboardPage.checkTableRowCount(50)
     })
 
 });

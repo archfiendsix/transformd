@@ -11,7 +11,8 @@ describe('Login Page Test Suite', () => {
         cy.intercept('POST', '/site/login').as('postLogin');
         LoginPage.clickLoginButton()
         cy.wait('@postLogin')
-        LoginPage.elements.logo().should("be.visible");
+        
+        LoginPage.checkLogo()
     });
 
     it('Should unsuccessfully login with Invalid Credentials for both fields', () => {
@@ -77,4 +78,6 @@ describe('Login Page Test Suite', () => {
     // it('Unsuccessful forgot password - Invalid input email', () => {
     //     ForgotPasswordPage.ResetWithInvalidEmail();
     // });
+
+    
 });
