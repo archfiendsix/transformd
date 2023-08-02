@@ -144,4 +144,18 @@ Cypress.Commands.add('visitMobileMode', (url) => {
     })
 });
 
+Cypress.Commands.add('iframeDirect', { prevSubject: 'element' }, $iframe=> {
+    return new Cypress.Promise(resolve=> {
+      resolve($iframe.contents().find('body'));
+    });
+  });
+
+  Cypress.Commands.add('iframeOnload', { prevSubject: 'element' }, $iframe=> {
+    return new Cypress.Promise(resolve=> {
+        $iframe.on('load', () => {
+            resolve($iframe.contents().find('body'));
+        });
+    });
+  });
+
 

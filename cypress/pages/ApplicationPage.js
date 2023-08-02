@@ -15,6 +15,7 @@ class ApplicationPage {
         submitDetailsButton: '#submitdetails',
         changeBankButton: '[ng-if="!changeBankButtonContent"]',
         statusHeader: '#LoginStatusHeader',
+        supportingDocument: '#BankResult',
         addAnotherBankButton: '[ng-click="backendService.addAnotherBank();"]',
         testScenarioDropdown: '#cs-bank-OP_OPTION',
         wait_tryagain_button: '#pleasewait a',
@@ -23,8 +24,8 @@ class ApplicationPage {
             disagreeAndDeclineButton: '#accept-terms button:last-child()',
         },
         governmentBenefits: {
-            yesButton: '[ng-click="yesButtonClicked()"]',
-            noButton: '["ng-clicks="noButtonClicked()"]'
+            yesButton: '#Q-Benefits [ng-click="yesButtonClicked()"]',
+            noButton: '#Q-Benefits [ng-click="noButtonClicked()"]'
         },
         myGov: {
             userNameInput: '#CL-username',
@@ -45,7 +46,7 @@ class ApplicationPage {
         cy.get(this.loc.bankStatementBtn).find('button').click()
     }
 
-    selectBank = (bankName) => {
+    selectBank = (bankName, username, password) => {
         // cy.iframe().find('iframe[title="Credit Sense"]').then($iframe=> {
         //     cy.wrap($iframe).find(this.loc.bankNameTextBox).type(bankName)
         // })
@@ -53,8 +54,8 @@ class ApplicationPage {
         cy.iframe().find(this.loc.bankNameTextBox).type(bankName)
         cy.iframe().find(this.loc.bankNameTextboxDropdownItems).contains(bankName).click()
         cy.iframe().find(this.loc.usernameLabel).should('be.visible')
-        cy.iframe().find(this.loc.usernameTextbox).type('cs.testa')
-        cy.iframe().find(this.loc.passwordTextbox).type('cs.testa')
+        cy.iframe().find(this.loc.usernameTextbox).type(username)
+        cy.iframe().find(this.loc.passwordTextbox).type(password)
 
 
         // cy.iframe().find(this.loc.iveFinishedConnectingAccounts).find('button').should('be.visible')
@@ -87,10 +88,23 @@ class ApplicationPage {
     resPondBenefits = (response) => {
 
         if (response === 'yes') {
-            cy.iframe().find(this.loc.governmentBenefits.yesButton).click()
+            cy.iframe().find(this.loc.governmentBenefits.yesButton).eq(0).click()
         }
         else if (response === 'no') {
-            cy.iframe().find(this.loc.governmentBenefits.noButton).click()
+            cy.iframe().find(this.loc.governmentBenefits.noButton).eq(0).click()
+        }
+        else {
+            cy.log('Response not valid')
+        }
+    }
+
+    addAnotherBankRespondBenefits = (response) => {
+
+        if (response === 'yes') {
+            cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.governmentBenefits.yesButton).eq(0).click() 
+        }
+        else if (response === 'no') {
+            cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.governmentBenefits.noButton).eq(0).click() 
         }
         else {
             cy.log('Response not valid')
@@ -103,12 +117,33 @@ class ApplicationPage {
         cy.iframe().find(this.loc.myGov.submitButton).click()
     }
 
+    checkSuccessSupportingDoc = () => {
+        cy.iframe().find(this.loc.supportingDocument).should('be.visible')
+    }
+
     checkSuccessHeader = () => {
         cy.iframe().find(this.loc.statusHeader).should('have.text', 'Statement upload complete')
     }
 
-    addAnotherBank = () => {
+    checkProcessingResults = (header_text, supportingDocument_text) => {
+        cy.iframe().find(this.loc.statusHeader).should('have.text', header_text)
+        cy.iframe().find(this.loc.supportingDocument).should('include',supportingDocument_text)
+
+    }
+
+    addAnotherBankCheckProcessingResults = (header_text, supportingDocument_text) => {
+        cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.statusHeader).contains(header_text)
+        cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.supportingDocument).contains(supportingDocument_text)
+    }
+    
+
+    addAnotherBank = (bankName, username, password) => {
         cy.iframe().find(this.loc.addAnotherBankButton).click()
+        cy.get('[title="Credit Sense"]').iframeOnload().find(this.loc.bankNameTextBox).should('be.visible').type(bankName) // iframeDirect()
+        cy.iframe().find(this.loc.bankNameTextboxDropdownItems).contains(bankName).click()
+        cy.iframe().find(this.loc.usernameLabel).should('be.visible')
+        cy.iframe().find(this.loc.usernameTextbox).type(username)
+        cy.iframe().find(this.loc.passwordTextbox).type(password)
     }
 
     finishConnecting = () => {
@@ -119,7 +154,7 @@ class ApplicationPage {
         cy.iframe().find(this.loc.testScenarioDropdown).select(scenario)
     }
 
-    check402Faulure = () => {
+    check402Failure = () => {
         // cy.iframe().find('#pleasewait').should('have.text', 'We can\'t gather your information at this time due to a technical issue with your bank. Please try again at a later time.')
         // cy.iframe().find('#BankResult').should('not.have','Pending').then($bankresult=> {
         //     cy.wrap().should('have.text','Error')
@@ -143,6 +178,7 @@ class ApplicationPage {
 
     checkLoading=()=> {
         cy.iframe().find('.BankResultLabel.pending img').should('not.exist')
+        // cy.iframe().find('.CtrLinkStatementResult.pending img').should('not.exist')
     }
 
     processingTryAgainClick=()=> {

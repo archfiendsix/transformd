@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx cypress open",
-    "test:headless": "npx cypress run --browser chrome --headless"
+    "cypress-open": "npx cypress open",
+    "cypress:headless": "npx cypress run --browser chrome --headless"
   },
   "author": "",
   "license": "ISC",
