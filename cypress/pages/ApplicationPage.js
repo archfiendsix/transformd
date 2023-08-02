@@ -15,10 +15,12 @@ class ApplicationPage {
         submitDetailsButton: '#submitdetails',
         changeBankButton: '[ng-if="!changeBankButtonContent"]',
         statusHeader: '#LoginStatusHeader',
-        supportingDocument: '#BankResult',
+        bankAccountStatementResult: '#BankResult',
+        supportinDocumentResults: '#CentrelinkResultWrapper #CentrelinkResult',
         addAnotherBankButton: '[ng-click="backendService.addAnotherBank();"]',
         testScenarioDropdown: '#cs-bank-OP_OPTION',
         wait_tryagain_button: '#pleasewait a',
+        bankSelectPageHeader: '#BankSelect h2',
         termsAndConditions: {
             iAgreeButton: '#accept-terms button:first-child()',
             disagreeAndDeclineButton: '#accept-terms button:last-child()',
@@ -118,27 +120,32 @@ class ApplicationPage {
     }
 
     checkSuccessSupportingDoc = () => {
-        cy.iframe().find(this.loc.supportingDocument).should('be.visible')
+        cy.iframe().find(this.loc.bankAccountStatementResult).should('be.visible')
     }
 
     checkSuccessHeader = () => {
         cy.iframe().find(this.loc.statusHeader).should('have.text', 'Statement upload complete')
     }
 
-    checkProcessingResults = (header_text, supportingDocument_text) => {
+    checkProcessingResults = (header_text, bankAccountStatementResult_text, supportinDocumentResults_text) => {
         cy.iframe().find(this.loc.statusHeader).should('have.text', header_text)
-        cy.iframe().find(this.loc.supportingDocument).should('include',supportingDocument_text)
+        cy.iframe().find(this.loc.bankAccountStatementResult).should('include',bankAccountStatementResult_text)
+        cy.iframe().find(this.loc.supportinDocumentResults).should('include',supportinDocumentResults_text)
 
     }
 
-    addAnotherBankCheckProcessingResults = (header_text, supportingDocument_text) => {
+    addAnotherBankCheckProcessingResults = (header_text, bankAccountStatementResult_text) => {
         cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.statusHeader).contains(header_text)
-        cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.supportingDocument).contains(supportingDocument_text)
+        cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.bankAccountStatementResult).contains(bankAccountStatementResult_text)
+    }
+
+    clickAddAnotherBank=()=> {
+        cy.iframe().find(this.loc.addAnotherBankButton).click()
     }
     
 
     addAnotherBank = (bankName, username, password) => {
-        cy.iframe().find(this.loc.addAnotherBankButton).click()
+        
         cy.get('[title="Credit Sense"]').iframeOnload().find(this.loc.bankNameTextBox).should('be.visible').type(bankName) // iframeDirect()
         cy.iframe().find(this.loc.bankNameTextboxDropdownItems).contains(bankName).click()
         cy.iframe().find(this.loc.usernameLabel).should('be.visible')
@@ -182,12 +189,15 @@ class ApplicationPage {
     }
 
     processingTryAgainClick=()=> {
-        this.checkLoading()
         cy.iframe().find(this.loc.wait_tryagain_button).click()
     }
 
     changeBankClick=()=> {
         cy.iframe().find(this.loc.changeBankButton).click()
+    }
+
+    checkBankSelectPageHeader = (text)=> {
+        cy.get('[title="Credit Sense"]').iframeOnload().find(this.loc.bankSelectPageHeader).contains(text)
     }
 
 };

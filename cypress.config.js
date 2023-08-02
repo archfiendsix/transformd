@@ -15,6 +15,7 @@ module.exports = defineConfig({
   responseTimeout: 30000,
   pageLoadTimeout: 40000,
   chromeWebSecurity: false,
+  watchForFileChanges: false,
   // screenshotOnRunFailure: false,
   defaultCommandTimeout: 30000,
   // retries: {
