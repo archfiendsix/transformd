@@ -12,13 +12,22 @@ Welcome to the Cypress project using the Page Object Model! This project is desi
 
 ## Introduction
 
-Cypress is a powerful end-to-end testing framework that enables you to write fast, reliable, and scalable tests for web applications. This project adopts the Page Object Model pattern, which promotes writing reusable and structured test code. The use of Page Objects allows you to decouple the test code from the underlying page structure, making it easier to maintain and update tests as the application evolves.
+This project adopts the Page Object Model pattern, which promotes writing reusable and structured test code. The use of Page Objects allows you to decouple the test code from the underlying page structure, making it easier to maintain and update tests as the application evolves.
 
-## Prerequisites
+## Pre-requisites
 
-Before you start using this project, ensure you have the following prerequisites:
+Before you can run this Cypress project, make sure you have the following pre-requisites installed on your machine:
 
-- Node.js (v12 or higher) and npm installed on your machine.
+1. **Node.js and npm**: Cypress requires Node.js and npm to be installed. If you don't have them, you can download the latest version of Node.js from the official website: https://nodejs.org
+
+2. **Git**: You'll need Git to clone the project repository and manage code versioning. You can download Git from the official website: https://git-scm.com/
+
+3. **Project Dependencies**: To install the project dependencies, navigate to the project root directory and run the following command:
+
+   ```
+   npm install
+   ```
+
 
 ## Installation
 
@@ -32,6 +41,20 @@ To set up the project, follow these steps:
 npm install
 ```
 
+## Configuration and Environment Variables
+
+This Cypress project requires certain environment variables to be set in the `cypress.env.json` file. These variables are used for test data and authentication credentials.
+
+Before running the tests, make sure to create a `cypress.env.json` file in the project root directory with the following content:
+
+```json
+{
+  "email": "<your_email_here>",
+  "password": "<your_password_here>",
+  "bank_username": "<your_bank_username_here>",
+  "bank_password": "<your_bank_password_here>"
+}
+```
 
 ## Usage
 
