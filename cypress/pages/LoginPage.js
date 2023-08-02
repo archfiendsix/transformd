@@ -33,7 +33,7 @@ class LoginPage {
     };
 
     clickLoginButton = () => {
-        cy.clickElm(this.loc.btn_login)
+        cy.clickEl(this.loc.btn_login)
     };
 
     checkError_password = (error_msg) => {

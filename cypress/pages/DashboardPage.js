@@ -100,7 +100,7 @@ class DashboardPage {
         const keys = responseBody.keys;
 
         if (responseBody.data.count === 0) {
-            cy.get(this.loc.applicationsTable.emptyTable().should('be.visible')).should('have.text', 'Records not found');
+            cy.get(this.loc.applicationsTable.emptyTable).should('be.visible').should('have.text', 'Records not found');
         } else {
             cy.get('.gridview .gridview__rows .gridview__row').each(($row, index) => {
                 cy.wrap($row).find('.gridview__column').eq(0).invoke('text').then((textAppId) => {

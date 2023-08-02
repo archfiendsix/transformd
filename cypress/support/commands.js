@@ -24,30 +24,34 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('clickEl', (locator,contains=null) => {
-    contains ? cy.get(locator).contains(contains).click()  : cy.get(locator).click();
+Cypress.Commands.add('clickEl', (locator, contains = null) => {
+    contains ? cy.get(locator).contains(contains).click() : cy.get(locator).click();
 });
 
-Cypress.Commands.add('selectOption', (locator,option) => {
+Cypress.Commands.add('selectOption', (locator, option) => {
     cy.get(locator).select(option);
 });
 
-Cypress.Commands.add('shouldNotExist', (locator)=> {
+Cypress.Commands.add('shouldNotExist', (locator) => {
     cy.get(locator).should('not.exist');
 })
 
-Cypress.Commands.add('shouldBeVisible', { prevSubject: ['optional','element'] }, (element,container) => {
+Cypress.Commands.add('shouldBeVisible', { prevSubject: ['optional', 'element'] }, (element, container) => {
     // cy.get(locator).should('be.visible');
-    if(container) {
+    if (container) {
         cy.get(container).should('be.visible')
     }
     else {
         element.should('be.visible')
-    }   
+    }
 })
 
-Cypress.Commands.add('findChildElement', (parentLocator, childLocator)=> {
+Cypress.Commands.add('findChildElement', (parentLocator, childLocator) => {
     cy.get(parentLocator).find(childLocator)
+})
+
+Cypress.Commands.add('shouldBeVisibleContains', (element, text) => {
+    cy.get(element).should('be.visible').contains(text)
 })
 
 Cypress.Commands.add('login', (email, password) => {
@@ -104,27 +108,40 @@ Cypress.Commands.add('convertTime', (timestamp) => {
 
 Cypress.Commands.add('clickUntilHasClass', { prevSubject: 'element' }, (element, targetClass, maxAttempts = 10) => {
     let attempts = 0;
-  
+
     const clickAndCheckClass = () => {
-      attempts++;
-  
-      if (attempts > maxAttempts) {
-        throw new Error(`Element did not get the class '${targetClass}' after ${maxAttempts} attempts.`);
-      }
-  
-      
-      cy.wrap(element).click().then(($el) => {
-        const hasTargetClass = $el.hasClass(targetClass);
-  
-        if (!hasTargetClass) {
-          // If the element doesn't have the target class, recursively call the function.
-          clickAndCheckClass();
+        attempts++;
+
+        if (attempts > maxAttempts) {
+            throw new Error(`Element did not get the class '${targetClass}' after ${maxAttempts} attempts.`);
         }
-      });
+
+
+        cy.wrap(element).click().then(($el) => {
+            const hasTargetClass = $el.hasClass(targetClass);
+
+            if (!hasTargetClass) {
+                // If the element doesn't have the target class, recursively call the function.
+                clickAndCheckClass();
+            }
+        });
     };
-  
+
     // Start the recursion.
     clickAndCheckClass();
-  });
+});
+
+
+Cypress.Commands.add('visitMobileMode', (url) => {
+    cy.viewport(500, 768)
+    cy.visit(url, {
+        onBeforeLoad: win => {
+            Object.defineProperty(win.navigator, 'userAgent', {
+                value: 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Mobile Safari/537.36',
+            });
+        },
+
+    })
+});
 
 

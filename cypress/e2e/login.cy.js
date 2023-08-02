@@ -63,7 +63,7 @@ describe('Login Page Test Suite', () => {
     // it('Redirect to forgot password', () => {
     //     ForgotPasswordPage.clickForgotPassword();
     // });
-    // it.only('Successful reset password', () => {
+    // it('Successful reset password', () => {
     //     ForgotPasswordPage.clickForgotPassword();
 
     //     ForgotPasswordPage.enterCreds(Cypress.env('email'))

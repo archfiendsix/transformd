@@ -67,6 +67,8 @@ class NewAssessmentPage {
         cy.get(this.loc.errormsg).eq(5).should("be.visible").contains("This field is required");
         cy.get(this.loc.errormsg).eq(6).should("be.visible").contains("Please select a valid address")
         cy.get(this.loc.errormsg).eq(7).should("be.visible").contains("This field is required");
+        
+        cy.shouldBeVisibleContains()
 
         cy.get(this.loc.inputFirstName).should("be.visible").type("Test");
         this.clickNext()
