@@ -44,6 +44,8 @@ npm install
 
 ## Configuration and Environment Variables
 
+
+
 This Cypress project requires certain environment variables to be set in the `cypress.env.json` file. These variables are used for test data and authentication credentials.
 
 Before running the tests, make sure to create a `cypress.env.json` file in the project root directory with the following content:
@@ -56,6 +58,37 @@ Before running the tests, make sure to create a `cypress.env.json` file in the p
   "bank_password": "<your_bank_password_here>"
 }
 ```
+To customize Cypress settings and behavior, you can create a `cypress.config.js` file in the project root directory. This file allows you to modify various Cypress configuration options according to your specific testing needs.
+
+To set up the common `cypress.config.js` file for this project, follow these steps:
+
+1. **Create the File**: If you don't already have a `cypress.config.js` file, create one in the project root directory.
+
+2. **Export Configuration Object**: Inside the `cypress.config.js` file, export a configuration object with the desired settings. Here's an example of a common Cypress configuration:
+
+```javascript
+// cypress.config.js
+
+module.exports = {
+  // Base URL for your application, typically your local development server
+  baseUrl: 'http://localhost:3000',
+
+  // Folder where your Cypress test files are located
+  integrationFolder: 'cypress/tests',
+
+  // Folder where your Cypress custom commands are located
+  supportFile: 'cypress/support/commands.js',
+
+  // Set this to true to automatically run tests in headless mode
+  // headless: true,
+
+  // Set this to false to stop Cypress from clearing cookies and local storage between tests
+  // defaultCommandTimeout: 4000,
+
+  // Modify any other desired Cypress configuration options here
+};
+```
+
 
 ## Usage
 
