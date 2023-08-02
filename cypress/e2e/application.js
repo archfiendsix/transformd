@@ -1,4 +1,4 @@
-import VerificationPage from "../pages/ApplicationPage";
+import ApplicationPage from "../pages/ApplicationPage";
 import DashboardPage from "../pages/DashboardPage";
 
 describe('Verification Test Suite', () => {

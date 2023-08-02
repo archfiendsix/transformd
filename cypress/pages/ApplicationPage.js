@@ -1,5 +1,5 @@
 import 'cypress-iframe';
-class IdSubmission {
+class ApplicationPage {
     loc = {
         idVerificationBtn: '[data-tag="ocrIncompleteState"]',
         bankStatementBtn: '[data-tag="bankStatementsBtnOne"]',
@@ -155,4 +155,4 @@ class IdSubmission {
     }
 
 };
-module.exports = new IdSubmission();
+module.exports = new ApplicationPage();
