@@ -7,6 +7,7 @@ Welcome to the Cypress project using the Page Object Model! This project is desi
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+- [Configuration and Environment Variables](#configuration-and-environment-variables)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 
