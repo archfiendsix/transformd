@@ -12,14 +12,14 @@ describe('New Assessment Page Test Suite', () => {
         NewAssessmentPage.openNewAssessment();
     });
 
-    it('Should be unable to proceed if required fields are not filled', () => { 
+    it('Should be unable to proceed if required fields are not filled', () => {
         NewAssessmentPage.openNewAssessment();
         NewAssessmentPage.clickNext()
         NewAssessmentPage.nextDidNotProceed()
         NewAssessmentPage.checkRequiredFields();
     });
 
-    it('Should be unable to proceed if required fields are not filled - Manual Address entry', () => { 
+    it('Should be unable to proceed if required fields are not filled - Manual Address entry', () => {
         NewAssessmentPage.openNewAssessment();
         NewAssessmentPage.clickNext()
         NewAssessmentPage.nextDidNotProceed()
@@ -34,7 +34,7 @@ describe('New Assessment Page Test Suite', () => {
         NewAssessmentPage.nextDidNotProceed()
     });
 
-    it ('Should Unsuccessfully submit assessment if without consent', () => {
+    it('Should Unsuccessfully submit assessment if without consent', () => {
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleData.json').then((formData) => {
             NewAssessmentPage.fillApplication(formData)
@@ -76,7 +76,45 @@ describe('New Assessment Page Test Suite', () => {
         DashboardPage.checkTableAddedApplication();
     });
 
-   
+
+    it.only('', () => {
+        NewAssessmentPage.openNewAssessment();
+        cy.fixture('simpleData2.json').then((formData) => {
+            NewAssessmentPage.fillApplication(formData)
+        })
+        NewAssessmentPage.clickNext()
+        NewAssessmentPage.sendAssessment()
+        cy.mailslurp()
+            .then((mailslurp) => {
+                return mailslurp.waitController.waitForLatestSms({
+                    waitForSingleSmsOptions: {
+                        phoneNumberId: 'c3693080-c4c1-4af1-96b0-5db09acf649b',
+                        timeout: 50000,
+                        unreadOnly: true,
+                    },
+                });
+            })
+            .then((sms) => {
+                console.log(sms.body);
+                expect(sms.body.includes(firstName)).to.be.true;
+
+                const url = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
+                cy.visit(url, {
+                    onBeforeLoad: (win) => {
+                        Object.defineProperty(win.navigator, "userAgent", {
+                            value:
+                                "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+                        });
+                    },
+                });
+                cy.get('div[data-tag="incompleteText"]').contains(firstName).should('exist');
+            });
+
+        cy.visit("/");
+        DashboardPage.checkTableAddedApplication();
+    });
+
+
 
 });
 
