@@ -51,7 +51,7 @@ describe('Verification Test Suite', () => {
         ApplicationPage.addAnotherBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()
-        ApplicationPage.addAnotherBankResPondBenefits('no')
+        ApplicationPage.addAnotherBankRespondBenefits('no')
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
     })
 
@@ -88,6 +88,7 @@ describe('Verification Test Suite', () => {
     it('Should unsuccessfully proceed submit bank detail - 403 error', () => {
         // ApplicationPage.click_bankStatements_button()
         // ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickAddAnotherBank()
         ApplicationPage.addAnotherBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.selectTestScenario('Failure - 403 error')
@@ -130,6 +131,31 @@ describe('Verification Test Suite', () => {
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_disagreeLogout()
         ApplicationPage.checkBankSelectPageHeader('Select your bank')
+    })
+
+    it.skip('Should unsuccessfully submit bank detail - invalid BANK username', () => { // Test Skipped, no proper error message yet on bank login
+
+        // ApplicationPage.click_bankStatements_button()
+        // ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickAddAnotherBank()
+        ApplicationPage.addAnotherBank('Debug Bank AU (Debug Bank AU)', 'invalidUsername12345', Cypress.env('bank_password'))
+        ApplicationPage.selectIncludePdf('No')
+        ApplicationPage.submitDetails_agreeSubmit()
+        ApplicationPage.resPondBenefits('no')
+        ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success','Success!')
+    })
+
+    
+    it.skip('Should unsuccessfully submit bank detail - invalid BANK password', () => { // Test Skipped, no proper error message yet bank login
+
+        // ApplicationPage.click_bankStatements_button()
+        // ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickAddAnotherBank()
+        ApplicationPage.addAnotherBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), 'invalidpass12873')
+        ApplicationPage.selectIncludePdf('No')
+        ApplicationPage.submitDetails_agreeSubmit()
+        ApplicationPage.resPondBenefits('no')
+        ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success','Success!')
     })
 
 
