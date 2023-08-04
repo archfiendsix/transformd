@@ -1,0 +1,1 @@
+import {MailSlurp} from "mailslurp-client";
