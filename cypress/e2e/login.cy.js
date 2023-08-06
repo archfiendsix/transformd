@@ -8,7 +8,10 @@ describe('Login Page Test Suite', () => {
 
     it('Should successfully login using valid Credentials', () => {
         LoginPage.enterCreds(Cypress.env('email'), Cypress.env('password'))
-        cy.intercept('POST', '/site/login').as('postLogin');
+        cy.fixture('interceptionPoints.json').then(interceptionPoints=> {
+            cy.intercept('POST', interceptionPoints['site_login']).as('postLogin');
+        })
+        
         LoginPage.clickLoginButton()
         cy.wait('@postLogin')
         
@@ -60,24 +63,27 @@ describe('Login Page Test Suite', () => {
 
     });
 
-    // it('Redirect to forgot password', () => {
-    //     ForgotPasswordPage.clickForgotPassword();
-    // });
-    // it('Successful reset password', () => {
-    //     ForgotPasswordPage.clickForgotPassword();
+    it.skip('Redirect to forgot password', () => {
+        ForgotPasswordPage.clickForgotPassword();
+    });
 
-    //     ForgotPasswordPage.enterCreds(Cypress.env('email'))
-    //     ForgotPasswordPage.elements.success_msg().should("be.visible").contains("A reset e-mail has been sent.");
+    it.skip('Successful reset password', () => {
+        ForgotPasswordPage.clickForgotPassword();
+
+        ForgotPasswordPage.enterCreds(Cypress.env('email'))
+        ForgotPasswordPage.elements.success_msg().should("be.visible").contains("A reset e-mail has been sent.");
 
 
-    // });
-    // it('Unsuccessful forgot password - Email field is empty', () => {
-    //     ForgotPasswordPage.clickForgotPassword();
-    //     ForgotPasswordPage.ResetWithNoInputEmail();
-    // });
-    // it('Unsuccessful forgot password - Invalid input email', () => {
-    //     ForgotPasswordPage.ResetWithInvalidEmail();
-    // });
+    });
+
+    it.skip('Unsuccessful forgot password - Email field is empty', () => {
+        ForgotPasswordPage.clickForgotPassword();
+        ForgotPasswordPage.ResetWithNoInputEmail();
+    });
+
+    it.skip('Unsuccessful forgot password - Invalid input email', () => {
+        ForgotPasswordPage.ResetWithInvalidEmail();
+    });
 
     
 });

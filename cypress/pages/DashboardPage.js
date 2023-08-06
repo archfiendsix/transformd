@@ -47,7 +47,10 @@ class DashboardPage {
     }
 
     applyFilter = (name) => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDataApplyFilter');
+        cy.fixture('interceptPoints.json').then(interceptPoints=>{
+            cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDataApplyFilter');
+        })
+        
         cy.clickEl(this.loc.filters.link, name)
         cy.wait('@postSubmissionDataApplyFilter');
     }
@@ -71,7 +74,10 @@ class DashboardPage {
         cy.clickEl(this.loc.applicationsTable.picker.end_date_button)
         cy.selectOption(this.loc.applicationsTable.picker.month, dates.end_date.month)
         cy.get(this.loc.applicationsTable.picker.year).select(dates.end_date.year);
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangeDate');
+        cy.fixture('intercepPoints.json').then(interceptPoints=> {
+            cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDatachangeDate');
+        })
+        
         cy.clickEl(this.loc.applicationsTable.picker.days_start, dates.end_date.day);
         cy.clickEl(this.loc.applicationsTable.calendarButton('Close'))
         cy.wait('@postSubmissionDatachangeDate').then((postSubmissionDatachangeDate) => {
@@ -140,7 +146,10 @@ class DashboardPage {
 
 
     changePerPage = (number) => {
-        cy.intercept('POST', '/widget/api/submission-data*').as('postSubmissionDatachangePerPage');
+        cy.fixture('interceptPoints.json').then(interceptPoints=> {
+            cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDatachangePerPage');
+        })
+        
         cy.get(this.loc.applicationsTable.footer.perpage_dropdown).select(number);
         cy.wait('@postSubmissionDatachangePerPage');
     }
@@ -185,7 +194,10 @@ class DashboardPage {
 
                             cy.get('.react-confirm-alert .react-confirm-alert-button-group button:nth-child(1)').click()
 
-                            cy.intercept('POST', '/widget/api/submission-count*').as('postSubmissionCount');
+                            cy.fixture('interceptPoints.json').then((intercept_point)=> {
+                                cy.intercept('POST', intercept_point['submission_count']).as('postSubmissionCount');
+                            })
+                            
                             cy.wait('@postSubmissionCount')
                         }
                     })

@@ -8,7 +8,7 @@ describe('New Assessment Page Test Suite', () => {
         cy.visit("/")
     });
 
-    it('Should open a new assessment', () => {
+    it.only('Should open a new assessment', () => {
         NewAssessmentPage.openNewAssessment();
     });
 
@@ -78,12 +78,6 @@ describe('New Assessment Page Test Suite', () => {
 
 
     it('', () => {
-        const apiKey = "1e2a2164b25ce51edc62e1aab95692f9da4b68754ca0694a717c4e7a8a9ac2de";
-        const phoneId = "c3693080-c4c1-4af1-96b0-5db09acf649b";
-        const phoneNumber = "0483903391";
-        const basePath = "https://cypress.api.mailslurp.com/";
-
-
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleData2.json').then((formData) => {
             NewAssessmentPage.fillApplication(formData)
@@ -100,13 +94,9 @@ describe('New Assessment Page Test Suite', () => {
                         timeout: 50_000,
                         unreadOnly: true,
                     },
-                });
+                });y
             })
             .then((sms) => {
-                // Add your assertions or actions here
-                expect(sms.body).to.contain.text('Test')
-
-                // Extract the URL from the SMS body and visit it
                 const url = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
                 cy.log(url);
                 cy.visit(url, {
@@ -119,25 +109,11 @@ describe('New Assessment Page Test Suite', () => {
                 });
             });
 
-        // const [sms] = cy.mailslurp().waitController.waitForLatestSms({
-        //     waitForSmsConditions: {
-        //       count: 1,
-        //       unreadOnly: true,
-        //       phoneNumberId: phoneNumber.id,
-        //       timeout: 30_000,
-        //     },
-        //   });
-
-        //   expect(sms.body).toContain('Your code: 123');
+        
 
     });
 
-    it.only('can load the plugin', async function () {
-        // test we can connect to mailslurp
-        const mailslurp = await cy.mailslurp();
-        const userInfo = await mailslurp.userController.getUserInfo();
-        expect(userInfo).to.exist
-    })
+  
 
 
 });

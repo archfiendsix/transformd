@@ -3,7 +3,6 @@ class ApplicationPage {
     loc = {
         idVerificationBtn: '[data-tag="ocrIncompleteState"]',
         bankStatementBtn: '[data-tag="bankStatementsBtnOne"]',
-        // bankStatementBtn: '[data-tag="bankStatementsProcessing"]',
 
         iveFinishedConnectingAccounts: '[data-tag="iveFinishedConnectingAccounts"]',
         bankNameTextBox: '#bankaccount',
@@ -49,19 +48,12 @@ class ApplicationPage {
     }
 
     selectBank = (bankName, username, password) => {
-        // cy.iframe().find('iframe[title="Credit Sense"]').then($iframe=> {
-        //     cy.wrap($iframe).find(this.loc.bankNameTextBox).type(bankName)
-        // })
 
         cy.iframe().find(this.loc.bankNameTextBox).type(bankName)
         cy.iframe().find(this.loc.bankNameTextboxDropdownItems).contains(bankName).click()
         cy.iframe().find(this.loc.usernameLabel).should('be.visible')
         cy.iframe().find(this.loc.usernameTextbox).type(username)
         cy.iframe().find(this.loc.passwordTextbox).type(password)
-
-
-        // cy.iframe().find(this.loc.iveFinishedConnectingAccounts).find('button').should('be.visible')
-
 
     }
 
@@ -103,10 +95,10 @@ class ApplicationPage {
     addAnotherBankRespondBenefits = (response) => {
 
         if (response === 'yes') {
-            cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.governmentBenefits.yesButton).eq(0).click() 
+            cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.governmentBenefits.yesButton).eq(0).click()
         }
         else if (response === 'no') {
-            cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.governmentBenefits.noButton).eq(0).click() 
+            cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.governmentBenefits.noButton).eq(0).click()
         }
         else {
             cy.log('Response not valid')
@@ -129,8 +121,8 @@ class ApplicationPage {
 
     checkProcessingResults = (header_text, bankAccountStatementResult_text, supportinDocumentResults_text) => {
         cy.iframe().find(this.loc.statusHeader).should('have.text', header_text)
-        cy.iframe().find(this.loc.bankAccountStatementResult).should('include',bankAccountStatementResult_text)
-        cy.iframe().find(this.loc.supportinDocumentResults).should('include',supportinDocumentResults_text)
+        cy.iframe().find(this.loc.bankAccountStatementResult).should('include', bankAccountStatementResult_text)
+        cy.iframe().find(this.loc.supportinDocumentResults).should('include', supportinDocumentResults_text)
 
     }
 
@@ -139,14 +131,14 @@ class ApplicationPage {
         cy.get('[title="Credit Sense"]').iframeDirect().find(this.loc.bankAccountStatementResult).contains(bankAccountStatementResult_text)
     }
 
-    clickAddAnotherBank=()=> {
+    clickAddAnotherBank = () => {
         cy.iframe().find(this.loc.addAnotherBankButton).click()
     }
-    
+
 
     addAnotherBank = (bankName, username, password) => {
-        
-        cy.get('[title="Credit Sense"]').iframeOnload().find(this.loc.bankNameTextBox).should('be.visible').type(bankName) // iframeDirect()
+
+        cy.get('[title="Credit Sense"]').iframeOnload().find(this.loc.bankNameTextBox).should('be.visible').type(bankName)
         cy.iframe().find(this.loc.bankNameTextboxDropdownItems).contains(bankName).click()
         cy.iframe().find(this.loc.usernameLabel).should('be.visible')
         cy.iframe().find(this.loc.usernameTextbox).type(username)
@@ -162,13 +154,9 @@ class ApplicationPage {
     }
 
     check402Failure = () => {
-        // cy.iframe().find('#pleasewait').should('have.text', 'We can\'t gather your information at this time due to a technical issue with your bank. Please try again at a later time.')
-        // cy.iframe().find('#BankResult').should('not.have','Pending').then($bankresult=> {
-        //     cy.wrap().should('have.text','Error')
-        // })
 
         cy.iframe().find('#BankResult').should('include.text', 'Pending').then(() => {
-           
+
             this.checkLoading()
             cy.intercept('POST', 'https://creditsense.com.au/ajax/pollBankStatus/*').as('creditsense')
             cy.iframe().find('#BankResult').should('include.text', 'Error')
@@ -183,20 +171,19 @@ class ApplicationPage {
 
     }
 
-    checkLoading=()=> {
+    checkLoading = () => {
         cy.iframe().find('.BankResultLabel.pending img').should('not.exist')
-        // cy.iframe().find('.CtrLinkStatementResult.pending img').should('not.exist')
     }
 
-    processingTryAgainClick=()=> {
+    processingTryAgainClick = () => {
         cy.iframe().find(this.loc.wait_tryagain_button).click()
     }
 
-    changeBankClick=()=> {
+    changeBankClick = () => {
         cy.iframe().find(this.loc.changeBankButton).click()
     }
 
-    checkBankSelectPageHeader = (text)=> {
+    checkBankSelectPageHeader = (text) => {
         cy.get('[title="Credit Sense"]').iframeOnload().find(this.loc.bankSelectPageHeader).contains(text)
     }
 
