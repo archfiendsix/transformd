@@ -2,13 +2,18 @@ import LoginPage from "../pages/LoginPage";
 import NewAssessmentPage from "../pages/NewAssessmentPage";
 import DashboardPage from "../pages/DashboardPage";
 
+
+const phoneId = Cypress.env("MAILSLURP_PHONEID");
+const broker_email = Cypress.env('BROKER_EMAIL')
+const broker_password = Cypress.env('BROKER_PASSWORD')
+
 describe('New Assessment Page Test Suite', () => {
     beforeEach(() => {
-        cy.login(Cypress.env('email'), Cypress.env('password'));
-        cy.visit("/")
+        // cy.login(broker_email, broker_password);
+        // cy.visit("/")
     });
 
-    it.only('Should open a new assessment', () => {
+    it('Should open a new assessment', () => {
         NewAssessmentPage.openNewAssessment();
     });
 
@@ -77,37 +82,38 @@ describe('New Assessment Page Test Suite', () => {
     });
 
 
-    it('', () => {
-        NewAssessmentPage.openNewAssessment();
-        cy.fixture('simpleData2.json').then((formData) => {
-            NewAssessmentPage.fillApplication(formData)
-        })
-        NewAssessmentPage.clickNext()
-        NewAssessmentPage.sendAssessment()
+    it.only('', () => {
+        // NewAssessmentPage.openNewAssessment();
+        // cy.fixture('simpleData2.json').then((formData) => {
+        //     NewAssessmentPage.fillApplication(formData)
+        // })
+        
+        // NewAssessmentPage.clickNext()
+        // NewAssessmentPage.sendAssessment()
 
 
         cy.mailslurp()
-            .then((mailslurp) => {
+            // use inbox id and a timeout of 30 seconds
+            .then({ timeout: 50000 }, mailslurp => {
                 return mailslurp.waitController.waitForLatestSms({
                     waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
+                        phoneNumberId: '5df3315b-0645-44a1-b80a-10e03af9ac7b',
+                        timeout: 50000,
                         unreadOnly: true,
                     },
                 });y
             })
             .then((sms) => {
                 const url = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                cy.log(url);
                 cy.visit(url, {
                     onBeforeLoad: (win) => {
                         Object.defineProperty(win.navigator, "userAgent", {
                             value:
-                                "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1",
+                                "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
                         });
-                    },
+                    }
                 });
-            });
+                cy.get('div[data-tag="incompleteText"]').contains(firstName).should('exist')
 
         
 

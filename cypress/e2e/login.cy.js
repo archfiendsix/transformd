@@ -1,6 +1,9 @@
 import LoginPage from "../pages/LoginPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
+const broker_email = Cypress.env('BROKER_EMAIL')
+const broker_password = Cypress.env('BROKER_PASSWORD')
+
 describe('Login Page Test Suite', () => {
     beforeEach(() => {
         LoginPage.goToLoginPage();
@@ -30,7 +33,7 @@ describe('Login Page Test Suite', () => {
     it("Should unsuccessfully login with invalid email, valid password", () => {
         const invalid_email = "testuser.gmail.com"
 
-        LoginPage.enterCreds(invalid_email, Cypress.env("password"))
+        LoginPage.enterCreds(invalid_email, broker_password)
         LoginPage.clickLoginButton()
         LoginPage.checkError_password('Incorrect email/username or password')
     });
@@ -38,19 +41,19 @@ describe('Login Page Test Suite', () => {
     it("Should unsuccessfully login with wrong password", () => {
         const invalid_password = "wrongpassword"
 
-        LoginPage.enterCreds(Cypress.env("email"), invalid_password)
+        LoginPage.enterCreds(broker_email, invalid_password)
         LoginPage.clickLoginButton()
         LoginPage.checkError_password("Incorrect email/username or password")
     });
 
     it('Should unsuccessfully login with valid email, no password input', () => {
-        LoginPage.enterCreds(Cypress.env("email"), '');
+        LoginPage.enterCreds(broker_email, '');
         LoginPage.clickLoginButton();
         LoginPage.checkError_password("Password cannot be blank")
     });
 
     it('Should unsuccessfully login with valid password, no email input', () => {
-        LoginPage.enterCreds('', Cypress.env("password"));
+        LoginPage.enterCreds('', broker_password);
         LoginPage.clickLoginButton()
         LoginPage.checkError_email('Email or Username cannot be blank')
     });
@@ -70,7 +73,7 @@ describe('Login Page Test Suite', () => {
     it.skip('Successful reset password', () => {
         ForgotPasswordPage.clickForgotPassword();
 
-        ForgotPasswordPage.enterCreds(Cypress.env('email'))
+        ForgotPasswordPage.enterCreds(broker_email)
         ForgotPasswordPage.elements.success_msg().should("be.visible").contains("A reset e-mail has been sent.");
 
 

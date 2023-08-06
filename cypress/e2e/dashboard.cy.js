@@ -1,8 +1,11 @@
 import DashboardPage from "../pages/DashboardPage";
 
+const broker_email = Cypress.env('BROKER_EMAIL')
+const broker_password = Cypress.env('BROKER_PASSWORD')
+
 describe('Dashboard Test Suite', () => {
     beforeEach(() => {
-        cy.login(Cypress.env('email'), Cypress.env('password'));
+        cy.login(broker_email, broker_password);
         cy.intercept('POST', '/widget/api/submission-count*').as('postSubmissionCountbeforeEach');
         cy.visit("/")
         cy.wait('@postSubmissionCountbeforeEach')

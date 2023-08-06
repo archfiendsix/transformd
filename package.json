@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "cypress:open": "npx cypress open",
-    "cypress:headless": "npx cypress run --browser chrome --headless"
+    "cypress:headless": "npx cypress run --browser chrome --headless",
+    "cypress:open-local": "npx cypress open --config-file ./cypress.local.config.js",
+    "cypress:headless-local": "npx cypress run --browser chrome --headless --config-file ./cypress.local.config.js"
   },
   "author": "",
   "license": "ISC",

@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { MailSlurp } from "mailslurp-client";
-const mailSlurpApiKey = '1e2a2164b25ce51edc62e1aab95692f9da4b68754ca0694a717c4e7a8a9ac2de'
+const mailSlurpApiKey = Cypress.env('MAILSLURP_APIKEY')
 const mailslurp = new MailSlurp({ apiKey:mailSlurpApiKey, basePath: 'https://cypress.api.mailslurp.com'});
 
 
@@ -33,17 +33,6 @@ Cypress.Commands.add('mailslurp', () => {
     return Promise.resolve(mailslurp);
 });
 
-Cypress.Commands.add("getLatestSMS", (apiKey, phoneId, phoneNumber) => {
-    const mailslurp = new MailSlurp({ apiKey });
-    return Promise.resolve(mailslurp);
-    // cy.request({
-    //   method: "GET",
-    //   url: `https://api.mailslurp.com/inboxes/${phoneId}/sms?phone_number=${phoneNumber}&limit=1&sort=DESC`,
-    // }).then((response) => {
-    //   const sms = response.body[0];
-    //   return sms;
-    // });
-  });
 Cypress.Commands.add('clickEl', (locator, contains = null) => {
     contains ? cy.get(locator).contains(contains).click() : cy.get(locator).click();
 });
