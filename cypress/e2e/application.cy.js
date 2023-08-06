@@ -1,9 +1,7 @@
 import ApplicationPage from "../pages/ApplicationPage";
 import DashboardPage from "../pages/DashboardPage";
+
 const url = Cypress.env('SAMPLE_APPLLICATION_URL')
-
-
-
 const bank_username = Cypress.env('BANK_USERNAME')
 const bank_password = Cypress.env('BANK_PASSWORD')
 

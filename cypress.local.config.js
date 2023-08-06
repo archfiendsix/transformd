@@ -17,12 +17,12 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   watchForFileChanges: false,
   requestTimeout: 30000,
-  // screenshotOnRunFailure: false,
+  screenshotOnRunFailure: true,
   defaultCommandTimeout: 30000,
-  // retries: {
-  //   runMode: 10,          // Number of retries for the entire test run
-  //   openMode: 10          // Number of retries for individual test cases in the Test Runner
-  // }
+  retries: {
+    runMode: 0,          
+    openMode: 0
+  }
 
   
 });

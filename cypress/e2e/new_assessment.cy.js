@@ -2,7 +2,7 @@ import LoginPage from "../pages/LoginPage";
 import NewAssessmentPage from "../pages/NewAssessmentPage";
 import DashboardPage from "../pages/DashboardPage";
 
-
+const url = Cypress.env('SAMPLE_APPLLICATION_URL')
 const phoneId = Cypress.env("MAILSLURP_PHONEID");
 const broker_email = Cypress.env('BROKER_EMAIL')
 const broker_password = Cypress.env('BROKER_PASSWORD')
@@ -87,39 +87,61 @@ describe('New Assessment Page Test Suite', () => {
         // cy.fixture('simpleData2.json').then((formData) => {
         //     NewAssessmentPage.fillApplication(formData)
         // })
-        
+
         // NewAssessmentPage.clickNext()
         // NewAssessmentPage.sendAssessment()
 
 
-        cy.mailslurp()
-            // use inbox id and a timeout of 30 seconds
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: '5df3315b-0645-44a1-b80a-10e03af9ac7b',
-                        timeout: 50000,
-                        unreadOnly: true,
-                    },
-                });y
-            })
-            .then((sms) => {
-                const url = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                cy.visit(url, {
-                    onBeforeLoad: (win) => {
-                        Object.defineProperty(win.navigator, "userAgent", {
-                            value:
-                                "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
-                        });
-                    }
-                });
-                cy.get('div[data-tag="incompleteText"]').contains(firstName).should('exist')
+        // cy.mailslurp()
+        //     .then({ timeout: 50000 }, async mailslurp => {
+        //         return await mailslurp.waitController.waitForLatestSms({
+        //             waitForSingleSmsOptions: {
+        //                 phoneNumberId: phoneId,
+        //                 timeout: 50000,
+        //                 unreadOnly: true,
+        //             },
+        //         });
+        //     })
+        //     .then((sms) => {
+        //         const smsUrl = sms.body
+        //         // .match(/(http|https):\/\/[^ "']+/)[0];
+        //         cy.log(smsUrl)
+        //         cy.visitMobileMode(smsUrl)
+        //         cy.get('div[data-tag="incompleteText"]').contains(firstName).should('exist')
 
+        //     })
+
+
+        cy.mailslurp()
+            .then({ timeout: 50000 }, async mailslurp => {
+                // const inbox = await mailslurp.inboxController.createInboxWithDefaults();
+
+                // const phone  = await mailslurp.phoneController.getPhoneNumbers({
+                //     phoneCountry: 'AU',
+                // })
+
+                // cy.log(phone)
+                // mailslurp.phoneController.testPhoneNumberSendSms({
+                //     phoneNumberId: phoneId,
+                //     // xTestId: testId,
+                //     testPhoneNumberOptions: {
+                //         message: url,
+                //         timeout: 50000,
+                //     },
+                // });
+
+                const result = await mailslurp.smsController.getSmsMessagesPaginated({
+                    phoneNumber: phoneId
+                });
+                expect(result.totalElements).to.be.greaterThan(0);
+                // content contains array of sms messages
+                expect(result.content[0].body).to.contain('Your code')
+            })
         
 
     });
 
-  
+
 
 
 });
