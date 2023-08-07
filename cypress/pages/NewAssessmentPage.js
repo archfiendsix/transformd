@@ -87,7 +87,7 @@ class NewAssessmentPage {
                 cy.get(`[data-tag="${key}"]`).find('input').first().type(`${formData[key]}`)
             }
             else if (key === "ApplicantCurrentAddress") {
-                                if (formData[key]["Manual"] === true) {
+                if (formData[key]["Manual"] === true) {
                     this.selectManualAddressEntry()
                     formData[key]["Address"] == '' || !formData[key]["Address"] ? cy.get(this.loc.inputCurrentAddress).eq(0).clear() : cy.get(this.loc.inputCurrentAddress).eq(0).type(formData[key]["Address"]);
                     formData[key]["Suburb"] == '' || !formData[key]["Suburb"] ? cy.get(this.loc.inputCurrentAddress).eq(1).clear() : cy.get(this.loc.inputCurrentAddress).eq(1).type(formData[key]["Suburb"]);

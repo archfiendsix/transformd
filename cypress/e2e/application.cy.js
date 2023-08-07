@@ -1,17 +1,16 @@
 import ApplicationPage from "../pages/ApplicationPage";
 import DashboardPage from "../pages/DashboardPage";
+import NewAssessmentPage from "../pages/NewAssessmentPage";
 
-const url = Cypress.env('SAMPLE_APPLLICATION_URL')
-const bank_username = Cypress.env('BANK_USERNAME')
+  const bank_username = Cypress.env('BANK_USERNAME')
 const bank_password = Cypress.env('BANK_PASSWORD')
 const phoneId = Cypress.env("MAILSLURP_PHONEID");
 
 
 describe('Verification Test Suite', () => {
     beforeEach(() => {
-        // cy.visitMobileMode(url)
-        
-        // cy.checkLoading()
+        cy.visitMobileMode(url)
+        cy.checkLoading()
     });
 
     it.only('Should successfully submit bank detail', () => {
@@ -23,26 +22,10 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('no')
@@ -60,26 +43,10 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('Yes')
         ApplicationPage.submitDetails_agreeSubmit()
@@ -95,31 +62,15 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('yes')
-        ApplicationPage.loginMyGov(Cypress.env('BANK_USERNAME'), Cypress.env('BANK_USERNAME'))
+        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
     })
 
@@ -131,26 +82,10 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()
@@ -166,31 +101,15 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('Yes')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('yes')
-        ApplicationPage.loginMyGov(Cypress.env('BANK_USERNAME'), Cypress.env('BANK_USERNAME'))
+        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success', 'Success!')
 
     })
@@ -204,32 +123,16 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.selectTestScenario('Failure - 402 error')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('yes')
-        ApplicationPage.loginMyGov(Cypress.env('BANK_USERNAME'), Cypress.env('BANK_USERNAME'))
+        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Processing failure', 'Error', 'Success!')
 
     })
@@ -242,32 +145,16 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.selectTestScenario('Failure - 403 error')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('yes')
-        ApplicationPage.loginMyGov(Cypress.env('BANK_USERNAME'), Cypress.env('BANK_USERNAME'))
+        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Processing failure', 'Error', 'Success!')
     })
 
@@ -280,32 +167,16 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.selectTestScenario('Failure - 402 error')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('yes')
-        ApplicationPage.loginMyGov(Cypress.env('BANK_USERNAME'), Cypress.env('BANK_USERNAME'))
+        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Processing failure', 'Error')
 
         ApplicationPage.clickAddAnotherBank()
@@ -313,7 +184,7 @@ describe('Verification Test Suite', () => {
         ApplicationPage.selectIncludePdf('Yes')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('yes')
-        ApplicationPage.loginMyGov(Cypress.env('BANK_USERNAME'), Cypress.env('BANK_USERNAME'))
+        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success', 'Success!')
     })
 
@@ -327,26 +198,10 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_disagreeLogout()
@@ -362,26 +217,10 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', Cypress.env('bank_username'), Cypress.env('bank_password'))
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()
@@ -399,26 +238,10 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
-        cy.mailslurp()
-            .then({ timeout: 50000 }, mailslurp => {
-                return mailslurp.waitController.waitForLatestSms({
-                    waitForSingleSmsOptions: {
-                        phoneNumberId: phoneId,
-                        timeout: 50_000,
-                        unreadOnly: true,
-                    },
-                });
-            })
-            .then((sms) => {
-                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
-                // expect(smsUrl).contains('test')
-                cy.log(smsUrl)
-                cy.visitMobileMode(smsUrl)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
-            })
-
-        ApplicationPage.click_bankStatements_button()
-        ApplicationPage.addAnotherBank('Debug Bank AU (Debug Bank AU)', Cypress.env('BANK_USERNAME'), 'invalidpass12873')
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
         
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()

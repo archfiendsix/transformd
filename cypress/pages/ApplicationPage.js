@@ -43,7 +43,7 @@ class ApplicationPage {
         cy.get(this.loc.idVerificationBtn).click()
     }
 
-    click_bankStatements_button = () => {
+    clickBankStatements_button = () => {
         cy.get(this.loc.bankStatementBtn).find('button').click()
     }
 
@@ -169,6 +169,26 @@ class ApplicationPage {
 
         })
 
+    }
+
+    gotoMailslurpSmsLink = (phoneId)=> {
+        cy.mailslurp()
+            .then({ timeout: 50000 }, mailslurp => {
+                return mailslurp.waitController.waitForLatestSms({
+                    waitForSingleSmsOptions: {
+                        phoneNumberId: phoneId,
+                        timeout: 50_000,
+                        unreadOnly: false,
+                    },
+                });
+            })
+            .then((sms) => {
+                const smsUrl = sms.body.match(/(http|https):\/\/[^ "']+/)[0];
+                // expect(smsUrl).contains('test')
+                cy.log(smsUrl)
+                cy.visitMobileMode(smsUrl)
+
+            })
     }
 
     checkLoading = () => {
