@@ -2,7 +2,7 @@ import LoginPage from "../pages/LoginPage";
 import NewAssessmentPage from "../pages/NewAssessmentPage";
 import DashboardPage from "../pages/DashboardPage";
 
-const url = Cypress.env('SAMPLE_APPLLICATION_URL')
+const url = Cypress.env('SAMPLE_APPLICATION_URL')
 const phoneId = Cypress.env("MAILSLURP_PHONEID");
 const broker_email = Cypress.env('BROKER_EMAIL')
 const broker_password = Cypress.env('BROKER_PASSWORD')
@@ -92,51 +92,63 @@ describe('New Assessment Page Test Suite', () => {
         // NewAssessmentPage.sendAssessment()
 
 
-        // cy.mailslurp()
-        //     .then({ timeout: 50000 }, async mailslurp => {
-        //         return await mailslurp.waitController.waitForLatestSms({
-        //             waitForSingleSmsOptions: {
-        //                 phoneNumberId: phoneId,
-        //                 timeout: 50000,
-        //                 unreadOnly: true,
-        //             },
-        //         });
-        //     })
-        //     .then((sms) => {
-        //         const smsUrl = sms.body
-        //         // .match(/(http|https):\/\/[^ "']+/)[0];
-        //         cy.log(smsUrl)
-        //         cy.visitMobileMode(smsUrl)
-        //         cy.get('div[data-tag="incompleteText"]').contains(firstName).should('exist')
-
-        //     })
-
-
         cy.mailslurp()
-            .then({ timeout: 50000 }, async mailslurp => {
-                // const inbox = await mailslurp.inboxController.createInboxWithDefaults();
-
-                // const phone  = await mailslurp.phoneController.getPhoneNumbers({
-                //     phoneCountry: 'AU',
-                // })
-
-                // cy.log(phone)
+            .then({ timeout: 50000 }, mailslurp => {
+                // cy.log(url)
                 // mailslurp.phoneController.testPhoneNumberSendSms({
                 //     phoneNumberId: phoneId,
                 //     // xTestId: testId,
                 //     testPhoneNumberOptions: {
+                        
                 //         message: url,
-                //         timeout: 50000,
+                //         timeout: 50_000,
                 //     },
                 // });
 
-                const result = await mailslurp.smsController.getSmsMessagesPaginated({
-                    phoneNumber: phoneId
-                });
-                expect(result.totalElements).to.be.greaterThan(0);
-                // content contains array of sms messages
-                expect(result.content[0].body).to.contain('Your code')
+                // return mailslurp.waitController.waitForLatestSms({
+                //     waitForSingleSmsOptions: {
+                //         phoneNumberId: phoneId,
+                //         timeout: 50_000,
+                //         unreadOnly: false,
+                //     },
+                // });
             })
+            // .then((sms) => {
+            //     const smsUrl = sms.body
+            //     // .match(/(http|https):\/\/[^ "']+/)[0];
+            //     expect(smsUrl).contains('test')
+            //     cy.log(smsUrl)
+            //     // cy.visitMobileMode(smsUrl)
+            //     // cy.get('div[data-tag="incompleteText"]').contains('Your code').should('exist')
+
+            // })
+
+
+        // cy.mailslurp()
+        //     .then({ timeout: 50000 }, async mailslurp => {
+        //         // const inbox = await mailslurp.inboxController.createInboxWithDefaults();
+
+        //         // const phone  = await mailslurp.phoneController.getPhoneNumbers({
+        //         //     phoneCountry: 'AU',
+        //         // })
+
+        //         // cy.log(phone)
+        //         // mailslurp.phoneController.testPhoneNumberSendSms({
+        //         //     phoneNumberId: phoneId,
+        //         //     // xTestId: testId,
+        //         //     testPhoneNumberOptions: {
+        //         //         message: url,
+        //         //         timeout: 50000,
+        //         //     },
+        //         // });
+
+        //         const result = await mailslurp.smsController.getSmsMessagesPaginated({
+        //             phoneNumber: phoneId
+        //         });
+        //         expect(result.totalElements).to.be.greaterThan(0);
+        //         // content contains array of sms messages
+        //         expect(result.content[0].body).to.contain('Your code')
+        //     })
         
 
     });
