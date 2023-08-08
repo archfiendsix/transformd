@@ -11,8 +11,8 @@ describe('Login Page Test Suite', () => {
 
     it('Should successfully login using valid Credentials', () => {
         LoginPage.enterCreds(Cypress.env('email'), Cypress.env('password'))
-        cy.fixture('interceptionPoints.json').then(interceptionPoints=> {
-            cy.intercept('POST', interceptionPoints['site_login']).as('postLogin');
+        cy.fixture('interceptPoints.json').then(interceptPoints=> {
+            cy.intercept('POST', interceptPoints['site_login']).as('postLogin');
         })
         
         LoginPage.clickLoginButton()

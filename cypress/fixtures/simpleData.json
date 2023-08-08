@@ -1,10 +1,10 @@
 {
-  "ApplicantLastName": "KING",
-  "ApplicantFirstName": "WALLACE",
+  "ApplicantFirstName": "WALLACE",  
   "ApplicantMiddleName": "MACARTHUR",
+  "ApplicantLastName": "KING",
   "ApplicantGender": "Male",
   "ApplicantDateOfBirth": "10/08/1944",
-  "ApplicantMobileNumber": "0483906295",
+  "ApplicantMobileNumber": "0483903391",
   "ApplicantCurrentAddress": {
       "Manual": true,
       "Address": "41 THE POINT AVE",

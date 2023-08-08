@@ -63,6 +63,18 @@ class DashboardPage {
         }
     }
 
+    clickSearch=(input)=> {
+        cy.get(this.loc.applicationsTable.rows).contains(input).first().click()
+        cy.checkLoading()
+    }
+
+    openApplicationDetails=(columnHeader, referenceNumber)=> {
+        cy.visit("/")
+        this.applicationSearch(columnHeader, referenceNumber)
+        this.clickSearch(referenceNumber)
+        
+    }
+
     changeDate = (dates) => {
         cy.clickEl(this.loc.applicationsTable.calendarButton('Open'))
 

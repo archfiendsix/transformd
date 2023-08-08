@@ -171,14 +171,14 @@ class ApplicationPage {
 
     }
 
-    gotoMailslurpSmsLink = (phoneId)=> {
+    gotoMailslurpSmsLink = (phoneId) => {
         cy.mailslurp()
             .then({ timeout: 50000 }, mailslurp => {
                 return mailslurp.waitController.waitForLatestSms({
                     waitForSingleSmsOptions: {
                         phoneNumberId: phoneId,
                         timeout: 50_000,
-                        unreadOnly: false,
+                        unreadOnly: true,
                     },
                 });
             })
@@ -189,6 +189,21 @@ class ApplicationPage {
                 cy.visitMobileMode(smsUrl)
 
             })
+    }
+
+    getRefNumber = (phoneId) => {
+        return cy.mailslurp().then(mailslurp => {
+            return mailslurp.waitController.waitForLatestSms({
+                waitForSingleSmsOptions: {
+                    phoneNumberId: phoneId,
+                    timeout: 50000,
+                    unreadOnly: false,
+                },
+            });
+        }).then((sms) => {
+            const referenceNumber = sms.body.match(/- REF: (\S+)/)[1];
+            return referenceNumber;
+        });
     }
 
     checkLoading = () => {

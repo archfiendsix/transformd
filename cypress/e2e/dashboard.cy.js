@@ -6,8 +6,8 @@ const broker_password = Cypress.env('BROKER_PASSWORD')
 describe('Dashboard Test Suite', () => {
     beforeEach(() => {
         cy.login(broker_email, broker_password);
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_count']).as('postSubmissionCountbeforeEach');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_count']).as('postSubmissionCountbeforeEach');
         })
         cy.visit("/")
         cy.wait('@postSubmissionCountbeforeEach')
@@ -15,8 +15,8 @@ describe('Dashboard Test Suite', () => {
     });
 
     it('Should load number cards correctly and with correct counts', () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionData');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionData');
         })
 
         DashboardPage.applyFilter('ALL')
@@ -30,21 +30,21 @@ describe('Dashboard Test Suite', () => {
     })
 
     it('Should apply "All" filter correctly', () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplyFilter');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplyFilter');
         })
 
         DashboardPage.applyFilter('ALL')
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplyFilter');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplyFilter');
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
             DashboardPage.checkTotalCardCount(postSubmissionDataapplyFilter)
         });
     })
 
     it('Should apply "DRAFTS" filter correctly', () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplyFilter');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplyFilter');
         })
 
         DashboardPage.applyFilter('DRAFTS')
@@ -57,8 +57,8 @@ describe('Dashboard Test Suite', () => {
 
     it('Should apply "WITH CUSTOMER" filter correctly', () => {
 
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplyFilter');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplyFilter');
         })
 
         DashboardPage.applyFilter('WITH CUSTOMER')
@@ -70,8 +70,8 @@ describe('Dashboard Test Suite', () => {
     })
 
     it('Should apply "READY FOR REVIEW" filter correctly', () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplyFilter');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplyFilter');
 
         })
         DashboardPage.applyFilter('READY FOR REVIEW')
@@ -83,8 +83,8 @@ describe('Dashboard Test Suite', () => {
     })
 
     it('Should apply "REVIEWED" filter correctly', () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplyFilter');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplyFilter');
         })
         DashboardPage.applyFilter('REVIEWED')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
@@ -95,8 +95,8 @@ describe('Dashboard Test Suite', () => {
     })
 
     it("Should properly search by Application ID", () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplicationSearch');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
         DashboardPage.applicationSearch('APPLICATION ID', 'TRF-QMNJ817IO')
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
@@ -124,8 +124,8 @@ describe('Dashboard Test Suite', () => {
     })
 
     it("Should properly search by Application Name", () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplicationSearch');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
         DashboardPage.applicationSearch('APPLICANT NAME', 'RONALD LAIFOO, Ute GIERINGER')
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
@@ -134,16 +134,16 @@ describe('Dashboard Test Suite', () => {
     })
 
     it("Should properly search by Application Status - Draft, With Customer", () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplicationSearch');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
             DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'Draft')
         })
 
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplicationSearch');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
         DashboardPage.applicationSearch('INFORMATION STATUS', 'With Customer')
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
@@ -152,8 +152,8 @@ describe('Dashboard Test Suite', () => {
     })
 
     it("Should properly search by Application Status - Ready for review", () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataapplicationSearch');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
         DashboardPage.applicationSearch('INFORMATION STATUS', 'Ready for review')
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
@@ -164,8 +164,8 @@ describe('Dashboard Test Suite', () => {
 
     it.skip("Should change current page correctly using footer page input (Currently the number input is buggy)", () => {
         // Current Page input box currently unstable skipping this for now
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatachangeCurrentPage')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatachangeCurrentPage')
         })
         DashboardPage.changeCurrentPage(10)
         DashboardPage.nextPaginationClick()
@@ -177,8 +177,8 @@ describe('Dashboard Test Suite', () => {
     it('Should sort table column according to Application Id', () => {
         const header_title = 'APPLICATION'
         /* Descending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -188,8 +188,8 @@ describe('Dashboard Test Suite', () => {
         });
 
         /* Ascending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -203,8 +203,8 @@ describe('Dashboard Test Suite', () => {
         const header_title = 'APPLICANT NAME(S)'
 
         /* Descending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -214,8 +214,8 @@ describe('Dashboard Test Suite', () => {
         });
 
         /* Ascending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -229,8 +229,8 @@ describe('Dashboard Test Suite', () => {
 
         const header_title = 'LAST UPDATED'
         /* Descending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -240,8 +240,8 @@ describe('Dashboard Test Suite', () => {
         });
 
         /* Ascending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -256,8 +256,8 @@ describe('Dashboard Test Suite', () => {
     it('Should sort table column according to Status', () => {
         const header_title = 'Status'
         /* Descending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.up').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -267,8 +267,8 @@ describe('Dashboard Test Suite', () => {
         });
 
         /* Ascending order test*/
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDatasortColumn')
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatasortColumn')
         })
         cy.get(DashboardPage.loc.applicationsTable.header_columns(header_title)).find('i.down').click()
         cy.wait('@postSubmissionDatasortColumn').then((postSubmissionDatasortColumn) => {
@@ -280,8 +280,8 @@ describe('Dashboard Test Suite', () => {
     })
 
     it('Should change pagination on next arrow click', () => {
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataPagination');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination');
         })
 
         DashboardPage.nextPaginationClick();
@@ -293,8 +293,8 @@ describe('Dashboard Test Suite', () => {
         });
 
 
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataPagination2');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination2');
         })
 
         DashboardPage.nextPaginationClick();
@@ -309,8 +309,8 @@ describe('Dashboard Test Suite', () => {
     it('Should change pagination on previous arrow click', () => {
         DashboardPage.nextPaginationClick();
 
-        cy.fixture('interceptionPoints.json').then(interceptionPoints => {
-            cy.intercept('POST', interceptionPoints['submission_data']).as('postSubmissionDataPagination');
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination');
         })
 
         DashboardPage.previousPaginationClick();

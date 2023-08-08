@@ -1,37 +1,53 @@
 import ApplicationPage from "../pages/ApplicationPage";
 import DashboardPage from "../pages/DashboardPage";
 import NewAssessmentPage from "../pages/NewAssessmentPage";
+import ApplicationDetailsPage from "../pages/ApplicationDetailsPage";
 
-  const bank_username = Cypress.env('BANK_USERNAME')
+const bank_username = Cypress.env('BANK_USERNAME')
 const bank_password = Cypress.env('BANK_PASSWORD')
 const phoneId = Cypress.env("MAILSLURP_PHONEID");
-
+const broker_email = Cypress.env('BROKER_EMAIL')
+const broker_password = Cypress.env('BROKER_PASSWORD')
 
 describe('Verification Test Suite', () => {
     beforeEach(() => {
-        cy.visitMobileMode(url)
+        cy.login(broker_email, broker_password);
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_count']).as('postSubmissionCountbeforeEach');
+        })
+        cy.visit("/")
+        cy.wait('@postSubmissionCountbeforeEach')
         cy.checkLoading()
     });
 
     it.only('Should successfully submit bank detail', () => {
 
-        NewAssessmentPage.openNewAssessment();
-        cy.fixture('simpleData.json').then((formData) => {
-            NewAssessmentPage.fillApplication(formData)
+        // NewAssessmentPage.openNewAssessment();
+        // cy.fixture('simpleData.json').then((formData) => {
+        //     NewAssessmentPage.fillApplication(formData)
+        // })
+        // NewAssessmentPage.clickNext()
+        // NewAssessmentPage.sendAssessment()
+
+        // ApplicationPage.gotoMailslurpSmsLink(phoneId)
+        
+     
+        // ApplicationPage.clickBankStatements_button()
+        // ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
+        // ApplicationPage.selectIncludePdf('No')
+        // ApplicationPage.submitDetails_agreeSubmit()
+        // ApplicationPage.resPondBenefits('no')
+        // ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
+
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
         })
-        NewAssessmentPage.clickNext()
-        NewAssessmentPage.sendAssessment()
 
-        ApplicationPage.gotoMailslurpSmsLink(phoneId)
-
-        ApplicationPage.clickBankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
-        ApplicationPage.selectIncludePdf('No')
-        ApplicationPage.submitDetails_agreeSubmit()
-        ApplicationPage.resPondBenefits('no')
-        ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
-
-
+        
+        
 
     })
 
@@ -208,7 +224,7 @@ describe('Verification Test Suite', () => {
         ApplicationPage.checkBankSelectPageHeader('Select your bank')
     })
 
-    it.skip('Should unsuccessfully submit bank detail - invalid BANK username', () => { // Test Skipped, no proper error message yet on bank login
+    it('Should unsuccessfully submit bank detail - invalid BANK username', () => { // Test Skipped, no proper error message yet on bank login
 
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleData.json').then((formData) => {
@@ -220,7 +236,7 @@ describe('Verification Test Suite', () => {
         ApplicationPage.gotoMailslurpSmsLink(phoneId)
 
         ApplicationPage.clickBankStatements_button()
-        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', 'invalid', bank_password)
 
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()
@@ -242,7 +258,7 @@ describe('Verification Test Suite', () => {
 
         ApplicationPage.clickBankStatements_button()
         ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
-        
+
         ApplicationPage.selectIncludePdf('No')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('no')
