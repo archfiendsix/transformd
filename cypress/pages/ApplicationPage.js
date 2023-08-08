@@ -4,7 +4,7 @@ class ApplicationPage {
         idVerificationBtn: '[data-tag="ocrIncompleteState"]',
         bankStatementBtn: '[data-tag="bankStatementsBtnOne"]',
 
-        iveFinishedConnectingAccounts: '[data-tag="iveFinishedConnectingAccounts"]',
+        iveFinishedConnectingAccounts: '[data-tag="iveFinishedConnectingAccounts"] button',
         bankNameTextBox: '#bankaccount',
         bankNameTextboxDropdownItems: '.ui-menu li',
         usernameLabel: '[for="cs-bank-LOGIN"]',
@@ -135,14 +135,18 @@ class ApplicationPage {
         cy.iframe().find(this.loc.addAnotherBankButton).click()
     }
 
+    enterBankingDetails = (username, password) => {
+        cy.iframe().find(this.loc.usernameTextbox).type(username)
+        cy.iframe().find(this.loc.passwordTextbox).type(password)
+    }
+
 
     addAnotherBank = (bankName, username, password) => {
 
         cy.get('[title="Credit Sense"]').iframeOnload().find(this.loc.bankNameTextBox).should('be.visible').type(bankName)
         cy.iframe().find(this.loc.bankNameTextboxDropdownItems).contains(bankName).click()
         cy.iframe().find(this.loc.usernameLabel).should('be.visible')
-        cy.iframe().find(this.loc.usernameTextbox).type(username)
-        cy.iframe().find(this.loc.passwordTextbox).type(password)
+        this.enterBankingDetails(username, password)
     }
 
     finishConnecting = () => {

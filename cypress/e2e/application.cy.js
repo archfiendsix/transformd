@@ -20,24 +20,24 @@ describe('Verification Test Suite', () => {
         cy.checkLoading()
     });
 
-    it.only('Should successfully submit bank detail', () => {
+    it('Should successfully submit bank detail', () => {
 
-        // NewAssessmentPage.openNewAssessment();
-        // cy.fixture('simpleData.json').then((formData) => {
-        //     NewAssessmentPage.fillApplication(formData)
-        // })
-        // NewAssessmentPage.clickNext()
-        // NewAssessmentPage.sendAssessment()
+        NewAssessmentPage.openNewAssessment();
+        cy.fixture('simpleData.json').then((formData) => {
+            NewAssessmentPage.fillApplication(formData)
+        })
+        NewAssessmentPage.clickNext()
+        NewAssessmentPage.sendAssessment()
 
-        // ApplicationPage.gotoMailslurpSmsLink(phoneId)
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
         
      
-        // ApplicationPage.clickBankStatements_button()
-        // ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
-        // ApplicationPage.selectIncludePdf('No')
-        // ApplicationPage.submitDetails_agreeSubmit()
-        // ApplicationPage.resPondBenefits('no')
-        // ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
+        ApplicationPage.selectIncludePdf('No')
+        ApplicationPage.submitDetails_agreeSubmit()
+        ApplicationPage.resPondBenefits('no')
+        ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
 
         ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
             DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
@@ -60,6 +60,7 @@ describe('Verification Test Suite', () => {
         NewAssessmentPage.sendAssessment()
 
         ApplicationPage.gotoMailslurpSmsLink(phoneId)
+        
 
         ApplicationPage.clickBankStatements_button()
         ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
@@ -68,6 +69,14 @@ describe('Verification Test Suite', () => {
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('no')
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
+        
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
+    
     })
 
     it('Should successfully submit bank detail - Gov Benefits respond Yes', () => {
@@ -88,6 +97,13 @@ describe('Verification Test Suite', () => {
         ApplicationPage.resPondBenefits('yes')
         ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
+    
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
     })
 
     it('Should successfully submit bank detail - Add Another Bank', () => {
@@ -107,6 +123,13 @@ describe('Verification Test Suite', () => {
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.addAnotherBankRespondBenefits('no')
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
+        
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
     })
 
     it('Should successfully submit bank detail - select Include PDF, Gov Benefits respond Yes ', () => {
@@ -127,7 +150,13 @@ describe('Verification Test Suite', () => {
         ApplicationPage.resPondBenefits('yes')
         ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success', 'Success!')
-
+        ApplicationPage.finishConnecting()
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
     })
 
 
@@ -150,7 +179,13 @@ describe('Verification Test Suite', () => {
         ApplicationPage.resPondBenefits('yes')
         ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Processing failure', 'Error', 'Success!')
-
+        ApplicationPage.finishConnecting()
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
     })
 
     it('Should unsuccessfully proceed submit bank detail - 403 error', () => {
@@ -172,10 +207,17 @@ describe('Verification Test Suite', () => {
         ApplicationPage.resPondBenefits('yes')
         ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Processing failure', 'Error', 'Success!')
+        ApplicationPage.finishConnecting()
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
     })
 
 
-    it.skip('Should unsuccessfully proceed submit bank detail - try again on failure', () => {
+    it('Should unsuccessfully proceed submit bank detail - try again on Bank account statement failure', () => {
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleData.json').then((formData) => {
             NewAssessmentPage.fillApplication(formData)
@@ -188,20 +230,26 @@ describe('Verification Test Suite', () => {
         ApplicationPage.clickBankStatements_button()
         ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
 
-        ApplicationPage.selectIncludePdf('No')
+        ApplicationPage.selectIncludePdf('Yes')
         ApplicationPage.selectTestScenario('Failure - 402 error')
         ApplicationPage.submitDetails_agreeSubmit()
         ApplicationPage.resPondBenefits('yes')
         ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Processing failure', 'Error')
 
-        ApplicationPage.clickAddAnotherBank()
-        ApplicationPage.addAnotherBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
+        ApplicationPage.processingTryAgainClick()
+
+        ApplicationPage.enterBankingDetails(bank_username, bank_password)
         ApplicationPage.selectIncludePdf('Yes')
         ApplicationPage.submitDetails_agreeSubmit()
-        ApplicationPage.resPondBenefits('yes')
-        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success', 'Success!')
+        ApplicationPage.finishConnecting()
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
     })
 
 
@@ -224,7 +272,7 @@ describe('Verification Test Suite', () => {
         ApplicationPage.checkBankSelectPageHeader('Select your bank')
     })
 
-    it('Should unsuccessfully submit bank detail - invalid BANK username', () => { // Test Skipped, no proper error message yet on bank login
+    it.skip('Should unsuccessfully submit bank detail - invalid BANK username', () => { // Test Skipped, no proper error message yet on bank login
 
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleData.json').then((formData) => {

@@ -1,19 +1,19 @@
 {
-  "ApplicantFirstName": "WALLACE",  
-  "ApplicantMiddleName": "MACARTHUR",
-  "ApplicantLastName": "KING",
+  "ApplicantFirstName": "ROBIN",  
+  "ApplicantMiddleName": "FREDERICK",
+  "ApplicantLastName": "WATERS",
   "ApplicantGender": "Male",
-  "ApplicantDateOfBirth": "10/08/1944",
+  "ApplicantDateOfBirth": "16/04/1948",
   "ApplicantMobileNumber": "0483903391",
   "ApplicantCurrentAddress": {
       "Manual": true,
-      "Address": "41 THE POINT AVE",
-      "Suburb": "WOOLWICH",
+      "Address": "82A MATHESON RD",
+      "Suburb": "AAPLECORSS",
       "Country": "Australia",
-      "State": "NSW",
-      "Post_Code": "2110 "
+      "State": "WA",
+      "Post_Code": "6153 "
   },
-  "ApplicantDriversLicenceNumber": "1008WK",
+  "ApplicantDriversLicenceNumber": "6576086",
   "loanAmount": "30000",
-  "ApplicantEmployer": "COCACOLA AMATIL LTD"
+  "ApplicantEmployer": "WHITE CITY PL"
 }

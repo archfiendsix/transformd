@@ -69,6 +69,7 @@ class DashboardPage {
     }
 
     openApplicationDetails=(columnHeader, referenceNumber)=> {
+        cy.viewport(1366, 768) 
         cy.visit("/")
         this.applicationSearch(columnHeader, referenceNumber)
         this.clickSearch(referenceNumber)
