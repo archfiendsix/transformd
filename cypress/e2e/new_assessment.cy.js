@@ -79,7 +79,7 @@ describe('New Assessment Page Test Suite', () => {
         NewAssessmentPage.checkOtherApplicantForms();
     });
 
-    it.only('Successful submission of new assessment using Look-up address and verifying the generation of application ID', () => {
+    it('Successful submission of new assessment using Look-up address and verifying the generation of application ID', () => {
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleDataManualCurrentAddress.json').then((formData) => {
             NewAssessmentPage.fillApplication(formData)

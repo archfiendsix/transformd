@@ -51,6 +51,38 @@ describe('Verification Test Suite', () => {
 
     })
 
+    it('Should successfully submit bank detail - "Credit Activity" indicator on the assement list change from grey to green or amber - assessment details is included', () => {
+
+        NewAssessmentPage.openNewAssessment();
+        cy.fixture('applicantsData.json').then((formData) => {
+            NewAssessmentPage.fillApplication(formData[11])
+        })
+        NewAssessmentPage.clickNext()
+        NewAssessmentPage.sendAssessment()
+
+        ApplicationPage.gotoMailslurpSmsLink(phoneId)
+        
+     
+        ApplicationPage.clickBankStatements_button()
+        ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
+        ApplicationPage.selectIncludePdf('Yes')
+        ApplicationPage.submitDetails_agreeSubmit()
+        ApplicationPage.resPondBenefits('no')
+        ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
+
+        ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.checkCreditActivity('APPLICATION ID', referenceNumber)
+            DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
+            cy.fixture('simpleData.json').then((formData) => {
+                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
+            })
+        })
+
+        
+        
+
+    })
+
     it('Should successfully submit bank detail - select Include PDF', () => {
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleData.json').then((formData) => {
