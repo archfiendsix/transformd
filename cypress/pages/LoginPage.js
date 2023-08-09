@@ -14,6 +14,8 @@ class LoginPage {
 
     // redirect to login page
     goToLoginPage = () => {
+        cy.clearCookies()
+        cy.clearAllSessionStorage({log: true})
         cy.visit('/');
         cy.get(".page-title").should("be.visible").contains("Log in");
     };
@@ -28,8 +30,8 @@ class LoginPage {
     };
 
     enterCreds = (email, password) => {
-        email != '' || email != null ? cy.get(this.loc.input_email).type(email) : cy.get(this.loc.input_email).clear();
-        password != '' || password !=null? cy.get(this.loc.input_password).type(password) : cy.get(this.loc.input_password).clear();
+        email != '' || email ? cy.get(this.loc.input_email).clear().type(email) : cy.get(this.loc.input_email).clear();
+        password != '' || password ? cy.get(this.loc.input_password).clear().type(password) : cy.get(this.loc.input_password).clear();
     };
 
     clickLoginButton = () => {

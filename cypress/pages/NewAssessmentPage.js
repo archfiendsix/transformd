@@ -68,7 +68,6 @@ class NewAssessmentPage {
         cy.get(this.loc.errormsg).eq(6).should("be.visible").contains("Please select a valid address")
         cy.get(this.loc.errormsg).eq(7).should("be.visible").contains("This field is required");
         
-        cy.shouldBeVisibleContains()
 
         cy.get(this.loc.inputFirstName).should("be.visible").type("Test");
         this.clickNext()
@@ -99,9 +98,15 @@ class NewAssessmentPage {
                     cy.dropdownSelect('Please, start typing an address...', formData[key]["Address"]);
                 }
             } else {
-                cy.get(`[data-tag="${key}"]`).find('input').first().type(formData[key]);
+                
+                if(formData[key] || formData[key] !='') {
+                    cy.get(`[data-tag="${key}"]`).find('input').first().type(formData[key])
+                } 
+                else {
+                    cy.get(`[data-tag="${key}"]`).find('input').first().clear()
+                }
             }
-        })
+                })
     };
 
     checkOtherApplicantForms = () => {

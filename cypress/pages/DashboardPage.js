@@ -87,7 +87,7 @@ class DashboardPage {
         cy.clickEl(this.loc.applicationsTable.picker.end_date_button)
         cy.selectOption(this.loc.applicationsTable.picker.month, dates.end_date.month)
         cy.get(this.loc.applicationsTable.picker.year).select(dates.end_date.year);
-        cy.fixture('intercepPoints.json').then(interceptPoints=> {
+        cy.fixture('interceptPoints.json').then(interceptPoints=> {
             cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDatachangeDate');
         })
         

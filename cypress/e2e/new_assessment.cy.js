@@ -9,13 +9,22 @@ const broker_password = Cypress.env('BROKER_PASSWORD')
 
 describe('New Assessment Page Test Suite', () => {
     beforeEach(() => {
-        // cy.login(broker_email, broker_password);
-        // cy.visit("/")
+        cy.login(broker_email, broker_password);
+        cy.visit("/")
     });
 
     it('Should open a new assessment', () => {
         NewAssessmentPage.openNewAssessment();
     });
+
+    it("Should be able to create a new assessment", ()=> {
+        NewAssessmentPage.openNewAssessment();
+        cy.fixture('applicantsData.json').then((formData) => {
+            NewAssessmentPage.fillApplication(formData[3])
+        })
+        NewAssessmentPage.clickNext()
+        NewAssessmentPage.sendAssessment()
+    })
 
     it('Should be unable to proceed if required fields are not filled', () => {
         NewAssessmentPage.openNewAssessment();
@@ -41,8 +50,8 @@ describe('New Assessment Page Test Suite', () => {
 
     it('Should Unsuccessfully submit assessment if without consent', () => {
         NewAssessmentPage.openNewAssessment();
-        cy.fixture('simpleData.json').then((formData) => {
-            NewAssessmentPage.fillApplication(formData)
+        cy.fixture('applicantsData.json').then((formData) => {
+            NewAssessmentPage.fillApplication(formData[10])
         })
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessmentWithoutConsent();
@@ -70,7 +79,7 @@ describe('New Assessment Page Test Suite', () => {
         NewAssessmentPage.checkOtherApplicantForms();
     });
 
-    it('Successful submission of new assessment using Look-up address and verifying the generation of application ID', () => {
+    it.only('Successful submission of new assessment using Look-up address and verifying the generation of application ID', () => {
         NewAssessmentPage.openNewAssessment();
         cy.fixture('simpleDataManualCurrentAddress.json').then((formData) => {
             NewAssessmentPage.fillApplication(formData)
@@ -82,7 +91,7 @@ describe('New Assessment Page Test Suite', () => {
     });
 
 
-    it.only('', () => {
+    it('', () => {
         // NewAssessmentPage.openNewAssessment();
         // cy.fixture('simpleData2.json').then((formData) => {
         //     NewAssessmentPage.fillApplication(formData)
