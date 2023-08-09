@@ -2,7 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "https://app.equifax-broker-stg.transformd.com/site",
+    baseUrl: "http://localhost:3000",
     testIsolation: false,
     setupNodeEvents(on, config) {
       // implement node event listeners here

@@ -35,11 +35,11 @@ describe('Dashboard Test Suite', () => {
         })
 
         DashboardPage.applyFilter('ALL')
-        cy.fixture('interceptPoints.json').then(interceptPoints => {
-            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplyFilter');
+        cy.wait('@postSubmissionDataapplyFilter').then(postSubmissionDataapplyFilter => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
             DashboardPage.checkTotalCardCount(postSubmissionDataapplyFilter)
-        });
+        })
+        
     })
 
     it('Should apply "DRAFTS" filter correctly', () => {

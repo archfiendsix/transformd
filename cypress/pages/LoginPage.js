@@ -28,8 +28,8 @@ class LoginPage {
     };
 
     enterCreds = (email, password) => {
-        email != '' ? cy.get(this.loc.input_email).type(email) : cy.get(this.loc.input_email).clear();
-        password != '' ? cy.get(this.loc.input_password).type(password) : cy.get(this.loc.input_password).clear();
+        email != '' || email != null ? cy.get(this.loc.input_email).type(email) : cy.get(this.loc.input_email).clear();
+        password != '' || password !=null? cy.get(this.loc.input_password).type(password) : cy.get(this.loc.input_password).clear();
     };
 
     clickLoginButton = () => {
