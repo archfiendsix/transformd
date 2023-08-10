@@ -56,6 +56,8 @@ class DashboardPage {
     }
 
     applicationSearch = (input, query) => {
+        cy.visit("/")
+        cy.viewport(1366, 768)
         cy.fixture('interceptPoints.json').then(interceptPoints=>{
             cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDataApplyFilter');
         })
@@ -74,11 +76,11 @@ class DashboardPage {
 
 
     checkCreditActivity=(columnHeader, referenceNumber)=> {
-        cy.viewport(1366, 768) 
-        cy.visit("/")
         
-        this.applicationSearch(columnHeader, referenceNumber)
-        cy.get(this.loc.applicationsTable.rows).eq(0).then(row=> {
+        
+       
+        cy.get(this.loc.applicationsTable.rows).should('have.length',1).eq(0).then(row=> {
+            
             cy.wrap(row).find('.gridview__column').eq(0).should('contain',referenceNumber)
             cy.wrap(row).find('.gridview__column').eq(3).find('.dots .dots-item').should('have.class','dot--yellow')
         })
@@ -86,7 +88,7 @@ class DashboardPage {
 
     openApplicationDetails=(columnHeader, referenceNumber)=> {
         
-        this.applicationSearch(columnHeader, referenceNumber)
+        
         this.clickSearch(referenceNumber)
         
     }

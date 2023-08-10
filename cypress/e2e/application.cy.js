@@ -51,12 +51,12 @@ describe('Verification Test Suite', () => {
 
     })
 
-    it('Should successfully submit bank detail - "Credit Activity" indicator on the assement list change from grey to green or amber - assessment details is included', () => {
+    it.only('Should successfully submit bank detail - "Credit Activity" indicator on the assement list change from grey to green or amber - assessment details is included', () => {
 
         NewAssessmentPage.openNewAssessment();
         cy.fixture('applicantsData.json').then((formData) => {
             NewAssessmentPage.fillApplication(formData[11])
-        })
+        
         NewAssessmentPage.clickNext()
         NewAssessmentPage.sendAssessment()
 
@@ -67,18 +67,20 @@ describe('Verification Test Suite', () => {
         ApplicationPage.selectBank('Debug Bank AU (Debug Bank AU)', bank_username, bank_password)
         ApplicationPage.selectIncludePdf('Yes')
         ApplicationPage.submitDetails_agreeSubmit()
-        ApplicationPage.resPondBenefits('no')
+        ApplicationPage.resPondBenefits('yes')
+        ApplicationPage.loginMyGov(bank_username, bank_username)
         ApplicationPage.addAnotherBankCheckProcessingResults('Statement upload complete', 'Success')
 
         ApplicationPage.getRefNumber(phoneId).then(referenceNumber => {
+            DashboardPage.applicationSearch('APPLICATION ID', referenceNumber)
             DashboardPage.checkCreditActivity('APPLICATION ID', referenceNumber)
             DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
-            cy.fixture('simpleData.json').then((formData) => {
-                ApplicationDetailsPage.verifyDetails(formData, referenceNumber)
-            })
+            
+            ApplicationDetailsPage.verifyDetails(formData[11], referenceNumber)
+            
         })
 
-        
+    })
         
 
     })

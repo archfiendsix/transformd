@@ -67,7 +67,7 @@ Cypress.Commands.add('login', (email, password) => {
     cy.session([email, password], () => {
         cy.visit("/login");
         cy.loginEnterCreds(email, password)
-        cy.intercept('POST', '/site/login').as('postLoginlogin');
+        cy.intercept('POST', '/site/login*').as('postLoginlogin');
         cy.get('button[name="login-button"]').click();
         cy.wait('@postLoginlogin');
     },
