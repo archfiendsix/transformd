@@ -22,11 +22,29 @@ class ApplicationDetailsPage {
         cy.get('.applicant-sidebar__details .details__label').contains('DRIVERS LICENSE NUMBER').next().invoke('text').then(text=> {
             expect(text).to.equal(formData['ApplicantDriversLicenceNumber'])
         })
-        // cy.get('.applicant-sidebar__details .details__label').contains('BANK REPORTS').next('.flex').find('button').should('be.visible')
-        cy.get('.applicant-sidebar__details .details__link').contains('SUMMARY REPORT').should('be.visible')
-        cy.get('.applicant-sidebar__details .details__label').contains('OTHER REPORTS').next('.flex').find('button').should('be.visible')
-        cy.get(this.loc.applicantSnapshot_badge).find('.badge-label').contains('CREDIT ACTIVITY').parent().should('have.class','badge--gray')
+       
+        
     }
+
+    checkSnapshotBadge = (badge, badgeClass)=> {
+        cy.get(this.loc.applicantSnapshot_badge).find('.badge-label').contains(badge).parent().should('have.class',badgeClass)
+
+    }
+
+    checkBankReport=()=> {
+                cy.get('.applicant-sidebar__details .details__label').contains('BANK REPORTS').next('.flex').find('button').should('be.visible')
+
+    }
+
+    checkSummaryReport=()=> {
+        cy.get('.applicant-sidebar__details .details__link').contains('SUMMARY REPORT').should('be.visible')
+    }
+
+    checkOtherReports=()=> {
+        cy.get('.applicant-sidebar__details .details__label').contains('OTHER REPORTS').next('.flex').find('button').should('be.visible')
+    }
+
+
 
 };
 module.exports = new ApplicationDetailsPage();

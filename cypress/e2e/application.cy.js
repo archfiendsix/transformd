@@ -77,6 +77,7 @@ describe('Verification Test Suite', () => {
             DashboardPage.openApplicationDetails('APPLICATION ID', referenceNumber)
             
             ApplicationDetailsPage.verifyDetails(formData[11], referenceNumber)
+            ApplicationDetailsPage.checkSnapshotBadge('CREDIT ACTIVITY','badge--gray')
             
         })
 
