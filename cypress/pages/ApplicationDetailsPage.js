@@ -32,8 +32,7 @@ class ApplicationDetailsPage {
     }
 
     checkBankReport=()=> {
-                cy.get('.applicant-sidebar__details .details__label').contains('BANK REPORTS').next('.flex').find('button').should('be.visible')
-
+        cy.get('.applicant-sidebar__details .details__label').contains('BANK REPORTS').next('.flex').find('button').should('be.visible')
     }
 
     checkSummaryReport=()=> {
