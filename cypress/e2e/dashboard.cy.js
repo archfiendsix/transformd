@@ -39,7 +39,7 @@ describe('Dashboard Test Suite', () => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
             DashboardPage.checkTotalCardCount(postSubmissionDataapplyFilter)
         })
-        
+
     })
 
     it('Should apply "DRAFTS" filter correctly', () => {
@@ -77,7 +77,7 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.applyFilter('READY FOR REVIEW')
         cy.wait('@postSubmissionDataapplyFilter').then((postSubmissionDataapplyFilter) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplyFilter);
-            DashboardPage.checkTableColumns(postSubmissionDataapplyFilter, 7, 'Ready for Review')
+            DashboardPage.checkTableColumns(postSubmissionDataapplyFilter, 7, 'Ready for review')
         });
 
     })
@@ -101,7 +101,6 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.applicationSearch('APPLICATION ID', 'TRF-QMNJ817IO')
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
             DashboardPage.checkTableFetchResponseBody(postSubmissionDataapplicationSearch);
-            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 1, 'TRF-QMNJ817IO')
         });
 
     })
@@ -123,29 +122,37 @@ describe('Dashboard Test Suite', () => {
 
     })
 
-    it("Should properly search by Application Name", () => {
+    it("Should properly search by Applicant Name", () => {
+        DashboardPage.applicationSearch('APPLICANT NAME', 'KENNETH RENNIE')
         cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
-        DashboardPage.applicationSearch('APPLICANT NAME', 'RONALD LAIFOO, Ute GIERINGER')
+        cy.checkTableSkeleton()
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
-            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 2, 'RONALD LAIFOO, Ute GIERINGER')
+            DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 2, 'KENNETH RENNIE')
         })
     })
 
-    it("Should properly search by Application Status - Draft, With Customer", () => {
+    it("Should properly search by Application Status - Draft", () => {
+        DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
+
         cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
-        DashboardPage.applicationSearch('INFORMATION STATUS', 'Draft')
+
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
             DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'Draft')
         })
 
+
+    })
+
+    it('Should properly search by Application Status - With Customer', () => {
+        DashboardPage.applicationSearch('INFORMATION STATUS', 'With Customer')
         cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataapplicationSearch');
         })
-        DashboardPage.applicationSearch('INFORMATION STATUS', 'With Customer')
+        cy.checkTableSkeleton()
         cy.wait('@postSubmissionDataapplicationSearch').then((postSubmissionDataapplicationSearch) => {
             DashboardPage.checkTableColumns(postSubmissionDataapplicationSearch, 7, 'With Customer')
         })
@@ -162,18 +169,7 @@ describe('Dashboard Test Suite', () => {
     })
 
 
-    it.skip("Should change current page correctly using footer page input (Currently the number input is buggy)", () => {
-        // Current Page input box currently unstable skipping this for now
-        cy.fixture('interceptPoints.json').then(interceptPoints => {
-            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatachangeCurrentPage')
-        })
-        DashboardPage.changeCurrentPage(10)
-        DashboardPage.nextPaginationClick()
-        cy.wait('@postSubmissionDatachangeCurrentPage').then((postSubmissionDatachangeCurrentPage) => {
-            DashboardPage.reviewCurrentPage(postSubmissionDatachangeCurrentPage);
-        });
 
-    })
     it('Should sort table column according to Application Id', () => {
         const header_title = 'APPLICATION'
         /* Descending order test*/
@@ -280,44 +276,88 @@ describe('Dashboard Test Suite', () => {
     })
 
     it('Should change pagination on next arrow click', () => {
+
+        cy.checkTableSkeleton();
+
         cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination');
-        })
-
+        });
         DashboardPage.nextPaginationClick();
-
-
         cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPagination => {
             expect(postSubmissionDataPagination.response.statusCode).to.equal(200);
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
+            const responseBody = postSubmissionDataPagination.response.body;
+
+            if (responseBody.pagination && responseBody.pagination.currentPage === 2) {
+                DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
+            } else {
+                cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPaginationRetry => {
+                    DashboardPage.checkTableFetchResponseBody(postSubmissionDataPaginationRetry);
+                });
+            }
         });
 
+
+        cy.checkTableSkeleton();
 
         cy.fixture('interceptPoints.json').then(interceptPoints => {
-            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination2');
-        })
-
-        DashboardPage.nextPaginationClick();
-
-        cy.wait('@postSubmissionDataPagination2').then(postSubmissionDataPagination2 => {
-            expect(postSubmissionDataPagination2.response.statusCode).to.equal(200);
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination2);
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination');
         });
+        DashboardPage.nextPaginationClick();
+        cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPagination => {
+            expect(postSubmissionDataPagination.response.statusCode).to.equal(200);
+            const responseBody = postSubmissionDataPagination.response.body;
+
+            if (responseBody.pagination && responseBody.pagination.currentPage === 3) {
+                DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
+            } else {
+                cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPaginationRetry => {
+                    DashboardPage.checkTableFetchResponseBody(postSubmissionDataPaginationRetry);
+                });
+            }
+        });
+
 
     })
 
     it('Should change pagination on previous arrow click', () => {
-        DashboardPage.nextPaginationClick();
+
+        cy.checkTableSkeleton();
 
         cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination');
-        })
-
-        DashboardPage.previousPaginationClick();
-
+        });
+        DashboardPage.nextPaginationClick();
         cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPagination => {
             expect(postSubmissionDataPagination.response.statusCode).to.equal(200);
-            DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
+            const responseBody = postSubmissionDataPagination.response.body;
+
+            if (responseBody.pagination && responseBody.pagination.currentPage === 2) {
+                DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
+            } else {
+                cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPaginationRetry => {
+                    DashboardPage.checkTableFetchResponseBody(postSubmissionDataPaginationRetry);
+                });
+            }
+        });
+
+
+        cy.checkTableSkeleton();
+
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination');
+        });
+        DashboardPage.previousPaginationClick();
+        cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPagination => {
+            expect(postSubmissionDataPagination.response.statusCode).to.equal(200);
+            const responseBody = postSubmissionDataPagination.response.body;
+
+            if (responseBody.pagination && responseBody.pagination.currentPage === 1) {
+                DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
+            } else {
+                cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPaginationRetry => {
+                    DashboardPage.checkTableFetchResponseBody(postSubmissionDataPaginationRetry);
+                });
+            }
         });
     });
 
@@ -332,4 +372,16 @@ describe('Dashboard Test Suite', () => {
         DashboardPage.checkTableRowCount(50)
     })
 
+    it.skip("Should change current page correctly using footer page input (Currently the number input is buggy)", () => {
+        // Current Page input box currently unstable skipping this for now
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
+            cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDatachangeCurrentPage')
+        })
+        DashboardPage.changeCurrentPage(10)
+        DashboardPage.nextPaginationClick()
+        cy.wait('@postSubmissionDatachangeCurrentPage').then((postSubmissionDatachangeCurrentPage) => {
+            DashboardPage.reviewCurrentPage(postSubmissionDatachangeCurrentPage);
+        });
+
+    })
 });

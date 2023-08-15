@@ -1,13 +1,12 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "http://localhost:3000",
-    testIsolation: false,
+    baseUrl: 'http://localhost:3000/',
+    testIsolation: true,
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    
   },
   viewportWidth: 1366,
   viewportHeight: 768,
@@ -20,9 +19,7 @@ module.exports = defineConfig({
   screenshotOnRunFailure: true,
   defaultCommandTimeout: 30000,
   retries: {
-    runMode: 0,          
-    openMode: 0
-  }
-
-  
+    runMode: 0,
+    openMode: 0,
+  },
 });

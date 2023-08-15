@@ -15,6 +15,7 @@
       "Post_Code": 2250
     },
     "ApplicantDriversLicenceNumber": "2901BF",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "UNITED SUPER PL"
   },
@@ -34,6 +35,7 @@
       "Post_Code": 2602
     },
     "ApplicantDriversLicenceNumber": "2027428",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "UNITED SUPER PL"
   },
@@ -53,6 +55,7 @@
       "Post_Code": 3016
     },
     "ApplicantDriversLicenceNumber": "1404RW",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "UNITED SUPER PL"
   },
@@ -72,6 +75,7 @@
       "Post_Code": 2000
     },
     "ApplicantDriversLicenceNumber": "1109KR",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "UNITED SUPER PL"
   },
@@ -91,8 +95,9 @@
       "Post_Code": 2110
     },
     "ApplicantDriversLicenceNumber": "1008WK",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
-    "ApplicantEmployer": "COCA-COLA AMATIL LTD"
+    "ApplicantEmployer": "COCA COLA AMATIL LTD"
   },
   {
     "ApplicantLastName": "DAVIS",
@@ -103,15 +108,16 @@
     "ApplicantMobileNumber": "0483903391",
     "ApplicantCurrentAddress": {
       "Manual": true,
-      "Address":  "4 THE ESPLANADE",
+      "Address": "4 THE ESPLANADE",
       "Suburb": "BALMORAL",
       "Country": "Australia",
       "State": "NSW",
       "Post_Code": 2088
     },
     "ApplicantDriversLicenceNumber": "1311TD",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
-    "ApplicantEmployer": "COCA-COLA AMATIL LTD"
+    "ApplicantEmployer": "COCA COLA AMATIL LTD"
   },
   {
     "ApplicantLastName": "BROADBENT",
@@ -129,8 +135,9 @@
       "Post_Code": 2023
     },
     "ApplicantDriversLicenceNumber": "2304JB",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
-    "ApplicantEmployer": "COCA-COLA AMATIL LTD"
+    "ApplicantEmployer": "COCA COLA AMATIL LTD"
   },
   {
     "ApplicantLastName": "WARD",
@@ -148,8 +155,9 @@
       "Post_Code": 3207
     },
     "ApplicantDriversLicenceNumber": "14910001",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
-    "ApplicantEmployer": "COCA-COLA AMATIL LTD"
+    "ApplicantEmployer": "COCA COLA AMATIL LTD"
   },
   {
     "ApplicantLastName": "IHLEIN",
@@ -167,8 +175,9 @@
       "Post_Code": 2027
     },
     "ApplicantDriversLicenceNumber": "2507MI",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
-    "ApplicantEmployer": "COCA-COLA AMATIL LTD"
+    "ApplicantEmployer": "COCA COLA AMATIL LTD"
   },
   {
     "ApplicantLastName": "GONSKI",
@@ -186,8 +195,9 @@
       "Post_Code": 2027
     },
     "ApplicantDriversLicenceNumber": "7101DG",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
-    "ApplicantEmployer": "COCA-COLA AMATIL LTD"
+    "ApplicantEmployer": "COCA COLA AMATIL LTD"
   },
   {
     "ApplicantLastName": "LINKE",
@@ -205,6 +215,7 @@
       "Post_Code": 2065
     },
     "ApplicantDriversLicenceNumber": "9101PL",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BRAMBLES INTERNATIONAL"
   },
@@ -224,6 +235,7 @@
       "Post_Code": 2027
     },
     "ApplicantDriversLicenceNumber": "5710501",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "WHITE CITY"
   },
@@ -243,6 +255,7 @@
       "Post_Code": 6153
     },
     "ApplicantDriversLicenceNumber": "6576086",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "WHITE CITYPL"
   },
@@ -262,6 +275,7 @@
       "Post_Code": 6010
     },
     "ApplicantDriversLicenceNumber": "9393000",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "WHITE CITY "
   },
@@ -281,6 +295,7 @@
       "Post_Code": 2028
     },
     "ApplicantDriversLicenceNumber": "1205HH",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "MOUNT BLUE COW"
   },
@@ -300,6 +315,7 @@
       "Post_Code": 2110
     },
     "ApplicantDriversLicenceNumber": "1612RH",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DURST MINERAL SECURITIES"
   },
@@ -319,6 +335,7 @@
       "Post_Code": 2066
     },
     "ApplicantDriversLicenceNumber": "2203GH",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DURST MINERAL SECURITIES PL"
   },
@@ -338,6 +355,7 @@
       "Post_Code": 2230
     },
     "ApplicantDriversLicenceNumber": "543210123",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DURST MINERAL SECURITIES PL"
   },
@@ -357,6 +375,7 @@
       "Post_Code": 2072
     },
     "ApplicantDriversLicenceNumber": "1503GS",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DURST MINERAL SECURITIES PL"
   },
@@ -376,6 +395,7 @@
       "Post_Code": 2154
     },
     "ApplicantDriversLicenceNumber": "1011DG",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BETTY ANNETTE"
   },
@@ -395,6 +415,7 @@
       "Post_Code": 2065
     },
     "ApplicantDriversLicenceNumber": "1104RR",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BETTY ANNETTE PL"
   },
@@ -414,6 +435,7 @@
       "Post_Code": 2092
     },
     "ApplicantDriversLicenceNumber": "2301JH",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DICK GREEN AGENCIES"
   },
@@ -433,6 +455,7 @@
       "Post_Code": 2107
     },
     "ApplicantDriversLicenceNumber": "3009IG",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DICK GREEN AGENCIES LTD"
   },
@@ -452,6 +475,7 @@
       "Post_Code": 2107
     },
     "ApplicantDriversLicenceNumber": "1110RG",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DICK GREEN AGENCIES LTD"
   },
@@ -471,6 +495,7 @@
       "Post_Code": 2191
     },
     "ApplicantDriversLicenceNumber": "1709YP",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "DICK GREEN AGENCIES LTD"
   },
@@ -490,6 +515,7 @@
       "Post_Code": 2023
     },
     "ApplicantDriversLicenceNumber": "1502MU",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "COMMONWEALTH FLEET LEASE PL"
   },
@@ -509,6 +535,7 @@
       "Post_Code": 2043
     },
     "ApplicantDriversLicenceNumber": "2061BM",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "COMMONWEALTH FLEET LEASE PL"
   },
@@ -528,6 +555,7 @@
       "Post_Code": 2068
     },
     "ApplicantDriversLicenceNumber": "4061PT",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "COMMONWEALTH FLEET LEASE PL"
   },
@@ -547,6 +575,7 @@
       "Post_Code": 3104
     },
     "ApplicantDriversLicenceNumber": "028021259",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "COMMONWEALTH FLEET LEASE PL"
   },
@@ -566,6 +595,7 @@
       "Post_Code": 2125
     },
     "ApplicantDriversLicenceNumber": "5071MC",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "COMMONWEALTH FLEET LEASE PL"
   },
@@ -585,6 +615,7 @@
       "Post_Code": 2023
     },
     "ApplicantDriversLicenceNumber": "1041GN",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "AUSTRALASIAN FINANCE CO PL"
   },
@@ -604,6 +635,7 @@
       "Post_Code": 2023
     },
     "ApplicantDriversLicenceNumber": "7031EN",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "AUSTRALASIAN FINANCE CO PL PL"
   },
@@ -623,6 +655,7 @@
       "Post_Code": 3104
     },
     "ApplicantDriversLicenceNumber": "VI546843",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BHP MINERAL HOLDINGS"
   },
@@ -642,6 +675,7 @@
       "Post_Code": "3095"
     },
     "ApplicantDriversLicenceNumber": "091707303",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BHP MINERAL HOLDINGS PL"
   },
@@ -652,7 +686,7 @@
     "ApplicantGender": "Male",
     "ApplicantDateOfBirth": "04/03/1944",
     "ApplicantMobileNumber": "0483903391",
-        "ApplicantCurrentAddress": {
+    "ApplicantCurrentAddress": {
       "Address": " 24, LEWISHAM RD WINDSOR",
       "Suburb": "WINDSOR",
       "Country": "Australia",
@@ -660,6 +694,7 @@
       "Post_Code": "3181"
     },
     "ApplicantDriversLicenceNumber": "091707303",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BHP MINERAL HOLDINGS PL"
   },
@@ -679,6 +714,7 @@
       "Post_Code": "2232"
     },
     "ApplicantDriversLicenceNumber": "5061BO",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ST GEORGE AIR CONDITIONING (NSW) PL"
   },
@@ -698,6 +734,7 @@
       "Post_Code": "2208"
     },
     "ApplicantDriversLicenceNumber": "5121MS",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ST GEORGE AIR CONDITIONING "
   },
@@ -717,6 +754,7 @@
       "Post_Code": 2065
     },
     "ApplicantDriversLicenceNumber": "3031IJ",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROTHSCHILD AUSTRALIA MICROCAP INVESTORS LTD"
   },
@@ -736,6 +774,7 @@
       "Post_Code": "3122"
     },
     "ApplicantDriversLicenceNumber": "4121RM",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROTHSCHILD AUSTRALIA MICROCAP INVESTORS LTD"
   },
@@ -755,6 +794,7 @@
       "Post_Code": "2021"
     },
     "ApplicantDriversLicenceNumber": "8021MP",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROTHSCHILD AUSTRALIA MICROCAP INVESTORS LTD"
   },
@@ -774,6 +814,7 @@
       "Post_Code": "2086"
     },
     "ApplicantDriversLicenceNumber": "6111JB",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BLACK & WHITE (QUICK SERVICE) TAXIS LTD"
   },
@@ -793,6 +834,7 @@
       "Post_Code": "3072"
     },
     "ApplicantDriversLicenceNumber": "098322041",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BLACK & WHITE (QUICK SERVICE) TAXIS LTD"
   },
@@ -812,6 +854,7 @@
       "Post_Code": "3844"
     },
     "ApplicantDriversLicenceNumber": "050918691",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BLACK & WHITE (QUICK SERVICE) TAXIS LTD"
   },
@@ -831,6 +874,7 @@
       "Post_Code": "3072"
     },
     "ApplicantDriversLicenceNumber": "003123910",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BLACK & WHITE (QUICK SERVICE) TAXIS LTD"
   },
@@ -850,6 +894,7 @@
       "Post_Code": "2560"
     },
     "ApplicantDriversLicenceNumber": "6194RG",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ASTON GRANT SECURITY SERVICES"
   },
@@ -869,6 +914,7 @@
       "Post_Code": "2195"
     },
     "ApplicantDriversLicenceNumber": "3061VF",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ASTON GRANT SECURITY SERVICES PL"
   },
@@ -888,6 +934,7 @@
       "Post_Code": "2568"
     },
     "ApplicantDriversLicenceNumber": "5621PX",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ASTON GRANT SECURITY SERVICES PL"
   },
@@ -907,6 +954,7 @@
       "Post_Code": "2082"
     },
     "ApplicantDriversLicenceNumber": "1197YM",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "QUICK BLUE FOX COMPANY"
   },
@@ -926,6 +974,7 @@
       "Post_Code": "3024"
     },
     "ApplicantDriversLicenceNumber": "VI546843",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "GOLDEN WEST NETWORK PL"
   },
@@ -945,6 +994,7 @@
       "Post_Code": "3000"
     },
     "ApplicantDriversLicenceNumber": "091707303",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "GOLDEN WEST NETWORK"
   },
@@ -964,6 +1014,7 @@
       "Post_Code": "2749"
     },
     "ApplicantDriversLicenceNumber": "7195SM",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROLLING SPRINGS"
   },
@@ -983,6 +1034,7 @@
       "Post_Code": 2145
     },
     "ApplicantDriversLicenceNumber": "2194BC",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROLLING SPRINGS PL"
   },
@@ -1002,6 +1054,7 @@
       "Post_Code": "2749"
     },
     "ApplicantDriversLicenceNumber": "5195DR",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROLLING SPRINGS PL"
   },
@@ -1021,6 +1074,7 @@
       "Post_Code": "2145"
     },
     "ApplicantDriversLicenceNumber": "1019TP",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROLLING SPRINGS PL"
   },
@@ -1040,6 +1094,7 @@
       "Post_Code": "2145"
     },
     "ApplicantDriversLicenceNumber": "1019NV",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ROLLING SPRINGS PL"
   },
@@ -1059,6 +1114,7 @@
       "Post_Code": 872
     },
     "ApplicantDriversLicenceNumber": "150715",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TANGALOOMA ISLAND RESORT"
   },
@@ -1078,6 +1134,7 @@
       "Post_Code": "872"
     },
     "ApplicantDriversLicenceNumber": "719502",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TANGALOOMA ISLAND RESORT LTD"
   },
@@ -1097,6 +1154,7 @@
       "Post_Code": "872"
     },
     "ApplicantDriversLicenceNumber": "207359",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TANGALOOMA ISLAND RESORT LTD"
   },
@@ -1116,6 +1174,7 @@
       "Post_Code": "3844"
     },
     "ApplicantDriversLicenceNumber": "03191690",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TRICENTAC MANAGEMENT"
   },
@@ -1135,6 +1194,7 @@
       "Post_Code": "3869"
     },
     "ApplicantDriversLicenceNumber": "041439070",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TRICENTAC MANAGEMENT LTD"
   },
@@ -1154,6 +1214,7 @@
       "Post_Code": "2669"
     },
     "ApplicantDriversLicenceNumber": "5193RB",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TRICENTAC MANAGEMENT LTD"
   },
@@ -1173,6 +1234,7 @@
       "Post_Code": "3000"
     },
     "ApplicantDriversLicenceNumber": "077200219",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TRICENTAC MANAGEMENT"
   },
@@ -1192,6 +1254,7 @@
       "Post_Code": "6153"
     },
     "ApplicantDriversLicenceNumber": "539194",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SANTOS LTD"
   },
@@ -1211,6 +1274,7 @@
       "Post_Code": "3143"
     },
     "ApplicantDriversLicenceNumber": "019401910",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SANTOS LTD"
   },
@@ -1230,6 +1294,7 @@
       "Post_Code": "5006"
     },
     "ApplicantDriversLicenceNumber": "I05192",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SANTOS LTD"
   },
@@ -1249,6 +1314,7 @@
       "Post_Code": "3206"
     },
     "ApplicantDriversLicenceNumber": "011239390",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SANTOS LTD"
   },
@@ -1268,6 +1334,7 @@
       "Post_Code": "2000"
     },
     "ApplicantDriversLicenceNumber": "9879IU",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SANTOS LTD"
   },
@@ -1287,6 +1354,7 @@
       "Post_Code": "5068"
     },
     "ApplicantDriversLicenceNumber": "G70719",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SANTOS LTD"
   },
@@ -1306,6 +1374,7 @@
       "Post_Code": "4217"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ASCALON CAPITAL MANAGERS LTD"
   },
@@ -1325,6 +1394,7 @@
       "Post_Code": "3869"
     },
     "ApplicantDriversLicenceNumber": "091707303",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ASCALON CAPITAL MANAGERS LTD"
   },
@@ -1344,6 +1414,7 @@
       "Post_Code": "3869"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ASCALON CAPITAL MANAGERS"
   },
@@ -1363,6 +1434,7 @@
       "Post_Code": "4066"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "CARMODY"
   },
@@ -1382,6 +1454,7 @@
       "Post_Code": "4067"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "CARMODY"
   },
@@ -1401,6 +1474,7 @@
       "Post_Code": "4067"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "CARMODY"
   },
@@ -1420,6 +1494,7 @@
       "Post_Code": "4216"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "CARMODY"
   },
@@ -1438,6 +1513,7 @@
       "Post_Code": "3750"
     },
     "ApplicantDriversLicenceNumber": "091707303",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "CENTRON CONSULTING SERVICES"
   },
@@ -1457,6 +1533,7 @@
       "Post_Code": "2600"
     },
     "ApplicantDriversLicenceNumber": "2027428",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "GO TO TRAINING : 80 719 911 736"
   },
@@ -1476,6 +1553,7 @@
       "Post_Code": 2210
     },
     "ApplicantDriversLicenceNumber": "DL23233",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "ECHO ELECTRONICS RANDWICK"
   },
@@ -1495,6 +1573,7 @@
       "Post_Code": "4500"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "BARKING MOON CONCEPTS"
   },
@@ -1514,6 +1593,7 @@
       "Post_Code": "3231"
     },
     "ApplicantDriversLicenceNumber": "VI546843",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TSR MECHANICAL REPAIRS"
   },
@@ -1533,6 +1613,7 @@
       "Post_Code": "2600"
     },
     "ApplicantDriversLicenceNumber": "2027428",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "KARMA SOLAR"
   },
@@ -1552,6 +1633,7 @@
       "Post_Code": "4107"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "OUT BACK EDEN LANDSCAPING & GARDEN MAINTENANCE"
   },
@@ -1571,6 +1653,7 @@
       "Post_Code": "4107"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "OUT BACK EDEN LANDSCAPING & GARDEN MAINTENANCE"
   },
@@ -1590,6 +1673,7 @@
       "Post_Code": "4218"
     },
     "ApplicantDriversLicenceNumber": "392853T",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "HF PARTNERSHIP : BN6181302"
   },
@@ -1609,6 +1693,7 @@
       "Post_Code": "4218"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "HF PARTNERSHIP : BN6181302"
   },
@@ -1628,6 +1713,7 @@
       "Post_Code": "4218"
     },
     "ApplicantDriversLicenceNumber": "35515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1646,6 +1732,7 @@
       "Post_Code": "4350"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "GLENVALE FAMILY TRUST"
   },
@@ -1665,6 +1752,7 @@
       "Post_Code": "4350"
     },
     "ApplicantDriversLicenceNumber": "035515945",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "GLENVALE FAMILY TRUST"
   },
@@ -1684,6 +1772,7 @@
       "Post_Code": "3121"
     },
     "ApplicantDriversLicenceNumber": "VI546843",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "INTERLOCK DESIGNS"
   },
@@ -1702,6 +1791,7 @@
       "State": "VIC",
       "Post_Code": "3199"
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SOUTHERN CROSS SITEWORKS"
   },
@@ -1721,6 +1811,7 @@
       "Post_Code": "2603"
     },
     "ApplicantDriversLicenceNumber": "214321",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "WALL EXPRESSIONS"
   },
@@ -1740,6 +1831,7 @@
       "Post_Code": "3066"
     },
     "ApplicantDriversLicenceNumber": "091707303",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "NATIONAL ARMWRESTLING LEAGUE"
   },
@@ -1758,6 +1850,7 @@
       "Post_Code": 2071
     },
     "ApplicantDriversLicenceNumber": "2071",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1776,6 +1869,7 @@
       "Post_Code": 3207
     },
     "ApplicantDriversLicenceNumber": "091707303",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SHAREHOLDER OF ST GEORGE AIR CONDITIONING (NSW) PL"
   },
@@ -1795,6 +1889,7 @@
       "Post_Code": 2299
     },
     "ApplicantDriversLicenceNumber": "214321",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1813,6 +1908,7 @@
       "Post_Code": 3759
     },
     "ApplicantDriversLicenceNumber": "VI56843",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "SHAREHOLDER OF ST GEORGE AIR CONDITIONING (NSW) PL"
   },
@@ -1832,6 +1928,7 @@
       "Post_Code": 4305
     },
     "ApplicantDriversLicenceNumber": "10003980",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1849,6 +1946,7 @@
       "State": "VIC",
       "Post_Code": 3873
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1860,12 +1958,13 @@
     "ApplicantMobileNumber": "0483903391",
     "ApplicantCurrentAddress": {
       "Manual": true,
-     "Address": "190, NEERIM RD",
+      "Address": "190, NEERIM RD",
       "Suburb": "CARNEGIE",
       "Country": "Australia",
       "State": "VIC",
       "Post_Code": 3163
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1884,6 +1983,7 @@
       "Post_Code": 4220
     },
     "ApplicantDriversLicenceNumber": "QG6611",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1902,6 +2002,7 @@
       "Post_Code": 3039
     },
     "ApplicantDriversLicenceNumber": "DT8844",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1920,6 +2021,7 @@
       "Post_Code": 3182
     },
     "ApplicantDriversLicenceNumber": "CA9944",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1937,6 +2039,7 @@
       "State": "ACT",
       "Post_Code": 2611
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1955,6 +2058,7 @@
       "Post_Code": 2077
     },
     "ApplicantDriversLicenceNumber": "DL78564",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1973,6 +2077,7 @@
       "Post_Code": 2028
     },
     "ApplicantDriversLicenceNumber": "1205HH",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   },
   {
@@ -1990,6 +2095,7 @@
       "State": "NT",
       "Post_Code": 800
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "MARINE & DIESEL SERVICE"
   },
@@ -2009,6 +2115,7 @@
       "Post_Code": 2617
     },
     "ApplicantDriversLicenceNumber": "2027428",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "AUSTRALIAN COMPANY"
   },
@@ -2027,6 +2134,7 @@
       "State": "NSW",
       "Post_Code": 2580
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "FULL CIRCLE PL"
   },
@@ -2045,6 +2153,7 @@
       "State": "NSW",
       "Post_Code": 2580
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "FULL CIRCLE"
   },
@@ -2063,6 +2172,7 @@
       "State": "NSW",
       "Post_Code": 2000
     },
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "GREEN ACRES FISHING & HUNTING"
   },
@@ -2082,6 +2192,7 @@
       "Post_Code": 2148
     },
     "ApplicantDriversLicenceNumber": "1112481",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000",
     "ApplicantEmployer": "TEST"
   },
@@ -2101,18 +2212,7 @@
       "Post_Code": 2060
     },
     "ApplicantDriversLicenceNumber": "864788",
+    "accountTypeCode": "[1,one]",
     "loanAmount": "30000"
   }
 ]
-
-
-
-
-
-
-
-
-
-
-
-

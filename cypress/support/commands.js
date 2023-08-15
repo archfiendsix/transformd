@@ -26,15 +26,30 @@
 
 import { MailSlurp } from "mailslurp-client";
 const mailSlurpApiKey = Cypress.env('MAILSLURP_APIKEY')
-const mailslurp = new MailSlurp({ apiKey:mailSlurpApiKey, basePath: 'https://cypress.api.mailslurp.com'});
+const mailslurp = new MailSlurp({ apiKey: mailSlurpApiKey, basePath: 'https://cypress.api.mailslurp.com' });
 
 
 Cypress.Commands.add('mailslurp', () => {
     return Promise.resolve(mailslurp);
 });
 
+
+Cypress.Commands.add('deleteAllSms', (phoneId) => {
+    cy.mailslurp()
+        .then({ timeout: 50000 }, mailslurp => {
+            mailslurp.smsController.deleteSmsMessages(
+                {
+                    waitFor: {
+                        phoneNumberId: phoneId,
+                        timeout: 50000,
+                    },
+                });
+        })
+})
+
+
 Cypress.Commands.add('clickEl', (locator, contains = null) => {
-    contains ? cy.get(locator).contains(contains).click() : cy.get(locator).click();
+    contains ? cy.get(locator).contains(contains).first().click() : cy.get(locator).first().click({ force: true });
 });
 
 Cypress.Commands.add('selectOption', (locator, option) => {
@@ -55,6 +70,35 @@ Cypress.Commands.add('shouldBeVisible', { prevSubject: ['optional', 'element'] }
     }
 })
 
+Cypress.Commands.add('checkTableSkeleton', () => {
+    cy.get('.gridview__row-loading').should('not.exist')
+})
+
+Cypress.Commands.add('checkPagination', (pageNumber, actionFn) => {
+    cy.fixture('interceptPoints.json').then(interceptPoints => {
+        cy.intercept('POST', interceptPoints['submission_data']).as('postSubmissionDataPagination');
+    });
+
+    // Make sure actionFn is a function before attempting to call it
+    if (typeof actionFn === 'function') {
+        actionFn();
+    }
+
+    cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPagination => {
+        expect(postSubmissionDataPagination.response.statusCode).to.equal(200);
+        const responseBody = postSubmissionDataPagination.response.body;
+
+        if (responseBody.pagination && responseBody.pagination.currentPage === pageNumber) {
+            DashboardPage.checkTableFetchResponseBody(postSubmissionDataPagination);
+        } else {
+            cy.wait('@postSubmissionDataPagination').then(postSubmissionDataPaginationRetry => {
+                DashboardPage.checkTableFetchResponseBody(postSubmissionDataPaginationRetry);
+            });
+        }
+    });
+});
+
+
 Cypress.Commands.add('findChildElement', (parentLocator, childLocator) => {
     cy.get(parentLocator).find(childLocator)
 })
@@ -66,10 +110,19 @@ Cypress.Commands.add('shouldBeVisibleContains', (element, text) => {
 Cypress.Commands.add('login', (email, password) => {
     cy.session([email, password], () => {
         cy.visit("/login");
-        cy.loginEnterCreds(email, password)
-        cy.intercept('POST', '/site/login*').as('postLoginlogin');
-        cy.get('button[name="login-button"]').click();
-        cy.wait('@postLoginlogin');
+        cy.url().then(getUrl => {
+            const url = getUrl
+            if (url.includes('localhost:')) {
+                cy.log('Using local environment')
+            }
+            else {
+                cy.loginEnterCreds(email, password)
+                cy.intercept('POST', '*/login*').as('postLoginlogin');
+                cy.get('button[name="login-button"]').click();
+                cy.wait('@postLoginlogin');
+            }
+        })
+
     },
         {
             cacheAcrossSpecs: true
@@ -89,7 +142,7 @@ Cypress.Commands.add('forgotpasswordwith_creds', (email) => {
 });
 
 Cypress.Commands.add('dropdownSelect', (placeholder, dropdown_item) => {
-    cy.get('.ant-select-selection__placeholder').last().contains(placeholder).click({ force: true });
+    cy.get('.ant-select-selection__placeholder').contains(placeholder).first().click({ force: true });
     cy.get('.ant-select-dropdown').not('have.class', '.ant-select-dropdown-hidden').last()
         .then($el => {
             cy.wrap($el).find('li.ant-select-dropdown-menu-item').contains(dropdown_item).click({ force: true });
@@ -142,7 +195,10 @@ Cypress.Commands.add('clickUntilHasClass', { prevSubject: 'element' }, (element,
 
 
 Cypress.Commands.add('visitMobileMode', (url) => {
+
     cy.viewport(500, 768)
+
+
     cy.visit(url, {
         onBeforeLoad: win => {
             Object.defineProperty(win.navigator, 'userAgent', {
@@ -151,30 +207,20 @@ Cypress.Commands.add('visitMobileMode', (url) => {
         },
 
     })
+
+
 });
 
-Cypress.Commands.add('iframeDirect', { prevSubject: 'element' }, $iframe=> {
-    return new Cypress.Promise(resolve=> {
-      resolve($iframe.contents().find('body'));
+Cypress.Commands.add('iframeDirect', { prevSubject: 'element' }, $iframe => {
+    return new Cypress.Promise(resolve => {
+        resolve($iframe.contents().find('body'));
     });
-  });
+});
 
-  Cypress.Commands.add('iframeOnload', { prevSubject: 'element' }, $iframe=> {
-    return new Cypress.Promise(resolve=> {
+Cypress.Commands.add('iframeOnload', { prevSubject: 'element' }, $iframe => {
+    return new Cypress.Promise(resolve => {
         $iframe.on('load', () => {
             resolve($iframe.contents().find('body'));
         });
     });
-  });
-
-
-
-  
-//   ,{timeout: 60000}
-
-
-
-
-  
-
-
+});

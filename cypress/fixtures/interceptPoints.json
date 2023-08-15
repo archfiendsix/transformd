@@ -1,6 +1,6 @@
 {
-    "submission_count": "/widget/api/submission-count*",
-    "submission_data": "/widget/api/submission-data*",
-    "site_login": "/site/login",
-    "submission_data_url":"/widget/api/submission-data*"
+    "submission_count": "**submission-count*",
+    "submission_data": "**submission-data*",
+    "site_login": "**/login",
+    "submission_data_url": "**submission-data*"
 }

@@ -9,6 +9,7 @@ class NewAssessmentPage {
         inputMiddleName: "[data-tag='ApplicantMiddleName'] input",
         inputDateOfBirth: "[data-tag='ApplicantDateOfBirth'] input.formatic-date-picker__date-picker",
         dropdownGender: "div[class='formatic-dropdown__select ant-select ant-select-enabled'] div[class='ant-select-selection__placeholder']",
+        dropdownAccountType: '[data-tag="accountTypeCode"] div[class="formatic-dropdown__select ant-select ant-select-enabled"] div[class="ant-select-selection__placeholder"]',
         inputGender: "[data-tag='ApplicantGender'] input",
         inputMobileNumber: "[data-tag='ApplicantMobileNumber'] input",
         inputDriversLicenceNumber: "[data-tag='ApplicantDriversLicenceNumber'] input",
@@ -34,7 +35,7 @@ class NewAssessmentPage {
     }
 
     selectManualAddressEntry = () => {
-        cy.get('.ant-select-selection__placeholder').last().contains('Please, start typing an address...').click({ force: true });
+        cy.get('[data-tag="ApplicantCurrentAddress"]').last().contains('Please, start typing an address...').click({ force: true });
         cy.get('.ant-select-dropdown').not('have.class', '.ant-select-dropdown-hidden').last()
             .then($el => {
                 cy.wrap($el).find('button').click({ force: true });
@@ -67,7 +68,7 @@ class NewAssessmentPage {
         cy.get(this.loc.errormsg).eq(5).should("be.visible").contains("This field is required");
         cy.get(this.loc.errormsg).eq(6).should("be.visible").contains("Please select a valid address")
         cy.get(this.loc.errormsg).eq(7).should("be.visible").contains("This field is required");
-        
+
 
         cy.get(this.loc.inputFirstName).should("be.visible").type("Test");
         this.clickNext()
@@ -85,6 +86,11 @@ class NewAssessmentPage {
                 cy.clickEl(this.loc.dropdownGender)
                 cy.get(`[data-tag="${key}"]`).find('input').first().type(`${formData[key]}`)
             }
+            else if (key === 'accountTypeCode') {
+                // cy.clickEl(this.loc.dropdownAccountType)
+                // cy.get(`[data-tag="${key}"]`).find('input').first().type(`${formData[key]}`)
+                cy.log(key)
+            }
             else if (key === "ApplicantCurrentAddress") {
                 if (formData[key]["Manual"] === true) {
                     this.selectManualAddressEntry()
@@ -93,20 +99,21 @@ class NewAssessmentPage {
                     formData[key]["Post_Code"] == '' || !formData[key]["Post_Code"] ? cy.get(this.loc.inputCurrentAddress).eq(2).clear() : cy.get(this.loc.inputCurrentAddress).eq(2).type(formData[key]["Post_Code"]);
                     formData[key]["Country"] ? cy.dropdownSelect('Please select a country', formData[key]["Country"]) : cy.log("Test");
                     formData[key]["State"] ? cy.dropdownSelect('Please select a state', formData[key]["State"]) : cy.log("Test");
+
                 } else {
                     cy.get(this.loc.inputCurrentAddress).type(formData[key]["Address"]);
                     cy.dropdownSelect('Please, start typing an address...', formData[key]["Address"]);
                 }
             } else {
-                
-                if(formData[key] || formData[key] !='') {
+
+                if (formData[key] || formData[key] != '') {
                     cy.get(`[data-tag="${key}"]`).find('input').first().type(formData[key])
-                } 
+                }
                 else {
                     cy.get(`[data-tag="${key}"]`).find('input').first().clear()
                 }
             }
-                })
+        })
     };
 
     checkOtherApplicantForms = () => {
@@ -120,7 +127,7 @@ class NewAssessmentPage {
 
     checkErrorMsg = (container = "div", child, errormsg) => {
         cy.get(container).find(child).should("be.visible").contains(errormsg);
-    
+
     }
 
     nextDidNotProceed = () => {

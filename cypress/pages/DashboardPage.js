@@ -47,10 +47,10 @@ class DashboardPage {
     }
 
     applyFilter = (name) => {
-        cy.fixture('interceptPoints.json').then(interceptPoints=>{
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDataApplyFilter');
         })
-        
+
         cy.clickEl(this.loc.filters.link, name)
         cy.wait('@postSubmissionDataApplyFilter');
     }
@@ -58,39 +58,54 @@ class DashboardPage {
     applicationSearch = (input, query) => {
         cy.visit("/")
         cy.viewport(1366, 768)
-        cy.fixture('interceptPoints.json').then(interceptPoints=>{
-            cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDataApplyFilter');
-        })
+        // cy.fixture('interceptPoints.json').then(interceptPoints => {
+        //     cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDataApplyFilter');
+        // })
+
         if (input === 'INFORMATION STATUS') {
             cy.get(this.loc.applicationsTable.input).find('select').select(query);
         } else {
             cy.get(this.loc.applicationsTable.input).find(`input[placeholder="${input}"]`).clear().type(query);
         }
-        cy.wait('@postSubmissionDataApplyFilter');
+
+
+        // cy.wait('@postSubmissionDataApplyFilter');
+
     }
 
-    clickSearch=(input)=> {
+    clickSearch = (input) => {
         cy.get(this.loc.applicationsTable.rows).contains(input).first().click()
         cy.checkLoading()
     }
 
 
-    checkCreditActivity=(columnHeader, referenceNumber)=> {
-        
-        
-       
-        cy.get(this.loc.applicationsTable.rows).should('have.length',1).eq(0).then(row=> {
-            
-            cy.wrap(row).find('.gridview__column').eq(0).should('contain',referenceNumber)
-            cy.wrap(row).find('.gridview__column').eq(3).find('.dots .dots-item').should('have.class','dot--yellow')
+    checkTableCreditActivity = (columnHeader, referenceNumber) => {
+
+
+
+        cy.get(this.loc.applicationsTable.rows).should('have.length', 1).eq(0).then(row => {
+
+            cy.wrap(row).find('.gridview__column').eq(0).should('contain', referenceNumber)
+            // cy.wrap(row).find('.gridview__column').eq(3).find('.dots .dots-item').should('have.class','dot--yellow')
+            cy.wrap(row).find('.gridview__column').eq(3).find('.dots .dots-item').should('have.class', 'dot--gray')
         })
     }
 
-    openApplicationDetails=(columnHeader, referenceNumber)=> {
-        
-        
+    checkTableIncomeAndExpense = (columnHeader, referenceNumber) => {
+        cy.get(this.loc.applicationsTable.rows).should('have.length', 1).eq(0).then(row => {
+
+            cy.wrap(row).find('.gridview__column').eq(0).should('contain', referenceNumber)
+            // cy.wrap(row).find('.gridview__column').eq(3).find('.dots .dots-item').should('have.class','dot--yellow')
+            cy.wrap(row).find('.gridview__column').eq(5).find('.dots .dots-item').should('have.class', 'dot--yellow')
+        })
+    }
+
+
+    openApplicationDetails = (columnHeader, referenceNumber) => {
+
+
         this.clickSearch(referenceNumber)
-        
+
     }
 
     changeDate = (dates) => {
@@ -104,10 +119,10 @@ class DashboardPage {
         cy.clickEl(this.loc.applicationsTable.picker.end_date_button)
         cy.selectOption(this.loc.applicationsTable.picker.month, dates.end_date.month)
         cy.get(this.loc.applicationsTable.picker.year).select(dates.end_date.year);
-        cy.fixture('interceptPoints.json').then(interceptPoints=> {
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDatachangeDate');
         })
-        
+
         cy.clickEl(this.loc.applicationsTable.picker.days_start, dates.end_date.day);
         cy.clickEl(this.loc.applicationsTable.calendarButton('Close'))
         cy.wait('@postSubmissionDatachangeDate').then((postSubmissionDatachangeDate) => {
@@ -134,52 +149,92 @@ class DashboardPage {
     checkTableFetchResponseBody = (res) => {
         const responseBody = res.response.body;
         const keys = responseBody.keys;
+        const rows = responseBody.data.rows;
 
         if (responseBody.data.count === 0) {
-            cy.get(this.loc.applicationsTable.emptyTable).should('be.visible').should('have.text', 'Records not found');
+            cy.get(this.loc.applicationsTable.emptyTable)
+                .should('be.visible')
+                .should('have.text', 'Records not found');
         } else {
             cy.get('.gridview .gridview__rows .gridview__row').each(($row, index) => {
+                const rowValues = rows[index].document.values;
+
                 cy.wrap($row).find('.gridview__column').eq(0).invoke('text').then((textAppId) => {
                     const appid_key = keys['ApplicationId'];
-                    const app_id_val = responseBody.data.rows[index].document.values[appid_key];
+                    const app_id_val = rowValues[appid_key];
                     if (app_id_val) {
                         cy.wrap(textAppId).should('eq', app_id_val);
-                    } else {
-                        cy.log('not found');
                     }
                 });
 
                 cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then((textApplicantNames) => {
                     const applicantnames_key = keys['ApplicantNames'];
-                    const applicantnames_val = responseBody.data.rows[index].document.values[applicantnames_key];
+                    const applicantnames_val = rowValues[applicantnames_key];
                     if (applicantnames_val) {
                         cy.wrap(textApplicantNames).should('eq', applicantnames_val);
-                    } else {
-                        cy.log('not found');
                     }
                 });
 
                 cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then((textStatus) => {
                     const status_key = keys['Status'];
-                    const status_val = responseBody.data.rows[index].document.values[status_key];
+                    const status_val = rowValues[status_key];
                     if (status_val) {
-                        cy.log(status_val);
                         cy.wrap(textStatus).should('eq', status_val);
-                    } else {
-                        cy.log('not found');
                     }
                 });
             });
         }
     };
 
+    // checkTableFetchResponseBody = (res) => {
+    //     const responseBody = res.response.body;
+    //     const keys = responseBody.keys;
+
+    //     if (responseBody.data.count === 0) {
+    //         cy.get(this.loc.applicationsTable.emptyTable).should('be.visible').should('have.text', 'Records not found');
+    //     } else {
+    //         cy.get('.gridview .gridview__rows .gridview__row').each(($row, index) => {
+    //             cy.wrap($row).find('.gridview__column').eq(0).invoke('text').then((textAppId) => {
+    //                 const appid_key = keys['ApplicationId'];
+    //                 const app_id_val = responseBody.data.rows[index].document.values[appid_key];
+    //                 if (app_id_val) {
+    //                     cy.wrap(textAppId).should('eq', app_id_val);
+    //                 } else {
+    //                     cy.log('not found');
+    //                 }
+    //             });
+
+    //             cy.wrap($row).find('.gridview__column').eq(1).invoke('text').then((textApplicantNames) => {
+    //                 const applicantnames_key = keys['ApplicantNames'];
+    //                 const applicantnames_val = responseBody.data.rows[index].document.values[applicantnames_key];
+    //                 if (applicantnames_val) {
+    //                     cy.wrap(textApplicantNames).should('eq', applicantnames_val);
+    //                 } else {
+    //                     cy.log('not found');
+    //                 }
+    //             });
+
+    //             cy.wrap($row).find('.gridview__column').eq(6).invoke('text').then((textStatus) => {
+    //                 const status_key = keys['Status'];
+    //                 const status_val = responseBody.data.rows[index].document.values[status_key];
+    //                 if (status_val) {
+    //                     cy.log(status_val);
+    //                     cy.wrap(textStatus).should('eq', status_val);
+    //                 } else {
+    //                     cy.log('not found');
+    //                 }
+    //             });
+    //         });
+    //     }
+    // };
+
 
 
     changePerPage = (number) => {
-        cy.fixture('interceptPoints.json').then(interceptPoints=> {
+        cy.fixture('interceptPoints.json').then(interceptPoints => {
             cy.intercept('POST', interceptPoints['submission_data_url']).as('postSubmissionDatachangePerPage');
         })
-        
+
         cy.get(this.loc.applicationsTable.footer.perpage_dropdown).select(number);
         cy.wait('@postSubmissionDatachangePerPage');
     }
@@ -190,7 +245,9 @@ class DashboardPage {
 
     checkTableColumns = (res, col_index, col_text) => {
 
+
         const responseBody = res.response.body;
+
         cy.log(`DATA COUNT: ${responseBody.data.count}`)
         if (responseBody.data.count === 0) {
             cy.get(this.loc.applicationsTable.emptyTable).should('be.visible').then($el => {
@@ -198,6 +255,7 @@ class DashboardPage {
             })
         }
         else {
+
             cy.get(this.loc.applicationsTable.rows).find(`.gridview__column:nth-child(${col_index})`).each((row, index) => {
                 let row_wrap = cy.wrap(row)
                 row_wrap.invoke('text').then(text => {
@@ -224,10 +282,10 @@ class DashboardPage {
 
                             cy.get('.react-confirm-alert .react-confirm-alert-button-group button:nth-child(1)').click()
 
-                            cy.fixture('interceptPoints.json').then((intercept_point)=> {
+                            cy.fixture('interceptPoints.json').then((intercept_point) => {
                                 cy.intercept('POST', intercept_point['submission_count']).as('postSubmissionCount');
                             })
-                            
+
                             cy.wait('@postSubmissionCount')
                         }
                     })
